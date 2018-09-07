@@ -1,0 +1,24 @@
+## Interface: 80000
+## Title: Astral Analytics
+## Notes: Raid analytic tool
+## Author: Phrike
+## Version: 5
+## RequiredDeps: AstralKeys
+## SavedVariables: AstralAnalytics
+
+embeds.xml
+Settings.lua
+Init.lua
+
+Lists\RaidBuffs.lua
+Lists\Spells.lua
+
+libs\Events.lua
+libs\UnitAura.lua
+libs\SpellTracking.lua
+
+Modules\CombatParsing.lua
+
+fonts.xml
+MinimapButton.lua
+frame.lua
