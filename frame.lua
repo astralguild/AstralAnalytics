@@ -171,7 +171,7 @@ end
 function ADDON:UpdateFrameRows()
 	local numGroup = #self.units
 
-	local indexEnd = min(numGroup, (AAFrame.numFramesShown or 20))
+	local indexEnd = min(numGroup, AAFrame.numFramesShown)
 	for i = 1, indexEnd do
 		self.row[i]:SetUnit(self.units[i])
 	end
@@ -193,7 +193,10 @@ function ADDON:UpdateRowsShown(numFrames)
 			end
 		end
 	else
-		for i = numFrames, #self.row do
+		for i = 1, numFrames do
+			self.row[i]:Show()
+		end
+		for i = numFrames + 1, #self.row do
 			self.row[i]:Hide()
 		end
 	end
@@ -216,7 +219,7 @@ AAFrame:SetPropagateKeyboardInput(true)
 AAFrame:Hide()
 AAFrame.elapsed = 0
 
-local corner = CreateFrame('FRAME', nil, AAFrame)
+local corner = CreateFrame('FRAME', '$parentDrag', AAFrame)
 corner:SetFrameStrata('TOOLTIP')
 corner:SetSize(8, 8)
 corner:SetPoint('BOTTOMRIGHT', AAFrame, 'BOTTOMRIGHT', -3, 3)
@@ -239,17 +242,18 @@ AAFrame:SetScript('OnDragStop', function(self)
 	end)
 
 corner:SetScript('OnDragStart', function(self)
-	self:GetParent().left,
-	self:GetParent().bottom,
-	_,
-	self:GetParent().height = self:GetParent():GetRect()
+	local left, bottom, width, height = self:GetParent():GetRect()
+	self:GetParent().left = left
+	self:GetParent().bottom = bottom
+	self:GetParent().top = (bottom + height)
 	self:GetParent():StartSizing()
 end)
 
 AAFrame:SetScript('OnSizeChanged', function(self)
+	if not AAFrameDrag:IsDragging() then return end
 	local width = ADDON:Scale(self:GetWidth() - 10)
-	local height = ADDON:Scale(self:GetHeight() - 49)
-	self.numFramesShown = min(floor(height/ADDON:Scale(16)), 40)
+	local height = self:GetHeight() - ADDON:Scale(44)
+	self.numFramesShown = min(floor(height/ADDON:Scale(19)), 40)
 
 	if ADDON.row then
 		for i = 0, #ADDON.row do
@@ -263,12 +267,9 @@ AAFrame:SetScript('OnSizeChanged', function(self)
 corner:SetScript('OnDragStop', function(self)
 	self:GetParent():StopMovingOrSizing()
 	local numFrames = self:GetParent().numFramesShown
-	local height = ADDON:Scale(49 + (numFrames) * 16 + (numFrames-1) * 3)
-	local uiHeight = string.match(GetCVar("gxWindowedResolution"),"%d+x(%d+)")
-	--local yOffset = 
+	local height = ADDON:Scale(44 + (numFrames * 19))
 	self:GetParent():SetHeight(height)
-	self:GetParent():SetPoint('BOTTOMLEFT', UIParent, 'BOTTOMLEFT', self:GetParent().left, self:GetParent().bottom)
-	print(self:GetParent().left, self:GetParent().bottom, string.match( GetCVar( "gxWindowedResolution" ), "%d+x(%d+)" ))
+	self:GetParent():SetPoint('TOPLEFT', UIParent, 'TOPLEFT', self:GetParent().left, -ADDON:Scale((ADDON.screenHeight -(self:GetParent().top))))
 	ADDON:UpdateRowsShown(numFrames)
 	ADDON:UpdateFrameRows()
 end)
@@ -321,7 +322,6 @@ end)
 
 
 function ADDON:CreateMainWindow()
-	--AAFrame:SetSize(self:Scale(300), self:Scale(430))
 	self.row = {}
 	-- Create Header row
 	self.row[0] = Row:CreateRow(AAFrame, 0)
@@ -335,7 +335,13 @@ function ADDON:CreateMainWindow()
 		MixIn(self.row[i], Row)
 	end
 
+	local height = AAFrame:GetHeight() - ADDON:Scale(44)
+	AAFrame.numFramesShown = min(floor(height/ADDON:Scale(19)), 40)
+
 	self:UpdateRowsShown(AAFrame.numFramesShown)
+
+	local height = ADDON:Scale(44 + (AAFrame.numFramesShown * 19))
+	AAFrame:SetHeight(height)
 end
 
 --[[
@@ -375,10 +381,7 @@ end
 local function OnAddOnLoad(addon)
 	if addon == ADDON_NAME then
 		ADDON:SetUIScale()
-		local height = ADDON:Scale(AAFrame:GetHeight() - 49)
-		AAFrame.numFramesShown = min(floor(height/ADDON:Scale(16)), 40)
 
-		ADDON:CreateMainWindow()
 		UnitEvents:Unregister('ADDON_LOADED', 'addon_loaded')
 		ADDON:AddOptionCategory('Combat Events')
 		ADDON:AddOption('Combat Events', 'Report taunts', 'taunt', AstralAnalytics.options.combatEvents.taunt)
@@ -420,7 +423,6 @@ local function OnAddOnLoad(addon)
 				aa_dropdown:AddEntry(entry, cat)
 			end
 		end
-
 
 		aa_dropdown_sub.dtbl[1]:SetText('Say')
 		aa_dropdown_sub.dtbl[1].channel = 'SAY'
@@ -572,3 +574,17 @@ aa_dropdown:SetScript('OnHide', function(self)
 	aa_dropdown_sub:Hide()
 	end)
 a.AddEscHandler(aa_dropdown)
+
+local function InitializeWindow()
+	
+	ADDON:CreateMainWindow()
+	local width =ADDON:Scale(AAFrame:GetWidth() - 10)
+	for i = 0, #ADDON.row do
+		ADDON.row[i]:SetWidth(width)
+	end
+
+
+	-- body
+end
+
+UnitEvents:Register('PLAYER_LOGIN', InitializeWindow, 'initWindow')

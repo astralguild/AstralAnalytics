@@ -16,8 +16,6 @@ ADDON.COLOURS.TARGET = 'FFFF0000'
 ADDON.COLOURS.ADDON =  '008888FF'
 ADDON.ADDON_NAME_COLOURED = WrapTextInColorCode('[AA]', ADDON.COLOURS.ADDON)
 
-
-local scale
 local uiScale
 local mult
 
@@ -60,13 +58,13 @@ function WrapNameInColorAndIcons(unit, class, hexColor, raidFlags)
 	local nameColor = hexColor ~= 'nil' and hexColor  or select(4, GetClassColor(class)) -- Hex color code
 	if not nameColor then
 		if AstralAnalytics.options.general.raidIcons then
-			return strformat('%s%s%s', icon, unit, icon)
+			return strformat('%s %s %s', icon, unit, icon)
 		else
 			return unit
 		end
 	else
 		if AstralAnalytics.options.general.raidIcons then
-			return strformat('%s%s%s', icon, WrapTextInColorCode(unit, nameColor), icon)
+			return strformat('%s %s %s', icon, WrapTextInColorCode(unit, nameColor), icon)
 		else
 			return WrapTextInColorCode(unit, nameColor)
 		end
@@ -87,9 +85,10 @@ function ADDON:ColouredName(unit, class, hexColor)
 end
 
 function ADDON:SetUIScale()
-	scale = string.match( GetCVar( "gxWindowedResolution" ), "%d+x(%d+)" )
+	self.screenHeight = UIParent:GetHeight()
+	self.scale = string.match( GetCVar( "gxWindowedResolution" ), "%d+x(%d+)" )
 	uiScale = UIParent:GetScale()
-	mult = 768/scale/uiScale
+	mult = 768/self.scale/uiScale
 end
 
 function ADDON:Scale(x)

@@ -3,6 +3,9 @@ local ADDON_NAME, ADDON = ...
 if not AstralAnalytics then
 	AstralAnalytics = {
 		['options'] = {
+			['frame'] = {
+			['locked'] = false,
+			},
 			['general'] = {
 				['raidIcons' ] = true,
 				['reportChannel'] = 'console',
@@ -30,14 +33,14 @@ if not AstralAnalytics then
 				['missingVantus'] = true,
 			},
 			['groups'] = {
-			[1] = true,
-			[2] = true,
-			[3] = true,
-			[4] = true,
-			[5] = false,
-			[6] = false,
-			[7] = false,
-			[8] = false,
+				[1] = true,
+				[2] = true,
+				[3] = true,
+				[4] = true,
+				[5] = true,
+				[6] = true,
+				[7] = true,
+				[8] = true,
 			},
 		},
 	}
