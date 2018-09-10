@@ -37,18 +37,20 @@ end
 
 function WrapNameInColorAndIcons(unit, class, hexColor, raidFlags)
 	if not unit or type(unit) ~= 'string' then
-		error('unit expected, got ' .. type(unit))
+		error('unit expected, got ' .. type(unit) ', ' .. tostring(unit))
 	end
+	local bitRaid, raidIndex
 
 	local icon = ''
-	if true then -- Settings, enableIconsInReports.  Maybe have it be specific to what option it is?
-		local bitRaid = bit.band(raidFlags, COMBATLOG_OBJECT_RAIDTARGET_MASK)	
-		local raidIndex = bitRaid and RAID_TARGET_BIT[bitRaid] or nil
-
-		if raidIndex then
-			icon = _G['COMBATLOG_ICON_RAIDTARGET' .. raidIndex]
-		end
+	if raidFlags then
+		bitRaid = bit.band(raidFlags, COMBATLOG_OBJECT_RAIDTARGET_MASK)	
+		raidIndex = bitRaid and RAID_TARGET_BIT[bitRaid] or nil
 	end
+
+	if raidIndex then
+		icon = _G['COMBATLOG_ICON_RAIDTARGET' .. raidIndex]
+	end
+
 	local class 
 	if not unit:find('<') then
 		class = class or select(2, UnitClass(unit))
@@ -57,13 +59,13 @@ function WrapNameInColorAndIcons(unit, class, hexColor, raidFlags)
 	end
 	local nameColor = hexColor ~= 'nil' and hexColor  or select(4, GetClassColor(class)) -- Hex color code
 	if not nameColor then
-		if AstralAnalytics.options.general.raidIcons then
+		if AstralAnalytics.options.general.raidIcons and icon ~= '' then
 			return strformat('%s %s %s', icon, unit, icon)
 		else
 			return unit
 		end
 	else
-		if AstralAnalytics.options.general.raidIcons then
+		if AstralAnalytics.options.general.raidIcons and icon ~= '' then
 			return strformat('%s %s %s', icon, WrapTextInColorCode(unit, nameColor), icon)
 		else
 			return WrapTextInColorCode(unit, nameColor)

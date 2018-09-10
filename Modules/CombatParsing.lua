@@ -150,7 +150,7 @@ COMBAT_FUNCS['SPELL_INTERRUPT'] = function(timeStamp, subEvent, hideCaster, sour
 		local destIcon = GetRaidTargetString(destRaidFlags)
 		local sourceIcon = GetRaidTargetString(sourceRaidFlags)
 
-		local spellLink = GetSpellLink(param15)
+		local spellLink = GetSpellLink(param13) or param15
 		AstralSendMessage(string.format(CONSOLE_INTERRUPT_TEXT, sourceIcon, ADDON:ColouredName(sourceName), sourceIcon, destIcon, ADDON:ColouredName(destName, nil, ADDON.COLOURS.TARGET), destIcon, spellLink), 'console')
 	end
 	if AstralAnalytics.options.combatEvents.selfInterrupt and sourceFlags == 1297 and IsInGroup() then -- Flag for self
@@ -209,7 +209,6 @@ COMBAT_FUNCS['SPELL_CAST_SUCCESS'] = function(timeStamp, subEvent, hideCaster, s
 
 	if bband(sourceFlags, COMBATLOG_OBJECT_TYPE_MASK) == 4096 then
 		sourceName = sourceName .. ' <' .. ADDON:GetPetOwner(sourceName) .. '>'
-		AstralSendMessage(strformat('%s cast %s', WrapNameInColorAndIcons(sourceName, nil, nil, sourceRaidFlags), GetSpellLink(spellID)))
 	end
 	
 	if ADDON:IsSpellTracked(subEvent, spellID) then
