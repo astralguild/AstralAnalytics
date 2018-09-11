@@ -39,6 +39,7 @@ function WrapNameInColorAndIcons(unit, class, hexColor, raidFlags)
 	if not unit or type(unit) ~= 'string' then
 		error('unit expected, got ' .. type(unit) ', ' .. tostring(unit))
 	end
+
 	local bitRaid, raidIndex
 
 	local icon = ''
@@ -55,7 +56,7 @@ function WrapNameInColorAndIcons(unit, class, hexColor, raidFlags)
 	if not unit:find('<') then
 		class = class or select(2, UnitClass(unit))
 	else
-		class = select(2, UnitClass(unit:match('<(%w+)>')))
+		class = select(2, UnitClass(unit:match('<(.+)>')))
 	end
 	local nameColor = hexColor ~= 'nil' and hexColor  or select(4, GetClassColor(class)) -- Hex color code
 	if not nameColor then
@@ -107,6 +108,8 @@ function ADDON:GetPetOwner(petName)
    local ownerText = scanText:GetText()
    if not ownerText then return nil end
    local owner, _ = string.split("'",ownerText)
+
+   owner = owner or 'Unknown'
    
    return owner -- This is the pet's owner
 end

@@ -72,7 +72,7 @@ function Row:CreateRow(parent, index)
 	self.buff = {}
 	self.buff[1] = CreateFrame('FRAME', nil, self)
 	self.buff[1]:SetPoint('RIGHT', self, 'RIGHT', ADDON:Scale(-4), 0)
-	self.buff[1]:SetSize(ADDON:Scale(14), ADDON:Scale(14))
+	self.buff[1]:SetSize(ADDON:Scale(12), ADDON:Scale(12))
 
 	self.buff[1].texture = self.buff[1]:CreateTexture(nil, 'OVERLAY')
 	self.buff[1].texture:SetAllPoints(self.buff[1])
@@ -83,7 +83,7 @@ function Row:CreateRow(parent, index)
 	for i = 2, TOTAL_BUFFS do
 		self.buff[i] = CreateFrame('FRAME', nil, self)
 		self.buff[i]:SetPoint('RIGHT', self.buff[i-1], 'LEFT', ADDON:Scale(-4), 0)
-		self.buff[i]:SetSize(ADDON:Scale(14), ADDON:Scale(14))
+		self.buff[i]:SetSize(ADDON:Scale(12), ADDON:Scale(12))
 
 		self.buff[i].texture = self.buff[i]:CreateTexture(nil, 'OVERLAY')
 		self.buff[i].texture:SetAllPoints(self.buff[i])
@@ -220,7 +220,8 @@ AAFrame:Hide()
 AAFrame.elapsed = 0
 
 local corner = CreateFrame('FRAME', '$parentDrag', AAFrame)
-corner:SetFrameStrata('TOOLTIP')
+corner:SetFrameStrata('DIALOG')
+corner:SetFrameLevel(AAFrame:GetFrameLevel() + 10)
 corner:SetSize(8, 8)
 corner:SetPoint('BOTTOMRIGHT', AAFrame, 'BOTTOMRIGHT', -3, 3)
 corner:RegisterForDrag('LeftButton')
@@ -394,6 +395,7 @@ local function OnAddOnLoad(addon)
 		ADDON:AddOption('Combat Events', 'Report enrage removals', 'removeEnrage', AstralAnalytics.options.combatEvents.removeEnrage)
 		ADDON:AddOption('Combat Events', 'Report targeted utility', 'utilityT', AstralAnalytics.options.combatEvents.utilityT)
 		ADDON:AddOption('Combat Events', 'Report non-targeted utility', 'utilityNT', AstralAnalytics.options.combatEvents.utilityNT)
+		ADDON:AddOption('Combat Events', 'Report Heroism casts', 'heroism', AstralAnalytics.options.combatEvents.heroism)
 
 		ADDON:AddOptionCategory('General')
 		ADDON:AddOption('General', 'Enable Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons)
@@ -576,15 +578,16 @@ aa_dropdown:SetScript('OnHide', function(self)
 a.AddEscHandler(aa_dropdown)
 
 local function InitializeWindow()
-	
 	ADDON:CreateMainWindow()
-	local width =ADDON:Scale(AAFrame:GetWidth() - 10)
+	-- Ensure frame is never smaller than min size on load, shit gets wonky sometimes
+	local width = ADDON:Scale(math.max(250, AAFrame:GetWidth()))
+	local height = ADDON:Scale(math.max(65, AAFrame:GetHeight()))
+	AAFrame:SetSize(width, height)
+	-- Re-use width to set width of rows
+	width = width - ADDON:Scale(10)
 	for i = 0, #ADDON.row do
 		ADDON.row[i]:SetWidth(width)
 	end
-
-
-	-- body
 end
 
 UnitEvents:Register('PLAYER_LOGIN', InitializeWindow, 'initWindow')

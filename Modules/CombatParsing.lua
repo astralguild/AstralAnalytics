@@ -24,10 +24,10 @@ RAID_ICON_STRING[7] = '{cross}'
 RAID_ICON_STRING[8] = '{skull}'
 
 -- String format message texts
-local CONSOLE_INTERRUPT_TEXT = '%s%s%s interrupted %s%s%s casting %s' -- RAIDICON UNIT RAIDICON interrupted RAIDICON TARGET RAIDICON with SPELL LINK
-local CONSOLE_AURA_BROKEN_TEXT = '%s on %s%s%s removed by %s%s\'s%s %s' -- [ADDON]: [SPELL LINK] on RAIDICON UNIT RAIDICON removed by RAIDICON UNIT's RAIDICON [SPELL LINK]
+local CONSOLE_INTERRUPT_TEXT = '%s interrupted %s casting %s' -- RAIDICON UNIT RAIDICON interrupted RAIDICON TARGET RAIDICON with SPELL LINK
+local CONSOLE_AURA_BROKEN_TEXT = '%s on %s removed by %s with %s' -- [ADDON]: [SPELL LINK] on RAIDICON DEST RAIDICON removed by RAIDICON UNIT RAIDICON with [SPELL LINK]
 
-local CHAT_INTERRUPT_TEXT = 'Interrupted %s%s\'s%s %s' -- INTERRUPTED UNIT's SPELL LINK
+local CHAT_INTERRUPT_TEXT = 'Interrupted %s %s\'s %s %s' -- INTERRUPTED UNIT's SPELL LINK
 
 
 CombatEvents = Event:New()
@@ -109,7 +109,7 @@ function WrapNameInColorAndIcons(unit, class, hexColor, raidFlags)
 end]]
 
 local function GetRaidTargetString(targetFlags)
-	if true then -- Settings, enableIconsInReports.  Maybe have it be specific to what option it is?
+	if AstralAnalytics.options.general.raidIcons then -- Settings, enableIconsInReports.  Maybe have it be specific to what option it is?
 		local bitRaid = bband(targetFlags, COMBATLOG_OBJECT_RAIDTARGET_MASK)	
 		local raidIndex = bitRaid and RAID_TARGET_BIT[bitRaid] or nil
 
@@ -146,18 +146,20 @@ end
 
 COMBAT_FUNCS['SPELL_INTERRUPT'] = function(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, param12, param13, param14, param15, param16, param17)
 	if bband(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MASK) > 4 then return end
+	local spellLink = GetSpellLink(param15)
+	spellLink = spellLink or param16
+
 	if AstralAnalytics.options.combatEvents.interrupts then 	
 		local destIcon = GetRaidTargetString(destRaidFlags)
 		local sourceIcon = GetRaidTargetString(sourceRaidFlags)
 
-		local spellLink = GetSpellLink(param13) or param15
-		AstralSendMessage(string.format(CONSOLE_INTERRUPT_TEXT, sourceIcon, ADDON:ColouredName(sourceName), sourceIcon, destIcon, ADDON:ColouredName(destName, nil, ADDON.COLOURS.TARGET), destIcon, spellLink), 'console')
+		AstralSendMessage(strformat(CONSOLE_INTERRUPT_TEXT, WrapNameInColorAndIcons(sourceName, nil, 'nil', sourceRaidFlags), WrapNameInColorAndIcons(destName, nil, ADDON.COLOURS.TARGET, destRaidFlags), spellLink), 'console')
 	end
 	if AstralAnalytics.options.combatEvents.selfInterrupt and sourceFlags == 1297 and IsInGroup() then -- Flag for self
 		local raidIndex = bband(destRaidFlags, COMBATLOG_OBJECT_RAIDTARGET_MASK)
 		local destIcon = RAID_ICON_STRING[RAID_TARGET_BIT[raidIndex]] or ''
 		local chatType = (IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and 'INSTANCE_CHAT') or (IsInRaid() and 'RAID') or 'PARTY'
-		SendChatMessage(string.format(CHAT_INTERRUPT_TEXT, destIcon, destName, destIcon, spellLink), chatType)
+		SendChatMessage(strformat(CHAT_INTERRUPT_TEXT, destIcon, destName, destIcon, spellLink), chatType)
 	end
 end
 
@@ -166,11 +168,9 @@ COMBAT_FUNCS['SPELL_AURA_BROKEN_SPELL'] = function(timeStamp, subEvent, hideCast
 	if bband(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MASK) > 4 then return end
 
 	if ADDON:IsSpellTracked('SPELL_CAST_SUCCESS', ccSpellID) and ADDON:IsSpellInCategory(ccSpellID, 'crowd') then  -- Only fire if the spellID is a form of CC we are tracking | Bodge for now. Think of a better way to check stuff.
-		local destIcon = GetRaidTargetString(destRaidFlags)
-		local sourceIcon = GetRaidTargetString(sourceRaidFlags)
 		local ccSpellLink = GetSpellLink(ccSpellID)
 		local breakSpellLink = GetSpellLink(param15)
-		AstralSendMessage(strformat(CONSOLE_AURA_BROKEN_TEXT, ccSpellLink, destIcon, ADDON:ColouredName(destName, nil, ADDON.COLOURS.TARGET), destIcon, sourceIcon, ADDON:ColouredName(sourceName), sourceIcon, breakSpellLink), 'console')
+		AstralSendMessage(strformat(CONSOLE_AURA_BROKEN_TEXT, ccSpellLink, WrapNameInColorAndIcons(destName, nil, ADDON.COLOURS.TARGET, destRaidFlags), WrapNameInColorAndIcons(sourceName, nil, nil, sourceRaidFlags), breakSpellLink), 'console')
 	end
 end
 
@@ -210,7 +210,9 @@ COMBAT_FUNCS['SPELL_CAST_SUCCESS'] = function(timeStamp, subEvent, hideCaster, s
 	if bband(sourceFlags, COMBATLOG_OBJECT_TYPE_MASK) == 4096 then
 		sourceName = sourceName .. ' <' .. ADDON:GetPetOwner(sourceName) .. '>'
 	end
-	
+	--[[if spellID == 19577 then
+		tprint({timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17})
+	end]]
 	if ADDON:IsSpellTracked(subEvent, spellID) then
 		local spellLink = GetSpellLink(spellID)
 		local destIcon = GetRaidTargetString(destRaidFlags)
@@ -230,7 +232,6 @@ end
 
 COMBAT_FUNCS['UNIT_DIED'] = function(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17)
 	if bband(destFlags, COMBATLOG_OBJECT_AFFILIATION_MASK) > 4 then return end
-	--ADDON:ClearUnitBuffs(destGUID)
 end
 
 COMBAT_FUNCS['SPELL_AURA_REMOVED'] = function(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17)
@@ -251,53 +252,18 @@ COMBAT_FUNCS['SPELL_AURA_REMOVED'] = function(timeStamp, subEvent, hideCaster, s
 		end
 	end
 end
---[[
-if subEvent == 'UNIT_DIED' then		
-		ADDON:ClearUnitBuffs(sourceGUID)
-	end
-	if subEvent == 'SPELL_AURA_APPLIED' then
-		if param13 == 'Well Fed' then
-			ADDON:UpdateUnitBuff(destGUID)
-			ADDON:SortUnits()
-			ADDON:UpdateFrameRows()
-		else
-			for _, table in pairs(ADDON.BUFFS) do			
-				if table[param12] then					
-					ADDON:UpdateUnitBuff(destGUID)
-					ADDON:SortUnits()
-					ADDON:UpdateFrameRows()
-					break
-				end
-			end
-		end
-	end
-	if subEvent == 'SPELL_AURA_REMOVED' then
-		if param13 == 'Well Fed' then
-			ADDON:UpdateUnitBuff(destGUID)
-			ADDON:SortUnits()
-			ADDON:UpdateFrameRows()
-		else			
-			for _, table in pairs(ADDON.BUFFS) do			
-				if table[param12] then					
-					ADDON:UpdateUnitBuff(destGUID)
-					ADDON:SortUnits()
-					ADDON:UpdateFrameRows()
-					break
-				end
-			end
-		end
-	end
-]]
 
 local timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, param12, param13, param14, param15, param16, param17
 local function ParseCombatLog()
 	timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, param12, param13, param14, param15, param16, param17 = CombatLogGetCurrentEventInfo()
-	if ADDON[subEvent] then		
+	if ADDON[subEvent] then
 		local spellLink = GetSpellLink(spellID)
 		local destIcon = GetRaidTargetString(destRaidFlags)
 		local sourceIcon = GetRaidTargetString(sourceRaidFlags)
 	end
 
+	sourceName = sourceName or 'Unknown'
+	destName = destName or 'Unknown'
 	if COMBAT_FUNCS[subEvent] then
 		COMBAT_FUNCS[subEvent](timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, param12, param13, param14, param15, param16, param17)
 	end

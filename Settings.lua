@@ -22,6 +22,7 @@ if not AstralAnalytics then
 				['removeEnrage'] = true,
 				['utilityT'] = true,
 				['utilityNT'] = true,
+				['heroism'] = true,
 				},
 			['buffsReported'] = {
 				['missingFood'] = true,
@@ -32,7 +33,7 @@ if not AstralAnalytics then
 				['missingRune'] = true,
 				['missingVantus'] = true,
 			},
-			['groups'] = {
+			['group'] = {
 				[1] = true,
 				[2] = true,
 				[3] = true,

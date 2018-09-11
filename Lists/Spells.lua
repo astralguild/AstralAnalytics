@@ -24,9 +24,9 @@ function ADDON:AddSpellToCategory(spellID, spellCategory)
 	table.insert(self.SPELL_CATEGORIES[spellCategory], spellID)
 end
 
-function ADDON:RetrieceSpellCategorySpells(spellCategory)
+function ADDON:RetrieveSpellCategorySpells(spellCategory)
 	if not spellCategory or type(spellCategory) ~= 'string' then
-		error('ADDON:RetrieceSpellCategorySpells(spellCategory) spellCategory, string expected got ' .. type(spellCategory))
+		error('ADDON:RetrieveSpellCategorySpells(spellCategory) spellCategory, string expected got ' .. type(spellCategory))
 	end
 	
 	return self.SPELL_CATEGORIES[spellCategory]
@@ -141,6 +141,15 @@ dispells  <sourceName> removed <spell> from <destName> with <sourceSpell>  HELPF
 spellsteal
 ]]
 
+-- Heroism
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 32182, 'heroism', '<sourceName> cast <spell>') -- Heroism
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 90355, 'heroism', '<sourceName> cast <spell>') -- Ancient Hysteria
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 160452, 'heroism', '<sourceName> cast <spell>') -- Netherwinds
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 264667, 'heroism', '<sourceName> cast <spell>') -- Primal Rage
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 80353, 'heroism', '<sourceName> cast <spell>') -- Timewarp
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 2825, 'heroism', '<sourceName> cast <spell>') -- Bloodlust
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 178207, 'heroism', '<sourceName> cast <spell>') -- Drums of fury
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 230935, 'heroism', '<sourceName> cast <spell>') -- Drums of the Mountain
 
 -- Battle res
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 20484, 'battleRes', '<sourceName> resurrected <destName> with <spell>') -- Rebirth
@@ -155,6 +164,7 @@ ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 62124, 'taunt', '<sourceName> tau
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 6795, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Growl, Druid
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 49576, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Death Grip, Death Knight
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 56222, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Dark Command, Death Knight
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 2649, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Growl, Hunter Pet
 
 -- Crowd Controls
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 6770, 'crowd', '<sourceName> cast <spell> on <destName>') -- Sap, Rogue

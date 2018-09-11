@@ -115,7 +115,7 @@ function ADDON:InitializeTableMembers()
 			end
 			tempUnit.subgroup = subgroup
 		else
-			if subgroup <= 4 then
+			if AstralAnalytics.options.group[subgroup] then
 				GUIDsInGroup[GUID] = true
 				table.insert(self.units, {unitID = unitID, guid = GUID, name = UnitName(unitID), class = select(2, UnitClass(unitID)), subgroup = subgroup, buff = {}})
 			end
