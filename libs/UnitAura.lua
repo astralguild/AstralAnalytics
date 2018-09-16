@@ -98,7 +98,7 @@ function ADDON:InitializeTableMembers()
 		local tempUnit
 		for k, unit in ipairs(self.units) do
 			if unit.guid == GUID then
-				if subgroup <= 4 then
+				if AstralAnalytics.options.group[subgroup] then
 					tempUnit = unit
 				else
 					table.remove(self.units, k)
@@ -139,12 +139,6 @@ end
 UnitEvents:Register('PLAYER_ENTERING_WORLD', InitMembers, 'createUnits')
 
 UnitEvents:Register('GROUP_ROSTER_UPDATE', ADDON.InitializeTableMembers, 'GROUP_ROSTER_UPDATE_UPDATE_MEMBERS')
-
-function printUnits()
-	for k,v in pairs(ADDON.units) do
-		print(k, v)
-	end
-end
 
 function ADDON:PopulateMissingTables()
 	local self = ADDON;
@@ -231,9 +225,13 @@ function ADDON:CheckForBuffs(sendReport)
 		end
 	end
 	if sendReport then
-		for list in pairs(self.buffs) do
-			self:ReportList(list, AstralAnalytics.options.general.reportChannel) -- Default to say for now.
-		end
+		self:ReportList('missingFlask', AstralAnalytics.options.general.reportChannel)
+		self:ReportList('missingFood', AstralAnalytics.options.general.reportChannel)
+		self:ReportList('missingRune', AstralAnalytics.options.general.reportChannel)
+		self:ReportList('missingInt', AstralAnalytics.options.general.reportChannel)
+		self:ReportList('missingFort', AstralAnalytics.options.general.reportChannel)
+		self:ReportList('missingShout', AstralAnalytics.options.general.reportChannel)
+		self:ReportList('missingVantus', AstralAnalytics.options.general.reportChannel)
 	end
 end
 
@@ -283,7 +281,7 @@ function ADDON:UpdateUnitBuff(guid)
 			unit.buff[1] = {spellId, icon} -- Vantus Rune
 			unit.numMissing = unit.numMissing - 1
 			self:HasBuff(unit.guid, self.buffs.missingVantus)
-		elseif name == 'Well Fed' and amount >= 70 then
+		elseif name == 'Well Fed' and amount and amount >= 70 then
 			unit.buff[3] = {spellId, icon} -- Well Fed
 			unit.numMissing = unit.numMissing - 1
 			self:HasBuff(unit.guid, self.buffs.missingFood)
@@ -302,10 +300,6 @@ function ADDON:UpdateUnitBuff(guid)
 end
 
 function ADDON:ReportList(list, msgChannel)
-	local self = ADDON;
-	--if not list or type(list) ~= 'table' then
-	--	error('ReportList(list, msgChannel) list, table expeted recieved ' .. type(list))
-	--end
 	local msgChannel = msgChannel or 'SMART'
 	local string
 
@@ -330,7 +324,6 @@ function ADDON:ReportList(list, msgChannel)
 end
 
 function ADDON:HasBuff(guid, missingList)
-	local self = ADDON;
 	for k, targetUnit in ipairs(missingList) do
 		if targetUnit.guid == guid then
 			table.remove(missingList, k)

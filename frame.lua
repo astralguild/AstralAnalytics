@@ -21,8 +21,8 @@ local sortedTable = {}
 local TOTAL_BUFFS = 7 -- Hard coded for now. Will Change later to match the tracked buffs
 
 local BUFF_TEXTURES = {}
-BUFF_TEXTURES[1] = 2178531 -- Vantus
-BUFF_TEXTURES[2] = 134425 -- Augment
+BUFF_TEXTURES[1] = 1528795 -- Vantus
+BUFF_TEXTURES[2] = 840006 --134425 -- Augment
 BUFF_TEXTURES[3] = 133943 -- Food
 BUFF_TEXTURES[4] = 236878 -- Flask
 BUFF_TEXTURES[5] = 132333 -- Shout
@@ -315,12 +315,14 @@ reportButton:SetScript('OnLeave', function(self)
 	self:GetNormalTexture():SetVertexColor(1, 1, 1)
 	end)
 reportButton:SetScript('OnClick', function()
-	for list in pairs(ADDON.buffs) do
-		ADDON:ReportList(list, AstralAnalytics.options.general.reportChannel)
-	end	
+	ADDON:ReportList('missingFlask', AstralAnalytics.options.general.reportChannel)
+	ADDON:ReportList('missingFood', AstralAnalytics.options.general.reportChannel)
+	ADDON:ReportList('missingRune', AstralAnalytics.options.general.reportChannel)
+	ADDON:ReportList('missingInt', AstralAnalytics.options.general.reportChannel)
+	ADDON:ReportList('missingFort', AstralAnalytics.options.general.reportChannel)
+	ADDON:ReportList('missingShout', AstralAnalytics.options.general.reportChannel)
+	ADDON:ReportList('missingVantus', AstralAnalytics.options.general.reportChannel)
 end)
-
-
 
 function ADDON:CreateMainWindow()
 	self.row = {}
@@ -401,6 +403,7 @@ local function OnAddOnLoad(addon)
 		ADDON:AddOption('General', 'Enable Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons)
 		ADDON:AddOption('General', 'Report to Channel', 'reportChannel', AstralAnalytics.options.general.reportChannel)
 		ADDON:AddOption('General', 'Auto report on ready check', 'autoReport', AstralAnalytics.options.general.autoReport)
+		ADDON:AddOption('General', 'Sub groups', 'group', AstralAnalytics.options.general.group)
 
 		ADDON:AddOptionCategory('Buffs to report')
 		ADDON:AddOption('Buffs to report', 'Well Fed', 'missingFood', AstralAnalytics.options.buffsReported.missingFood)
@@ -440,6 +443,11 @@ local function OnAddOnLoad(addon)
 		aa_dropdown_sub.dtbl[6].channel = 'console'
 
 		aa_dropdown_sub:UpdateChannels()
+
+		for i = 1, 8 do
+			aa_dropdown_subGroups.dtbl[i].isChecked = AstralAnalytics.options['group'][i]
+		end
+		aa_dropdown_subGroups:UpdateGroups()
 	end
 end
 
@@ -460,7 +468,7 @@ local subMenu = CreateFrame('FRAME', 'aa_dropdown_sub', UIParent)
 subMenu.dtbl = {}
 subMenu:Hide()
 subMenu:SetFrameStrata('TOOLTIP')
-subMenu:SetWidth(200)
+subMenu:SetWidth(150)
 subMenu:SetHeight(130)
 subMenu:SetBackdrop(BACKDROP2)
 subMenu:SetBackdropBorderColor(0, 0, 0, 1)
@@ -476,13 +484,12 @@ function subMenu:UpdateChannels()
 	end
 end
 
-
 for i = 1, 6 do
 	local btn = CreateFrame('BUTTON', nil, aa_dropdown_sub)
 	btn.category = 'general'
 	btn.option = 'reportChannel'
 	btn.channel = ''
-	btn:SetSize(190, 20)
+	btn:SetSize(140, 20)
 	btn:SetBackdrop(BACKDROP2)
 	btn:SetBackdropBorderColor(0, 0, 0, 0)
 	btn:SetBackdropColor(75/255, 75/255, 75/255)
@@ -506,6 +513,56 @@ for i = 1, 6 do
 	table.insert(aa_dropdown_sub.dtbl, btn)
 end
 
+local subMenuGroups = CreateFrame('FRAME', 'aa_dropdown_subGroups', UIParent)
+subMenuGroups.dtbl = {}
+subMenuGroups:Hide()
+subMenuGroups:SetFrameStrata('TOOLTIP')
+subMenuGroups:SetWidth(150)
+subMenuGroups:SetHeight(170)
+subMenuGroups:SetBackdrop(BACKDROP2)
+subMenuGroups:SetBackdropBorderColor(0, 0, 0, 1)
+subMenuGroups:SetBackdropColor(75/255, 75/255, 75/255)
+
+function subMenuGroups:UpdateGroups()
+	for i = 1, 8 do
+		if AstralAnalytics.options.group[i] then
+			self.dtbl[i].texture:Show()
+		else
+			self.dtbl[i].texture:Hide()
+		end
+	end
+end
+
+for i = 1, 8 do
+	local btn = CreateFrame('BUTTON', nil, aa_dropdown_subGroups)
+	btn.category = 'group'
+	btn.option = i
+	btn.isChecked = false
+	btn:SetSize(140, 20)
+	btn:SetBackdrop(BACKDROP2)
+	btn:SetBackdropBorderColor(0, 0, 0, 0)
+	btn:SetBackdropColor(75/255, 75/255, 75/255)
+	btn:SetNormalFontObject(a.FONT.OBJECT.LEFT)
+	btn:SetText('Group ' .. i)
+	btn:GetFontString():SetPoint('LEFT', btn, 'LEFT', 5, 0)
+
+	btn.texture = btn:CreateTexture()
+	btn.texture:SetSize(14, 14)
+	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
+	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\check.tga')
+	btn.texture:Hide()
+
+	btn:SetScript('OnClick', function(self)
+		AstralAnalytics.options[self.category][self.option] = not AstralAnalytics.options[self.category][self.option]
+		self:GetParent():UpdateGroups()
+		ADDON:InitializeTableMembers()
+		end)
+
+	btn:SetPoint('TOPLEFT', aa_dropdown_subGroups, 'TOPLEFT', 5, -20*(i - 1) - 5)
+
+	table.insert(aa_dropdown_subGroups.dtbl, btn)
+end
+
 local DropDownMenuMixin = {}
 
 function DropDownMenuMixin:NewObject(entry, category)
@@ -525,7 +582,7 @@ function DropDownMenuMixin:NewObject(entry, category)
 	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
 	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\check.tga')
 	
-	if entry.option ~= 'reportChannel' then
+	if entry.option ~= 'reportChannel' and entry.option ~= 'group' then
 		if entry.value then
 			btn.texture:Show()
 		else
@@ -535,12 +592,20 @@ function DropDownMenuMixin:NewObject(entry, category)
 			AstralAnalytics.options[self.category][self.option] = not AstralAnalytics.options[self.category][self.option]
 			self.texture:SetShown(AstralAnalytics.options[self.category][self.option])
 			end)
-	else
+	elseif entry.option == 'reportChannel' then
 		btn.texture:Hide()
 		btn.value = entry.value
 		btn:SetScript('OnClick', function(self)
 			aa_dropdown_sub:SetPoint('LEFT', self, 'RIGHT', 10, 0)
 			aa_dropdown_sub:SetShown(not aa_dropdown_sub:IsShown())
+
+		end)
+	elseif entry.option == 'group' then
+		btn.texture:Hide()
+		btn.value = entry.value
+		btn:SetScript('OnClick', function(self)
+			aa_dropdown_subGroups:SetPoint('LEFT', self, 'RIGHT', 10, 0)
+			aa_dropdown_subGroups:SetShown(not aa_dropdown_subGroups:IsShown())
 
 		end)
 	end
@@ -567,13 +632,15 @@ MixIn(aa_dropdown, DropDownMenuMixin)
 
 optionsButton:SetScript('OnClick', function(self)
 	aa_dropdown:SetShown(not aa_dropdown:IsShown())
-	if not aa_dropdown:IsShown() and aa_dropdown_sub:IsShown() then
+	if not aa_dropdown:IsShown() then
 		aa_dropdown_sub:Hide()
+		aa_dropdown_subGroups:Hide()
 	end
 	end)
 
 aa_dropdown:SetScript('OnHide', function(self)
 	aa_dropdown_sub:Hide()
+	aa_dropdown_subGroups:Hide()
 	end)
 a.AddEscHandler(aa_dropdown)
 

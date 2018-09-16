@@ -103,13 +103,14 @@ scanTool:SetOwner(WorldFrame, "ANCHOR_NONE" )
 local scanText = _G["AstralScanToolTextLeft2"] -- This is the line with <[Player]'s Pet>
 
 function ADDON:GetPetOwner(petName)
+	if petName == 'Unknown' then return 'Unknown' end
    AstralScanTool:ClearLines()
    AstralScanTool:SetUnit(petName)
    local ownerText = scanText:GetText()
    if not ownerText then return nil end
    local owner, _ = string.split("'",ownerText)
 
-   owner = owner or 'Unknown'
+   owner = owner
    
    return owner -- This is the pet's owner
 end

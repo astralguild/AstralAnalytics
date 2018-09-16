@@ -170,18 +170,3 @@ function AstralComs:Init()
 end
 
 AstralComs:Init()
-
-
-
-
-		if SPELL_CAST_SPELLS[spellID] == 'taunt' then
-			print(strformat(CONSOLE_MSG_SPELL_SUCCESS[SPELL_CAST_SPELLS[spellID]], WrapTextInColorCode(ADDON_NAME, COLOUR_ADDON), sourceIcon, ADDON:ColouredName(sourceName), sourceIcon, destIcon, ADDON:ColouredName(destName, nil, COLOUR_TARGET), destIcon, spellLink))
-		elseif SPELL_CAST_SPELLS[spellID] == 'battleRes' then
-			print(strformat(CONSOLE_MSG_SPELL_SUCCESS[SPELL_CAST_SPELLS[spellID]], WrapTextInColorCode(ADDON_NAME, COLOUR_ADDON), sourceIcon, ADDON:ColouredName(sourceName), sourceIcon, destIcon, ADDON:ColouredName(destName), destIcon, spellLink))
-		elseif SPELL_CAST_SPELLS[spellID] == 'crowd' then
-			print(strformat(CONSOLE_MSG_SPELL_SUCCESS[SPELL_CAST_SPELLS[spellID]], WrapTextInColorCode(ADDON_NAME, COLOUR_ADDON), sourceIcon, ADDON:ColouredName(sourceName), sourceIcon, spellLink, destIcon, ADDON:ColouredName(destName, nil, COLOUR_TARGET), destIcon))
-		elseif SPELL_CAST_SPELLS[spellID] == 'utilityT' then
-			print(strformat(CONSOLE_MSG_SPELL_SUCCESS[SPELL_CAST_SPELLS[spellID]], WrapTextInColorCode(ADDON_NAME, COLOUR_ADDON), sourceIcon, ADDON:ColouredName(sourceName), sourceIcon, spellLink, destIcon, ADDON:ColouredName(destName), destIcon))
-		elseif SPELL_CAST_SPELLS[spellID] == 'utilityNT' then
-			print(strformat(CONSOLE_MSG_SPELL_SUCCESS[SPELL_CAST_SPELLS[spellID]], WrapTextInColorCode(ADDON_NAME, COLOUR_ADDON), sourceIcon, ADDON:ColouredName(sourceName), sourceIcon, spellLink))
-		end

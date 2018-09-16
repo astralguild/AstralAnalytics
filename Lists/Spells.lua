@@ -113,7 +113,7 @@ function ADDON:IsSpellTracked(subEvent, spellID)
 		error('ADDON:IsSpellTracked(subEvent, spellID) subEvent, string expected got ' .. type(subEvent))
 	end
 	if not spellID or type(spellID) ~= 'number' then
-		error('ADDON:IsSpellTracked(subEvent, spellID) spellID, string expected got ' .. type(spellID))
+		error('ADDON:IsSpellTracked(subEvent, spellID) spellID, number expected got ' .. type(spellID))
 	end
 	if self[subEvent] and self[subEvent][spellID] then
 		return true
@@ -217,3 +217,40 @@ ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 106898, 'utilityNT', '<sourceName
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 64901, 'utilityNT', '<sourceName> cast <spell>') -- Symbol of Hope, Priest
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 114018, 'utilityNT', '<sourceName> cast <spell>') -- Shroud of Concealment, Rogue
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 192077, 'utilityNT', '<sourceName> cast <spell>') -- Wind Rush Totem, Shaman
+
+-- Defensive Dispells
+ADDON:AddSpellToCategory(527, 'SPELL_AURA_BROKEN_SPELL') -- Purify, Priest
+ADDON:AddSpellToCategory(218164, 'SPELL_AURA_BROKEN_SPELL') -- Detox, Monk
+ADDON:AddSpellToCategory(115450, 'SPELL_AURA_BROKEN_SPELL') -- Detox, Monk
+ADDON:AddSpellToCategory(2908, 'SPELL_AURA_BROKEN_SPELL') -- Soothe, Druid
+ADDON:AddSpellToCategory(88425, 'SPELL_AURA_BROKEN_SPELL') -- Nature's Cure, Druid
+ADDON:AddSpellToCategory(213644, 'SPELL_AURA_BROKEN_SPELL') -- Cleanse Toxins, Paladin
+ADDON:AddSpellToCategory(4987, 'SPELL_AURA_BROKEN_SPELL') -- Cleanse, Paladin
+ADDON:AddSpellToCategory(475, 'SPELL_AURA_BROKEN_SPELL') -- Remove Curse, Mage
+ADDON:AddSpellToCategory(77130, 'SPELL_AURA_BROKEN_SPELL') -- Purify Spirit, Shaman
+ADDON:AddSpellToCategory(51886, 'SPELL_AURA_BROKEN_SPELL') -- Cleanse Spirit, Shaman
+
+
+-- Offensive Dispells
+ADDON:AddSpellToCategory(528, 'SPELL_AURA_BROKEN_SPELL') -- Dispel Magic, Priest
+ADDON:AddSpellToCategory(30449, 'SPELL_AURA_BROKEN_SPELL') -- Spellsteal, Mage
+ADDON:AddSpellToCategory(264028, 'SPELL_AURA_BROKEN_SPELL') -- Chi-Ji's Tranquility, Hunter Pet
+ADDON:AddSpellToCategory(278326, 'SPELL_AURA_BROKEN_SPELL') -- Consume Magic, Demon Hunter
+ADDON:AddSpellToCategory(370, 'SPELL_AURA_BROKEN_SPELL') -- Purge, Shaman
+
+
+-- Interrupts
+ADDON:AddSpellToCategory(1766, 'INTERRUPTS') -- Kick, Rogue
+ADDON:AddSpellToCategory(106839, 'INTERRUPTS') -- Skull Bash
+ADDON:AddSpellToCategory(78675, 'INTERRUPTS') -- Solar Beam ??? test this shit out
+ADDON:AddSpellToCategory(183752, 'INTERRUPTS') -- Consume Magic
+ADDON:AddSpellToCategory(147362, 'INTERRUPTS') -- Counter Shot
+ADDON:AddSpellToCategory(187707, 'INTERRUPTS') -- Muzzle
+ADDON:AddSpellToCategory(2139, 'INTERRUPTS') -- Counter Spell
+ADDON:AddSpellToCategory(116705, 'INTERRUPTS') -- Spear Hand Strike
+ADDON:AddSpellToCategory(96231, 'INTERRUPTS') -- Rebuke
+ADDON:AddSpellToCategory(15487, 'INTERRUPTS') -- Silence
+ADDON:AddSpellToCategory(57994, 'INTERRUPTS') -- Windshear
+ADDON:AddSpellToCategory(6552, 'INTERRUPTS') -- Pummel
+ADDON:AddSpellToCategory(171140, 'INTERRUPTS') -- Shadow Lock
+ADDON:AddSpellToCategory(171138, 'INTERRUPTS') -- Shadow Lock
