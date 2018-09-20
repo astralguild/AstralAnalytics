@@ -71,6 +71,7 @@ function Row:CreateRow(parent, index)
 
 	self.buff = {}
 	self.buff[1] = CreateFrame('FRAME', nil, self)
+	self.buff[1].spellID = 0
 	self.buff[1]:SetPoint('RIGHT', self, 'RIGHT', ADDON:Scale(-4), 0)
 	self.buff[1]:SetSize(ADDON:Scale(12), ADDON:Scale(12))
 
@@ -78,10 +79,42 @@ function Row:CreateRow(parent, index)
 	self.buff[1].texture:SetAllPoints(self.buff[1])
 
 	self.buff[1]:EnableMouse(true)
+	self.buff[1]:SetScript('OnEnter', function(self)
+			if self.unitID == 'header' then return nil end
+			AstralToolTip:SetOwner(self, "ANCHOR_CURSOR")
+			AstralToolTip:SetBackdrop(BACKDROP2)
+			AstralToolTip:SetBackdropColor(0, 0, 0, .8)
+			AstralToolTip:SetBackdropBorderColor(0, 0, 0)
+			for spellID, index in ADDON:AuraInfo(self:GetParent().unitID, 'spellID') do
+				if spellID == self.spellID then
+					AstralToolTip:SetUnitBuff(self:GetParent().unitID, index)
+					break
+				end
+			end
+			AstralToolTip:Show()
+			end)
+		self.buff[1]:SetScript('OnLeave', function(self) AstralToolTip:Hide() end)
 
 	self.buff[1]:Show()
 	for i = 2, TOTAL_BUFFS do
 		self.buff[i] = CreateFrame('FRAME', nil, self)
+		self.buff[i].spellID = 0
+		self.buff[i]:EnableMouse(true)
+		self.buff[i]:SetScript('OnEnter', function(self)
+			if self.unitID == 'header' then return nil end
+			AstralToolTip:SetOwner(self, "ANCHOR_CURSOR")
+			AstralToolTip:SetBackdrop(BACKDROP2)
+			AstralToolTip:SetBackdropColor(0, 0, 0, .8)
+			AstralToolTip:SetBackdropBorderColor(0, 0, 0)
+			for spellID, index in ADDON:AuraInfo(self:GetParent().unitID, 'spellID') do
+				if spellID == self.spellID then
+					AstralToolTip:SetUnitBuff(self:GetParent().unitID, index)
+					break
+				end
+			end
+			AstralToolTip:Show()
+			end)
+		self.buff[i]:SetScript('OnLeave', function(self) AstralToolTip:Hide() end)
 		self.buff[i]:SetPoint('RIGHT', self.buff[i-1], 'LEFT', ADDON:Scale(-4), 0)
 		self.buff[i]:SetSize(ADDON:Scale(12), ADDON:Scale(12))
 
@@ -100,7 +133,7 @@ function Row:SetUnit(unit)
 	if (not unit or type(unit) ~= 'table') and unit ~= 'header' then
 		error('Row:SetUnit(unit) table expected, received ' .. type(unit))
 	end
-	self.unitID = unit.unitID
+	self.unitID = unit.unitID or unit
 	self.name:SetText(unit.name)
 
 	if unit == 'header' then
@@ -116,6 +149,7 @@ function Row:SetUnit(unit)
 
 		for i = 1, TOTAL_BUFFS do
 			if unit.buff[i] then
+				self.buff[i].spellID = unit.buff[i][1]
 				self.buff[i].texture:SetTexture(unit.buff[i][2])
 				self.buff[i].texture:Show()
 			else
@@ -162,10 +196,6 @@ function ADDON:ClearUnitBuffs(guid)
 		end
 		break
 	end
-end
-
-function pUT()
-	print(#ADDON.row)
 end
 
 function ADDON:UpdateFrameRows()
@@ -218,6 +248,10 @@ AAFrame:EnableKeyboard(true)
 AAFrame:SetPropagateKeyboardInput(true)
 AAFrame:Hide()
 AAFrame.elapsed = 0
+
+local AstralToolTip = CreateFrame( "GameTooltip", "AstralToolTip", AAFrame, "GameTooltipTemplate" )
+AstralToolTip:SetOwner(AAFrame, "ANCHOR_CURSOR")
+AstralToolTip:SetBackdrop(BACKDROP)
 
 local corner = CreateFrame('FRAME', '$parentDrag', AAFrame)
 corner:SetFrameStrata('DIALOG')
@@ -322,6 +356,7 @@ reportButton:SetScript('OnClick', function()
 	ADDON:ReportList('missingFort', AstralAnalytics.options.general.reportChannel)
 	ADDON:ReportList('missingShout', AstralAnalytics.options.general.reportChannel)
 	ADDON:ReportList('missingVantus', AstralAnalytics.options.general.reportChannel)
+	ADDON:ReportList('lowFlaskTime', AstralAnalytics.options.general.reportChannel)
 end)
 
 function ADDON:CreateMainWindow()
@@ -380,78 +415,6 @@ end
 function ADDON:ToggleMainWindow()
 	AAFrame:SetShown(not AAFrame:IsShown())
 end
-
-local function OnAddOnLoad(addon)
-	if addon == ADDON_NAME then
-		ADDON:SetUIScale()
-
-		UnitEvents:Unregister('ADDON_LOADED', 'addon_loaded')
-		ADDON:AddOptionCategory('Combat Events')
-		ADDON:AddOption('Combat Events', 'Report taunts', 'taunt', AstralAnalytics.options.combatEvents.taunt)
-		ADDON:AddOption('Combat Events', 'Report interrupts', 'interrupts', AstralAnalytics.options.combatEvents.interrupts)
-		ADDON:AddOption('Combat Events', 'Report own interrupts', 'selfInterrupt', AstralAnalytics.options.combatEvents.selfInterrupt)
-		ADDON:AddOption('Combat Events', 'Report combat ressurection', 'battleRes', AstralAnalytics.options.combatEvents.battleRes)
-		ADDON:AddOption('Combat Events', 'Report CC casts', 'crowd', AstralAnalytics.options.combatEvents.crowd)
-		ADDON:AddOption('Combat Events', 'Report CC breaks', 'cc_removed', AstralAnalytics.options.combatEvents.cc_break)
-		ADDON:AddOption('Combat Events', 'Report dispells', 'dispell', AstralAnalytics.options.combatEvents.dispell)
-		ADDON:AddOption('Combat Events', 'Report enrage removals', 'removeEnrage', AstralAnalytics.options.combatEvents.removeEnrage)
-		ADDON:AddOption('Combat Events', 'Report targeted utility', 'utilityT', AstralAnalytics.options.combatEvents.utilityT)
-		ADDON:AddOption('Combat Events', 'Report non-targeted utility', 'utilityNT', AstralAnalytics.options.combatEvents.utilityNT)
-		ADDON:AddOption('Combat Events', 'Report Heroism casts', 'heroism', AstralAnalytics.options.combatEvents.heroism)
-
-		ADDON:AddOptionCategory('General')
-		ADDON:AddOption('General', 'Enable Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons)
-		ADDON:AddOption('General', 'Report to Channel', 'reportChannel', AstralAnalytics.options.general.reportChannel)
-		ADDON:AddOption('General', 'Auto report on ready check', 'autoReport', AstralAnalytics.options.general.autoReport)
-		ADDON:AddOption('General', 'Sub groups', 'group', AstralAnalytics.options.general.group)
-
-		ADDON:AddOptionCategory('Buffs to report')
-		ADDON:AddOption('Buffs to report', 'Well Fed', 'missingFood', AstralAnalytics.options.buffsReported.missingFood)
-		ADDON:AddOption('Buffs to report', 'Arcane Intellect', 'missingInt', AstralAnalytics.options.buffsReported.missingInt)
-		ADDON:AddOption('Buffs to report', 'Fortitude', 'missingFort', AstralAnalytics.options.buffsReported.missingFort)
-		ADDON:AddOption('Buffs to report', 'Battle Shout', 'missingShout', AstralAnalytics.options.buffsReported.missingShout)
-		ADDON:AddOption('Buffs to report', 'Flask', 'missingFlask', AstralAnalytics.options.buffsReported.missingFlask)
-		ADDON:AddOption('Buffs to report', 'Augment Rune', 'missingRune', AstralAnalytics.options.buffsReported.missingRune)
-		ADDON:AddOption('Buffs to report', 'Vantus Rune', 'missingVantus', AstralAnalytics.options.buffsReported.missingVantus)
-
-		for category, entries in pairs(ADDON.OPTIONS) do
-			local cat
-			if category == 'Combat Events' then
-				cat = 'combatEvents'
-			elseif category == 'Buffs to report' then
-				cat = 'buffsReported'
-			elseif category == 'General' then
-				cat = 'general'
-			end
-
-			for _, entry in pairs(entries) do
-				aa_dropdown:AddEntry(entry, cat)
-			end
-		end
-
-		aa_dropdown_sub.dtbl[1]:SetText('Say')
-		aa_dropdown_sub.dtbl[1].channel = 'SAY'
-		aa_dropdown_sub.dtbl[2]:SetText('Party')
-		aa_dropdown_sub.dtbl[2].channel = 'PARTY'
-		aa_dropdown_sub.dtbl[3]:SetText('Raid')
-		aa_dropdown_sub.dtbl[3].channel = 'RAID'
-		aa_dropdown_sub.dtbl[4]:SetText('Smart')
-		aa_dropdown_sub.dtbl[4].channel = 'smart'
-		aa_dropdown_sub.dtbl[5]:SetText('Officer')
-		aa_dropdown_sub.dtbl[5].channel = 'OFFICER'
-		aa_dropdown_sub.dtbl[6]:SetText('Personal')
-		aa_dropdown_sub.dtbl[6].channel = 'console'
-
-		aa_dropdown_sub:UpdateChannels()
-
-		for i = 1, 8 do
-			aa_dropdown_subGroups.dtbl[i].isChecked = AstralAnalytics.options['group'][i]
-		end
-		aa_dropdown_subGroups:UpdateGroups()
-	end
-end
-
-UnitEvents:Register('ADDON_LOADED', OnAddOnLoad, 'addon_loaded')
 
 local mainMenu = CreateFrame('FRAME', 'aa_dropdown', UIParent)
 mainMenu.dtbl = {}
@@ -613,7 +576,6 @@ function DropDownMenuMixin:NewObject(entry, category)
 	return btn
 end
 
-
 function DropDownMenuMixin:AddEntry(entry, category)
 	local dtbl = self.dtbl
 	dtbl[#dtbl + 1] = self:NewObject(entry, category)
@@ -657,4 +619,4 @@ local function InitializeWindow()
 	end
 end
 
-UnitEvents:Register('PLAYER_LOGIN', InitializeWindow, 'initWindow')
+AAEvents:Register('PLAYER_LOGIN', InitializeWindow, 'initWindow')

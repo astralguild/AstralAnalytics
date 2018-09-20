@@ -1,9 +1,7 @@
 local ADDON_NAME, ADDON = ...
-local bband = bit.band
+local bband, strformat, mfloor = bit.band, string.format, math.floor
 
 local TOTAL_BUFFS = 7 -- Total number of buffs being tracked
-
-UnitEvents = Event:New()
 
 local UNIT_BUFF_FIELDS = {}
 UNIT_BUFF_FIELDS['name'] = 1
@@ -25,6 +23,7 @@ ADDON.buffs.missingFlask = {}
 ADDON.buffs.missingFood = {}
 ADDON.buffs.missingRune = {}
 ADDON.buffs.missingVantus = {}
+ADDON.buffs.lowFlaskTime = {}
 
 local LIST_NAMES = {}
 LIST_NAMES['missingFort'] = 'Missing Fortitude'
@@ -51,20 +50,19 @@ local function GroupMembers(reversed, forceParty)
     end
 end
 
-local auraInfo = {}
+local name, icon, count, debuffType, duration, expirationTime, unitCaster, spellId, isBossAura
+
 function ADDON:AuraInfo(unit, returnField, filter)
 	local index = 1
-
 	return function()
-		wipe(auraInfo)
 		if returnField then
 			local ret =  select(UNIT_BUFF_FIELDS[returnField], UnitAura(unit, index, filter))
 			index = index + 1
-			return ret
+			return ret, (index - 1)
 		else
-			auraInfo = {UnitAura(unit, index, filter)}
+			name, icon, count, debuffType, duration, expirationTime, unitCaster, spellId, isBossAura = UnitAura(unit, index, filter)
 			index = index + 1
-			return #auraInfo > 0 and auraInfo or nil
+			return name, icon, count, debuffType, duration, expirationTime, unitCaster, spellId, isBossAura, (index - 1)
 		end
 	end
 end
@@ -77,6 +75,7 @@ function ADDON:WipeTables()
 	wipe(self.buffs.missingFood)
 	wipe(self.buffs.missingRune)
 	wipe(self.buffs.missingVantus)
+	wipe(self.buffs.lowFlaskTime)
 end
 
 local GUIDsInGroup = {}
@@ -132,13 +131,13 @@ function ADDON:InitializeTableMembers()
 end
 
 local function InitMembers()
-	UnitEvents:Unregister('PLAYER_ENTERING_WORLD', 'createUnits')
+	AAEvents:Unregister('PLAYER_ENTERING_WORLD', 'createUnits')
 	local self = ADDON;
 	self:InitializeTableMembers()
 end
-UnitEvents:Register('PLAYER_ENTERING_WORLD', InitMembers, 'createUnits')
+AAEvents:Register('PLAYER_ENTERING_WORLD', InitMembers, 'createUnits')
 
-UnitEvents:Register('GROUP_ROSTER_UPDATE', ADDON.InitializeTableMembers, 'GROUP_ROSTER_UPDATE_UPDATE_MEMBERS')
+AAEvents:Register('GROUP_ROSTER_UPDATE', ADDON.InitializeTableMembers, 'GROUP_ROSTER_UPDATE_UPDATE_MEMBERS')
 
 function ADDON:PopulateMissingTables()
 	local self = ADDON;
@@ -165,7 +164,7 @@ local function UpdateUnitName(unitID)
 	ADDON:SortUnits()
 	ADDON:UpdateFrameRows()
 end
-UnitEvents:Register('UNIT_NAME_UPDATE', UpdateUnitName, 'UpdateUnitName')
+AAEvents:Register('UNIT_NAME_UPDATE', UpdateUnitName, 'UpdateUnitName')
 
 --[[
 BUFF LIST FROM RIGHT TO LEFT
@@ -194,9 +193,13 @@ function ADDON:CheckForBuffs(sendReport)
 			if not name then break end
 
 			if self.BUFFS.FLASKS[spellId] then
-				unit.buff[4] = {spellId, icon} -- FLask
-				unit.numMissing = unit.numMissing - 1
+				local timeLeft = expirationTime - GetTime()			
+				unit.buff[4] = {spellId, icon, timeLeft} -- FLask
+				unit.numMissing = unit.numMissing - 1		
 				self:HasBuff(unit.guid, self.buffs.missingFlask)
+				if timeLeft <= 900 then
+					table.insert(self.buffs.lowFlaskTime, unit)
+				end
 			-- Check of Augment Rune
 			elseif self.BUFFS.RUNES[spellId] then
 				unit.buff[2] = {spellId, icon} -- Augment Rune
@@ -207,7 +210,7 @@ function ADDON:CheckForBuffs(sendReport)
 				unit.buff[1] = {spellId, icon} -- Vantus Rune
 				unit.numMissing = unit.numMissing - 1
 				self:HasBuff(unit.guid, self.buffs.missingVantus)
-			elseif name == 'Well Fed' and amount >= 70 then
+			elseif name == 'Well Fed' and amount and amount >= 70 then
 				unit.buff[3] = {spellId, icon} -- Well Fed
 				unit.numMissing = unit.numMissing - 1
 				self:HasBuff(unit.guid, self.buffs.missingFood)
@@ -216,9 +219,9 @@ function ADDON:CheckForBuffs(sendReport)
 				if spellId == 1459 then -- Arance Intellect
 					unit.buff[6] = {spellId, icon}
 				elseif spellId == 21562 then -- Fortitude
-						unit.buff[7] = {spellId, icon}
+					unit.buff[7] = {spellId, icon}
 				elseif spellId == 6673 then -- Battle Shout
-							unit.buff[5] = {spellId, icon}
+					unit.buff[5] = {spellId, icon}
 				end
 				unit.numMissing = unit.numMissing - 1
 			end
@@ -232,6 +235,7 @@ function ADDON:CheckForBuffs(sendReport)
 		self:ReportList('missingFort', AstralAnalytics.options.general.reportChannel)
 		self:ReportList('missingShout', AstralAnalytics.options.general.reportChannel)
 		self:ReportList('missingVantus', AstralAnalytics.options.general.reportChannel)
+		self:ReportList('lowFlaskTime', AstralAnalytics.options.general.reportChannel)
 	end
 end
 
@@ -268,9 +272,13 @@ function ADDON:UpdateUnitBuff(guid)
 		if not name then break end
 
 		if self.BUFFS.FLASKS[spellId] then
-			unit.buff[4] = {spellId, icon} -- FLask
-			unit.numMissing = unit.numMissing - 1
+			local timeLeft = expirationTime - GetTime()			
+			unit.buff[4] = {spellId, icon, timeLeft} -- FLask
+			unit.numMissing = unit.numMissing - 1		
 			self:HasBuff(unit.guid, self.buffs.missingFlask)
+			if timeLeft <= 900 then
+				table.insert(self.buffs.lowFlaskTime, unit)
+			end
 		-- Check of Augment Rune
 		elseif self.BUFFS.RUNES[spellId] then
 			unit.buff[2] = {spellId, icon} -- Augment Rune
@@ -307,14 +315,28 @@ function ADDON:ReportList(list, msgChannel)
 
 	if #self.buffs[list] > 0 then
 		if msgChannel == 'console' then
-			string = self:ColouredName(self.buffs[list][1].name, self.buffs[list][1].class)
-			for i = 2, #self.buffs[list] do
-				string = string.format('%s, %s', string, self:ColouredName(self.buffs[list][i].name, self.buffs[list][i].class))
+			if list ~= 'lowFlaskTime' then
+				string = self:ColouredName(self.buffs[list][1].name, self.buffs[list][1].class)
+				for i = 2, #self.buffs[list] do
+					string = string.format('%s, %s', string, self:ColouredName(self.buffs[list][i].name, self.buffs[list][i].class))
+				end
+			else
+				string = strform('%s (%dm)', self:ColouredName(self.buffs[list][1].name, self.buffs[list][1].class), mfloor(self.buffs[list][1].buff[4][3]/60))
+				for i = 2, #self.buffs[list] do
+					string = string.format('%s, %s (%dm)', string, self:ColouredName(self.buffs[list][i].name, self.buffs[list][i].class), mfloor(self.buffs[list][i].buff[4][3]/60))
+				end
 			end
 		else
-			string = self.buffs[list][1].name
-			for i = 2, #self.buffs[list] do
-				string = string.format('%s, %s', string, self.buffs[list][i].name)
+			if list ~= 'lowFlaskTime' then
+				string = self.buffs[list][1].name
+				for i = 2, #self.buffs[list] do
+					string = string.format('%s, %s', string, self.buffs[list][i].name)
+				end
+			else
+				string = strformat('%s (%dm)', self.buffs[list][1].name, mfloor(self.buffs[list][1].buff[4][3]/60))
+				for i = 2, #self.buffs[list] do
+					string = strformat('%s, %s (%dm)', self.buffs[list][i].name, mfloor(self.buffs[list][i].buff[4][3]/60))
+				end
 			end
 		end
 	else
@@ -330,25 +352,6 @@ function ADDON:HasBuff(guid, missingList)
 			break
 		end
 	end
-end
-
-function ADDON:IterateGroupMembers(reversed, forceParty)
-	local unit  = (not forceParty and IsInRaid()) and 'raid' or 'party'
-    local numGroupMembers = (forceParty and GetNumSubgroupMembers()  or GetNumGroupMembers()) - (unit == "party" and 1 or 0)
-    local i = reversed and numGroupMembers or (unit == 'party' and 0 or 1)
-    return function()
-        local ret, name, class, subgroup
-        if i == 0 and unit == 'party' then
-            ret = 'player'
-        elseif i <= numGroupMembers and i > 0 then
-            ret = unit .. i
-            if unit == 'raid' then
-            	_, _, subgroup = GetRaidRosterInfo(i)
-            end
-        end
-        i = i + (reversed and -1 or 1)
-        return ret and {unitID = ret, guid = UnitGUID(ret), name = UnitName(ret), class = select(2, UnitClass(ret)), subgroup = subgroup or 1, buff = {}} or nil
-    end
 end
 
 function ADDON:SortUnits()
@@ -373,6 +376,6 @@ function ADDON:OnReadyCheck()
 	AAFrame:SetShown(true)
 end
 
-UnitEvents:Register('READY_CHECK', ADDON.OnReadyCheck, 'ADDON_OnReadyCheck')
+AAEvents:Register('READY_CHECK', ADDON.OnReadyCheck, 'ADDON_OnReadyCheck')
 
-UnitEvents:Register('ENCOUNTER_START', function() AAFrame:Hide() end, 'enoucnter_HideFrame')
+AAEvents:Register('ENCOUNTER_START', function() AAFrame:Hide() end, 'enoucnter_HideFrame')

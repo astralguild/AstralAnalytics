@@ -155,6 +155,7 @@ ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 230935, 'heroism', '<sourceName> 
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 20484, 'battleRes', '<sourceName> resurrected <destName> with <spell>') -- Rebirth
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 20707, 'battleRes', '<sourceName> resurrected <destName> with <spell>') -- Soulstone
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 61999, 'battleRes', '<sourceName> resurrected <destName> with <spell>') -- Raise Ally
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 207399, 'battleRes', '<sourceName> cast <spell>') -- Ancestral Protection Totem
 
 -- Taunts
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 115546, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Provoke, Monk

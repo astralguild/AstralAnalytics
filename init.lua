@@ -1,6 +1,9 @@
 local ADDON_NAME, ADDON = ...
 local strformat = string.format
 ADDON.a = _G['AstralEngine']
+
+AAEvents = Event:New('AAEvents')
+
 local RAID_TARGET_BIT = {}
 RAID_TARGET_BIT[1] = 1
 RAID_TARGET_BIT[2] = 2
@@ -104,13 +107,10 @@ local scanText = _G["AstralScanToolTextLeft2"] -- This is the line with <[Player
 
 function ADDON:GetPetOwner(petName)
 	if petName == 'Unknown' then return 'Unknown' end
-   AstralScanTool:ClearLines()
-   AstralScanTool:SetUnit(petName)
-   local ownerText = scanText:GetText()
-   if not ownerText then return nil end
-   local owner, _ = string.split("'",ownerText)
-
-   owner = owner
-   
-   return owner -- This is the pet's owner
+	AstralScanTool:ClearLines()
+	AstralScanTool:SetUnit(petName)
+	local ownerText = scanText:GetText()
+	if not ownerText then return 'Unknown' end
+	local owner, _ = string.split("'",ownerText)
+	return owner -- This is the pet's owner
 end

@@ -61,4 +61,11 @@ ADDON.BUFFS.RUNES[270058] = true -- Battle-Scarred Augment Rune
 
 -- Vantus Runes
 ADDON.BUFFS.VANTUS = {}
-ADDON.BUFFS.VANTUS[256302] = true -- Uldir Vantus Rune -- NEEDS CHECKING
+ADDON.BUFFS.VANTUS[269407] = true -- Uldir, Zekvoz
+ADDON.BUFFS.VANTUS[269276] = true -- Uldir, Taloc
+ADDON.BUFFS.VANTUS[269405] = true -- Uldir, MOTHER
+ADDON.BUFFS.VANTUS[269408] = true -- Uldir, Fetid
+ADDON.BUFFS.VANTUS[269409] = true -- Uldir, Vectis
+ADDON.BUFFS.VANTUS[269411] = true -- Uldir, Zul
+ADDON.BUFFS.VANTUS[269412] = true -- Uldir, Mythrax
+ADDON.BUFFS.VANTUS[269413] = true -- Uldir, G'huun
