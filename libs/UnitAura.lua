@@ -311,7 +311,7 @@ function ADDON:ReportList(list, msgChannel)
 	local msgChannel = msgChannel or 'SMART'
 	local string
 
-	if not AstralAnalytics.options.buffsReported[list] then return end
+	if not AstralAnalytics.options.reportLists[list] then return end
 
 	if #self.buffs[list] > 0 then
 		if msgChannel == 'console' then
