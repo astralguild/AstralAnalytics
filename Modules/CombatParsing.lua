@@ -215,9 +215,6 @@ COMBAT_FUNCS['SPELL_CAST_SUCCESS'] = function(timeStamp, subEvent, hideCaster, s
 		if bband(sourceFlags, COMBATLOG_OBJECT_TYPE_MASK) == 4096 then
 			if not sourceName then return end
 			sourceName = sourceName .. ' <' .. ADDON:GetPetOwner(sourceName) .. '>'
-			if not sourceName then
-				--tprint({timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17})
-			end
 		end
 		if ADDON:IsSpellTracked(subEvent, spellID) then
 			local destIcon = GetRaidTargetString(destRaidFlags)

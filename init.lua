@@ -61,7 +61,7 @@ function WrapNameInColorAndIcons(unit, class, hexColor, raidFlags)
 	else
 		class = select(2, UnitClass(unit:match('<(.+)>')))
 	end
-	local nameColor = hexColor ~= 'nil' and hexColor  or select(4, GetClassColor(class)) -- Hex color code
+	local nameColor = hexColor or select(4, GetClassColor(class)) -- Hex color code
 	if not nameColor then
 		if AstralAnalytics.options.general.raidIcons and icon ~= '' then
 			return strformat('%s %s %s', icon, unit, icon)
