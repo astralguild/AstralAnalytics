@@ -349,14 +349,14 @@ reportButton:SetScript('OnLeave', function(self)
 	self:GetNormalTexture():SetVertexColor(1, 1, 1)
 	end)
 reportButton:SetScript('OnClick', function()
-	ADDON:ReportList('missingFlask', AstralAnalytics.options.general.reportChannel)
-	ADDON:ReportList('missingFood', AstralAnalytics.options.general.reportChannel)
-	ADDON:ReportList('missingRune', AstralAnalytics.options.general.reportChannel)
-	ADDON:ReportList('missingInt', AstralAnalytics.options.general.reportChannel)
-	ADDON:ReportList('missingFort', AstralAnalytics.options.general.reportChannel)
-	ADDON:ReportList('missingShout', AstralAnalytics.options.general.reportChannel)
-	ADDON:ReportList('missingVantus', AstralAnalytics.options.general.reportChannel)
-	ADDON:ReportList('lowFlaskTime', AstralAnalytics.options.general.reportChannel)
+	ADDON:ReportList('missingFlask', AstralAnalytics.options.general.announceChannel)
+	ADDON:ReportList('missingFood', AstralAnalytics.options.general.announceChannel)
+	ADDON:ReportList('missingRune', AstralAnalytics.options.general.announceChannel)
+	ADDON:ReportList('missingInt', AstralAnalytics.options.general.announceChannel)
+	ADDON:ReportList('missingFort', AstralAnalytics.options.general.announceChannel)
+	ADDON:ReportList('missingShout', AstralAnalytics.options.general.announceChannel)
+	ADDON:ReportList('missingVantus', AstralAnalytics.options.general.announceChannel)
+	ADDON:ReportList('lowFlaskTime', AstralAnalytics.options.general.announceChannel)
 end)
 
 function ADDON:CreateMainWindow()
@@ -439,7 +439,7 @@ subMenu:SetBackdropColor(75/255, 75/255, 75/255)
 
 function subMenu:UpdateChannels()
 	for i = 1, 6 do
-		if self.dtbl[i].channel == AstralAnalytics.options.general.reportChannel then
+		if self.dtbl[i].channel == AstralAnalytics.options.general.announceChannel then
 			self.dtbl[i].texture:Show()
 		else
 			self.dtbl[i].texture:Hide()
@@ -450,7 +450,7 @@ end
 for i = 1, 6 do
 	local btn = CreateFrame('BUTTON', nil, aa_dropdown_sub)
 	btn.category = 'general'
-	btn.option = 'reportChannel'
+	btn.option = 'announceChannel'
 	btn.channel = ''
 	btn:SetSize(140, 20)
 	btn:SetBackdrop(BACKDROP2)
@@ -488,7 +488,7 @@ subMenuGroups:SetBackdropColor(75/255, 75/255, 75/255)
 
 function subMenuGroups:UpdateGroups()
 	for i = 1, 8 do
-		if AstralAnalytics.options.group[i] then
+		if AstralAnalytics.options.group[i].isEnabled then
 			self.dtbl[i].texture:Show()
 		else
 			self.dtbl[i].texture:Hide()
@@ -516,7 +516,7 @@ for i = 1, 8 do
 	btn.texture:Hide()
 
 	btn:SetScript('OnClick', function(self)
-		AstralAnalytics.options[self.category][self.option] = not AstralAnalytics.options[self.category][self.option]
+		AstralAnalytics.options[self.category][self.option].isEnabled = not AstralAnalytics.options[self.category][self.option].isEnabled
 		self:GetParent():UpdateGroups()
 		ADDON:InitializeTableMembers()
 		end)
@@ -545,17 +545,17 @@ function DropDownMenuMixin:NewObject(entry, category)
 	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
 	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\check.tga')
 	
-	if entry.option ~= 'reportChannel' and entry.option ~= 'group' then
+	if entry.option ~= 'announceChannel' and entry.option ~= 'group' then
 		if entry.value then
 			btn.texture:Show()
 		else
 			btn.texture:Hide()
 		end
 		btn:SetScript('OnClick', function(self)
-			AstralAnalytics.options[self.category][self.option] = not AstralAnalytics.options[self.category][self.option]
-			self.texture:SetShown(AstralAnalytics.options[self.category][self.option])
+			AstralAnalytics.options[self.category][self.option].isEnabled = not AstralAnalytics.options[self.category][self.option].isEnabled
+			self.texture:SetShown(AstralAnalytics.options[self.category][self.option].isEnabled)
 			end)
-	elseif entry.option == 'reportChannel' then
+	elseif entry.option == 'announceChannel' then
 		btn.texture:Hide()
 		btn.value = entry.value
 		btn:SetScript('OnClick', function(self)

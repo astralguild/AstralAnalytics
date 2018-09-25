@@ -97,7 +97,7 @@ function ADDON:InitializeTableMembers()
 		local tempUnit
 		for k, unit in ipairs(self.units) do
 			if unit.guid == GUID then
-				if AstralAnalytics.options.group[subgroup] then
+				if AstralAnalytics.options.group[subgroup].isEnabled then
 					tempUnit = unit
 				else
 					table.remove(self.units, k)
@@ -114,7 +114,7 @@ function ADDON:InitializeTableMembers()
 			end
 			tempUnit.subgroup = subgroup
 		else
-			if AstralAnalytics.options.group[subgroup] then
+			if AstralAnalytics.options.group[subgroup].isEnabled then
 				GUIDsInGroup[GUID] = true
 				table.insert(self.units, {unitID = unitID, guid = GUID, name = UnitName(unitID), class = select(2, UnitClass(unitID)), subgroup = subgroup, buff = {}})
 			end
@@ -228,14 +228,14 @@ function ADDON:CheckForBuffs(sendReport)
 		end
 	end
 	if sendReport then
-		self:ReportList('missingFlask', AstralAnalytics.options.general.reportChannel)
-		self:ReportList('missingFood', AstralAnalytics.options.general.reportChannel)
-		self:ReportList('missingRune', AstralAnalytics.options.general.reportChannel)
-		self:ReportList('missingInt', AstralAnalytics.options.general.reportChannel)
-		self:ReportList('missingFort', AstralAnalytics.options.general.reportChannel)
-		self:ReportList('missingShout', AstralAnalytics.options.general.reportChannel)
-		self:ReportList('missingVantus', AstralAnalytics.options.general.reportChannel)
-		self:ReportList('lowFlaskTime', AstralAnalytics.options.general.reportChannel)
+		self:ReportList('missingFlask', AstralAnalytics.options.general.announceChannel)
+		self:ReportList('missingFood', AstralAnalytics.options.general.announceChannel)
+		self:ReportList('missingRune', AstralAnalytics.options.general.announceChannel)
+		self:ReportList('missingInt', AstralAnalytics.options.general.announceChannel)
+		self:ReportList('missingFort', AstralAnalytics.options.general.announceChannel)
+		self:ReportList('missingShout', AstralAnalytics.options.general.announceChannel)
+		self:ReportList('missingVantus', AstralAnalytics.options.general.announceChannel)
+		self:ReportList('lowFlaskTime', AstralAnalytics.options.general.announceChannel)
 	end
 end
 
@@ -370,7 +370,7 @@ end
 
 function ADDON:OnReadyCheck()
 	local self = ADDON;
-	self:CheckForBuffs(AstralAnalytics.options.general.autoReport)
+	self:CheckForBuffs(AstralAnalytics.options.general.autoAnnounce)
 	self:SortUnits()
 	self:UpdateFrameRows()
 	AAFrame:SetShown(true)
