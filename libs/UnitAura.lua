@@ -193,9 +193,9 @@ function ADDON:CheckForBuffs(sendReport)
 			if not name then break end
 
 			if self.BUFFS.FLASKS[spellId] then
-				local timeLeft = expirationTime - GetTime()			
+				local timeLeft = expirationTime - GetTime()
 				unit.buff[4] = {spellId, icon, timeLeft} -- FLask
-				unit.numMissing = unit.numMissing - 1		
+				unit.numMissing = unit.numMissing - 1
 				self:HasBuff(unit.guid, self.buffs.missingFlask)
 				if timeLeft <= 900 then
 					table.insert(self.buffs.lowFlaskTime, unit)
@@ -216,11 +216,11 @@ function ADDON:CheckForBuffs(sendReport)
 				self:HasBuff(unit.guid, self.buffs.missingFood)
 			elseif self.BUFFS.CLASS_BUFFS[spellId] then
 				self:HasBuff(unit.guid, self.buffs[self.BUFFS.CLASS_BUFFS[spellId]])
-				if spellId == 1459 then -- Arance Intellect
+				if spellId == 1459 or spellId == 264760 then -- Arance Intellect
 					unit.buff[6] = {spellId, icon}
-				elseif spellId == 21562 then -- Fortitude
+				elseif spellId == 21562 or spellId == 264764 then -- Fortitude
 					unit.buff[7] = {spellId, icon}
-				elseif spellId == 6673 then -- Battle Shout
+				elseif spellId == 6673 or spellId == 264761 then -- Battle Shout
 					unit.buff[5] = {spellId, icon}
 				end
 				unit.numMissing = unit.numMissing - 1
@@ -272,9 +272,9 @@ function ADDON:UpdateUnitBuff(guid)
 		if not name then break end
 
 		if self.BUFFS.FLASKS[spellId] then
-			local timeLeft = expirationTime - GetTime()			
+			local timeLeft = expirationTime - GetTime()
 			unit.buff[4] = {spellId, icon, timeLeft} -- FLask
-			unit.numMissing = unit.numMissing - 1		
+			unit.numMissing = unit.numMissing - 1
 			self:HasBuff(unit.guid, self.buffs.missingFlask)
 			if timeLeft <= 900 then
 				table.insert(self.buffs.lowFlaskTime, unit)
@@ -295,12 +295,12 @@ function ADDON:UpdateUnitBuff(guid)
 			self:HasBuff(unit.guid, self.buffs.missingFood)
 		elseif self.BUFFS.CLASS_BUFFS[spellId] then
 			self:HasBuff(unit.guid, self.buffs[self.BUFFS.CLASS_BUFFS[spellId]])
-			if spellId == 1459 then -- Arance Intellect
+			if spellId == 1459 or spellId == 264760 then -- Arance Intellect
 				unit.buff[6] = {spellId, icon}
-			elseif spellId == 21562 then -- Fortitude
-					unit.buff[7] = {spellId, icon}
-			elseif spellId == 6673 then -- Battle Shout
-						unit.buff[5] = {spellId, icon}
+			elseif spellId == 21562 or spellId == 264764 then -- Fortitude
+				unit.buff[7] = {spellId, icon}
+			elseif spellId == 6673 or spellId == 264761 then -- Battle Shout
+				unit.buff[5] = {spellId, icon}
 			end
 			unit.numMissing = unit.numMissing - 1
 		end

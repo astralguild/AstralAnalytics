@@ -153,7 +153,7 @@ COMBAT_FUNCS['SPELL_INTERRUPT'] = function(timeStamp, subEvent, hideCaster, sour
 	if AstralAnalytics.options.combatEvents.interrupts then 	
 		local destIcon = GetRaidTargetString(destRaidFlags)
 		local sourceIcon = GetRaidTargetString(sourceRaidFlags)
-		AstralSendMessage(strformat(CONSOLE_INTERRUPT_TEXT, WrapNameInColorAndIcons(sourceName, nil, 'nil', sourceRaidFlags), WrapNameInColorAndIcons(destName, nil, ADDON.COLOURS.TARGET, destRaidFlags), spellLink), 'console')
+		AstralSendMessage(strformat(CONSOLE_INTERRUPT_TEXT, WrapNameInColorAndIcons(sourceName, nil, nil, sourceRaidFlags), WrapNameInColorAndIcons(destName, nil, ADDON.COLOURS.TARGET, destRaidFlags), spellLink), 'console')
 	end
 	if AstralAnalytics.options.combatEvents.selfInterrupt and sourceFlags == 1297 and IsInGroup() then -- Flag for self
 		local raidIndex = bband(destRaidFlags, COMBATLOG_OBJECT_RAIDTARGET_MASK)
