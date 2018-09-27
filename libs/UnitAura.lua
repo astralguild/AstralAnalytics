@@ -311,7 +311,7 @@ function ADDON:ReportList(list, msgChannel)
 	local msgChannel = msgChannel or 'SMART'
 	local string
 
-	if not AstralAnalytics.options.reportLists[list] then return end
+	if not AstralAnalytics.options.reportLists[list].isEnabled then return end
 
 	if #self.buffs[list] > 0 then
 		if msgChannel == 'console' then
@@ -370,7 +370,7 @@ end
 
 function ADDON:OnReadyCheck()
 	local self = ADDON;
-	self:CheckForBuffs(AstralAnalytics.options.general.autoAnnounce)
+	self:CheckForBuffs(AstralAnalytics.options.general.autoAnnounce.isEnabled)
 	self:SortUnits()
 	self:UpdateFrameRows()
 	AAFrame:SetShown(true)

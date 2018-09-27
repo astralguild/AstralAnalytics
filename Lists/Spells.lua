@@ -85,7 +85,7 @@ function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString)
 		if w:find('Name') then
 			local flagText = w:sub(1, w:find('Name')- 1) .. 'RaidFlags'
 			local colourText = w:find('dest') and ADDON.COLOURS.TARGET or 'nil'
-			return [[WrapNameInColorAndIcons(]] .. w .. [[, nil, (bit.band(COMBATLOG_OBJECT_AFFILIATION_MASK, destFlags) < 5 and nil or ]] .. colourText .. [[), ]] .. flagText .. [[)]]
+			return [[WrapNameInColorAndIcons(]] .. w .. [[, (bit.band(COMBATLOG_OBJECT_AFFILIATION_MASK, destFlags) < 5 and nil or ]] .. colourText .. [[), ]] .. flagText .. [[)]]
 		else
 			return w
 		end

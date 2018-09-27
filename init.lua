@@ -38,9 +38,9 @@ function AstralSendMessage(msg, channel)
 	end
 end
 
-function WrapNameInColorAndIcons(unit, class, hexColor, raidFlags)
-	if not unit or type(unit) ~= 'string' then
-		error('unit expected, got ' .. type(unit) ', ' .. tostring(unit))
+function WrapNameInColorAndIcons(unitName, hexColor, raidFlags)
+	if not unitName or type(unitName) ~= 'string' then
+		error('unitName expected, got ' .. type(unitName) ', ' .. tostring(unitName))
 	end
 
 	local bitRaid, raidIndex
@@ -56,23 +56,23 @@ function WrapNameInColorAndIcons(unit, class, hexColor, raidFlags)
 	end
 
 	local class 
-	if not unit:find('<') then
-		class = class or select(2, UnitClass(unit))
+	if not unitName:find('<') then -- Pet unit, use owner's class color
+		class = class or select(2, UnitClass(unitName))
 	else
-		class = select(2, UnitClass(unit:match('<(.+)>')))
+		class = select(2, UnitClass(unitName:match('<(.+)>')))
 	end
-	local nameColor = hexColor or select(4, GetClassColor(class)) -- Hex color code
-	if not nameColor then
+	local nameColor = hexColor or select(4, GetClassColor(class)) -- class hex color code
+	if not nameColor or nameColor == 'nil' then
 		if AstralAnalytics.options.general.raidIcons and icon ~= '' then
-			return strformat('%s %s %s', icon, unit, icon)
+			return strformat('%s %s %s', icon, unitName, icon)
 		else
-			return unit
+			return unitName
 		end
 	else
 		if AstralAnalytics.options.general.raidIcons and icon ~= '' then
-			return strformat('%s %s %s', icon, WrapTextInColorCode(unit, nameColor), icon)
+			return strformat('%s %s %s', icon, WrapTextInColorCode(unitName, nameColor), icon)
 		else
-			return WrapTextInColorCode(unit, nameColor)
+			return WrapTextInColorCode(unitName, nameColor)
 		end
 	end
 end
