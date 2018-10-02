@@ -48,7 +48,8 @@ ADDON.BUFFS.CLASS_BUFFS[264761] = 'missingShout' -- War-Scroll of Battle Shout
 
 -- Food Buffs
 ADDON.BUFFS.FOOD = {}
-ADDON.BUFFS.FOOD[257410] = true -- Crit food, 70 Rating
+ADDON.BUFFS.FOOD[257428] = true -- Tier 2 Food Eat & Drink Buff
+ADDON.BUFFS.FOOD[257427] = true -- Tier 1 Food Eat & Drink Buff
 
 -- Flasks
 ADDON.BUFFS.FLASKS = {}

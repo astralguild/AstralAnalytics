@@ -33,6 +33,7 @@ LIST_NAMES['missingFlask'] = 'Missing Flask'
 LIST_NAMES['missingFood'] = 'Missing Food'
 LIST_NAMES['missingRune'] = 'Missing Augment Rune'
 LIST_NAMES['missingVantus'] = 'Missing Vantus Rune'
+LIST_NAMES['lowFlaskTime'] = 'Low Flask'
 
 local function GroupMembers(reversed, forceParty)
     local unit  = (not forceParty and IsInRaid()) and 'raid' or 'party'
@@ -373,7 +374,7 @@ function ADDON:OnReadyCheck()
 	self:CheckForBuffs(AstralAnalytics.options.general.autoAnnounce.isEnabled)
 	self:SortUnits()
 	self:UpdateFrameRows()
-	AAFrame:SetShown(true)
+	AAFrame:Show()
 end
 
 AAEvents:Register('READY_CHECK', ADDON.OnReadyCheck, 'ADDON_OnReadyCheck')

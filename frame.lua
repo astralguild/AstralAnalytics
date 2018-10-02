@@ -315,7 +315,6 @@ local AAFrameTitle = AAFrame:CreateFontString('$parentTitle', 'ARTWORK', 'Astral
 AAFrameTitle:SetPoint('TOPLEFT', AAFrame, 'TOPLEFT', 8, -8)
 AAFrameTitle:SetText('Astral Analytics')
 
-
 -- Header Buttons
 local closeButton = CreateFrame('BUTTON', nil, AAFrame)
 closeButton:SetSize(15, 15)
@@ -528,16 +527,30 @@ end
 
 local DropDownMenuMixin = {}
 
+local btnWidth = 190
 function DropDownMenuMixin:NewObject(entry, category)
 	local btn = CreateFrame('BUTTON', nil, self)
 	btn.category = category
 	btn.option = entry.option
-	btn:SetSize(190, 20)
+	btn:SetSize(btnWidth, 20)
 	btn:SetBackdrop(BACKDROP2)
 	btn:SetBackdropBorderColor(0, 0, 0, 0)
 	btn:SetBackdropColor(75/255, 75/255, 75/255)
 	btn:SetNormalFontObject(a.FONT.OBJECT.LEFT)
 	btn:SetText(entry.label)
+	
+	local fontString = btn:GetFontString()
+	fontString:SetPoint('LEFT', btn, 'LEFT', 5, 0)
+	local textWidth = fontString:GetStringWidth()
+	if textWidth > (btnWidth - 24) then -- 10 for padding, 14 for check texture
+		btnWidth = textWidth + 24
+		btn:GetParent():SetWidth(textWidth + 29)
+		btn:SetWidth(btnWidth)
+		local btns = btn:GetParent().dtbl
+		for i = 1, #btns do
+			btns[i]:SetWidth(btnWidth)
+		end
+	end
 	btn:GetFontString():SetPoint('LEFT', btn, 'LEFT', 5, 0)
 
 	btn.texture = btn:CreateTexture()
@@ -561,6 +574,9 @@ function DropDownMenuMixin:NewObject(entry, category)
 		btn:SetScript('OnClick', function(self)
 			aa_dropdown_sub:SetPoint('LEFT', self, 'RIGHT', 10, 0)
 			aa_dropdown_sub:SetShown(not aa_dropdown_sub:IsShown())
+			if aa_dropdown_sub:IsShown() then
+				aa_dropdown_subGroups:Hide()
+			end
 
 		end)
 	elseif entry.option == 'group' then
@@ -569,7 +585,9 @@ function DropDownMenuMixin:NewObject(entry, category)
 		btn:SetScript('OnClick', function(self)
 			aa_dropdown_subGroups:SetPoint('LEFT', self, 'RIGHT', 10, 0)
 			aa_dropdown_subGroups:SetShown(not aa_dropdown_subGroups:IsShown())
-
+			if aa_dropdown_subGroups:IsShown() then
+				aa_dropdown_sub:Hide()
+			end
 		end)
 	end
 
@@ -587,7 +605,7 @@ function DropDownMenuMixin:AddEntry(entry, category)
 			self:GetParent():Update()
 			abr_dropdownMenu:Hide() end)
 	end
-	dtbl[#dtbl]:SetPoint('TOPLEFT', self, 'TOPLEFT', 5, -20*(#dtbl - 1) - 5)
+	dtbl[#dtbl]:SetPoint('TOPLEFT', self, 'TOPLEFT', 0, -20*(#dtbl - 1) - 5)
 end
 
 MixIn(aa_dropdown, DropDownMenuMixin)

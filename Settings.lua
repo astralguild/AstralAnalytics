@@ -132,6 +132,11 @@ local function LoadDefaultSettings(addon)
 		reportChannel = 'console',
 		isEnabled = true,
 		})
+	ADDON:AddDefaultSettings('combatEvents', 'missedInterrupts', 
+		{
+		reportChannel = 'console',
+		isEnabled = true,
+		})
 	ADDON:AddDefaultSettings('combatEvents', 'selfInterrupt', 
 		{
 		reportChannel = 'console',
@@ -182,16 +187,12 @@ local function LoadDefaultSettings(addon)
 		reportChannel = 'console',
 		isEnabled = true,
 		})
-	ADDON:AddDefaultSettings('combatEvents', 'missedInterrupts', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
 
 	ADDON:AddOptionCategory('Combat Events')
 	ADDON:AddOption('Combat Events', 'Announce taunts', 'taunt', AstralAnalytics.options.combatEvents.taunt.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce interrupts', 'interrupts', AstralAnalytics.options.combatEvents.interrupts.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce own interrupts', 'selfInterrupt', AstralAnalytics.options.combatEvents.selfInterrupt.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce missed interrupts', 'missedInterrupts', AstralAnalytics.options.combatEvents.missedInterrupts.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce combat ressurection', 'battleRes', AstralAnalytics.options.combatEvents.battleRes.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce CC casts', 'crowd', AstralAnalytics.options.combatEvents.crowd.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce CC breaks', 'cc_removed', AstralAnalytics.options.combatEvents.cc_break.isEnabled)
@@ -202,7 +203,7 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddOption('Combat Events', 'Announce Heroism casts', 'heroism', AstralAnalytics.options.combatEvents.heroism.isEnabled)
 
 	ADDON:AddOptionCategory('General')
-	ADDON:AddOption('General', 'Enable Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons.isEnabled)
+	ADDON:AddOption('General', 'Wrap Names in Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons.isEnabled)
 	ADDON:AddOption('General', 'Announce to Channel', 'announceChannel', AstralAnalytics.options.general.reportChannel)
 	ADDON:AddOption('General', 'Announce on ready check', 'autoAnnounce', AstralAnalytics.options.general.autoAnnounce.isEnabled)
 	ADDON:AddOption('General', 'Sub groups', 'group', AstralAnalytics.options.general.group)
@@ -215,6 +216,7 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddOption('Buffs to report', 'Announce Flask', 'missingFlask', AstralAnalytics.options.reportLists.missingFlask.isEnabled)
 	ADDON:AddOption('Buffs to report', 'Announce Augment Rune', 'missingRune', AstralAnalytics.options.reportLists.missingRune.isEnabled)
 	ADDON:AddOption('Buffs to report', 'Announce Vantus Rune', 'missingVantus', AstralAnalytics.options.reportLists.missingVantus.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Low Flask Time', 'lowFlaskTime', AstralAnalytics.options.reportLists.lowFlaskTime.isEnabled)
 
 	for category, entries in pairs(ADDON.OPTIONS) do
 		local cat
