@@ -240,7 +240,7 @@ local function LoadDefaultSettings(addon)
 	aa_dropdown_sub.dtbl[3]:SetText('Raid')
 	aa_dropdown_sub.dtbl[3].channel = 'RAID'
 	aa_dropdown_sub.dtbl[4]:SetText('Smart')
-	aa_dropdown_sub.dtbl[4].channel = 'smart'
+	aa_dropdown_sub.dtbl[4].channel = 'SMART'
 	aa_dropdown_sub.dtbl[5]:SetText('Officer')
 	aa_dropdown_sub.dtbl[5].channel = 'OFFICER'
 	aa_dropdown_sub.dtbl[6]:SetText('Personal')

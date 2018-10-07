@@ -2,6 +2,10 @@ local ADDON_NAME, ADDON = ...
 local bband, strformat, mfloor = bit.band, string.format, math.floor
 
 local TOTAL_BUFFS = 7 -- Total number of buffs being tracked
+local MIN_FOOD_VALUE = 70
+local LOW_FLASK_TIME = 900 -- Time, in seconds, for minimum flask duration before reporting their time is low.
+
+Units_Missing_Food = {} -- Used to store unitIDs of people missing keys. Is updated via UNIT_AURA event.
 
 local UNIT_BUFF_FIELDS = {}
 UNIT_BUFF_FIELDS['name'] = 1
@@ -77,6 +81,7 @@ function ADDON:WipeTables()
 	wipe(self.buffs.missingRune)
 	wipe(self.buffs.missingVantus)
 	wipe(self.buffs.lowFlaskTime)
+	wipe(Units_Missing_Food)
 end
 
 local GUIDsInGroup = {}
@@ -150,6 +155,7 @@ function ADDON:PopulateMissingTables()
 		table.insert(self.buffs.missingFood, unit)
 		table.insert(self.buffs.missingRune, unit)
 		table.insert(self.buffs.missingVantus, unit)
+		Units_Missing_Food[unit.unitID] = true
 	end
 end
 
@@ -182,7 +188,7 @@ function ADDON:CheckForBuffs(sendReport)
 	local self = ADDON;
 	self:WipeTables()
 	self:PopulateMissingTables()
-	local name, icon, _, _, duration, expirationTime, _, _, _, spellId, _, _, _, _, _, amount
+	local name, icon, duration, expirationTime, spellId, amount
 
 	-- Check for buffs now
 	for _, unit in pairs(self.units) do
@@ -198,7 +204,7 @@ function ADDON:CheckForBuffs(sendReport)
 				unit.buff[4] = {spellId, icon, timeLeft} -- FLask
 				unit.numMissing = unit.numMissing - 1
 				self:HasBuff(unit.guid, self.buffs.missingFlask)
-				if timeLeft <= 900 then
+				if timeLeft <= LOW_FLASK_TIME then
 					table.insert(self.buffs.lowFlaskTime, unit)
 				end
 			-- Check of Augment Rune
@@ -211,10 +217,17 @@ function ADDON:CheckForBuffs(sendReport)
 				unit.buff[1] = {spellId, icon} -- Vantus Rune
 				unit.numMissing = unit.numMissing - 1
 				self:HasBuff(unit.guid, self.buffs.missingVantus)
-			elseif name == 'Well Fed' and amount and amount >= 70 then
+			elseif name == 'Well Fed' and amount and amount >= MIN_FOOD_VALUE then
 				unit.buff[3] = {spellId, icon} -- Well Fed
 				unit.numMissing = unit.numMissing - 1
 				self:HasBuff(unit.guid, self.buffs.missingFood)
+			elseif name == 'Food & Drink' then
+				if not unit.buff[3] or (unit.buff[3] and unit.buff[3][2] ~= 136000) then
+					unit.buff[3] = {spellId, icon}
+					if Units_Missing_Food[unit.unitID] then
+						Units_Missing_Food[unit.unitID] = nil
+					end
+				end
 			elseif self.BUFFS.CLASS_BUFFS[spellId] then
 				self:HasBuff(unit.guid, self.buffs[self.BUFFS.CLASS_BUFFS[spellId]])
 				if spellId == 1459 or spellId == 264760 then -- Arance Intellect
@@ -226,6 +239,10 @@ function ADDON:CheckForBuffs(sendReport)
 				end
 				unit.numMissing = unit.numMissing - 1
 			end
+		end
+
+		if not unit.buff[3] or (unit.buff[3] and unit.buff[3][2] ~= 136000) then
+			Units_Missing_Food[unit.unitID] = true
 		end
 	end
 	if sendReport then
@@ -265,9 +282,9 @@ function ADDON:UpdateUnitBuff(guid)
 		end
 	end
 
-	unit.buff = {}
+	wipe(unit.buff)
 	unit.numMissing = TOTAL_BUFFS
-	local name, icon, _, _, duration, expirationTime, _, _, _, spellId, _, _, _, _, _, amount
+	local name, icon, duration, expirationTime, spellId, amount
 	for i = 1, 40 do
 		name, icon, _, _, duration, expirationTime, _, _, _, spellId, _, _, _, _, _, amount = UnitBuff(unit.unitID, i)
 		if not name then break end
@@ -277,7 +294,7 @@ function ADDON:UpdateUnitBuff(guid)
 			unit.buff[4] = {spellId, icon, timeLeft} -- FLask
 			unit.numMissing = unit.numMissing - 1
 			self:HasBuff(unit.guid, self.buffs.missingFlask)
-			if timeLeft <= 900 then
+			if timeLeft <= LOW_FLASK_TIME then
 				table.insert(self.buffs.lowFlaskTime, unit)
 			end
 		-- Check of Augment Rune
@@ -290,10 +307,17 @@ function ADDON:UpdateUnitBuff(guid)
 			unit.buff[1] = {spellId, icon} -- Vantus Rune
 			unit.numMissing = unit.numMissing - 1
 			self:HasBuff(unit.guid, self.buffs.missingVantus)
-		elseif name == 'Well Fed' and amount and amount >= 70 then
+		elseif name == 'Well Fed' and amount and amount >= MIN_FOOD_VALUE then
 			unit.buff[3] = {spellId, icon} -- Well Fed
 			unit.numMissing = unit.numMissing - 1
 			self:HasBuff(unit.guid, self.buffs.missingFood)
+		elseif name == 'Food & Drink' then
+			if not unit.buff[3] or (unit.buff[3] and unit.buff[3][2] ~= 136000) then
+				unit.buff[3] = {spellId, icon}
+				if Units_Missing_Food[unit.unitID] then
+					Units_Missing_Food[unit.unitID] = nil
+				end
+			end
 		elseif self.BUFFS.CLASS_BUFFS[spellId] then
 			self:HasBuff(unit.guid, self.buffs[self.BUFFS.CLASS_BUFFS[spellId]])
 			if spellId == 1459 or spellId == 264760 then -- Arance Intellect
@@ -306,7 +330,25 @@ function ADDON:UpdateUnitBuff(guid)
 			unit.numMissing = unit.numMissing - 1
 		end
 	end
+	if not unit.buff[3] or (unit.buff[3] and unit.buff[3][2] ~= 136000) then
+		Units_Missing_Food[unit.unitID] = true
+	end
 end
+
+local function UpdateUnitAura(unitID)
+	if not Units_Missing_Food[unitID] then return end
+
+	for _, unit in pairs(ADDON.units) do
+		if unit.unitID == unitID then
+			ADDON:UpdateUnitBuff(unit.guid)
+			ADDON:SortUnits()
+			ADDON:UpdateFrameRows()
+			break
+		end
+	end
+end
+
+AAEvents:Register('UNIT_AURA', UpdateUnitAura, 'UpdateUnitAura')
 
 function ADDON:ReportList(list, msgChannel)
 	local msgChannel = msgChannel or 'SMART'

@@ -84,8 +84,13 @@ function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString)
 	ls = ls:gsub('(%w+)', function(w)
 		if w:find('Name') then
 			local flagText = w:sub(1, w:find('Name')- 1) .. 'RaidFlags'
-			local colourText = w:find('dest') and ADDON.COLOURS.TARGET or 'nil'
-			return [[WrapNameInColorAndIcons(]] .. w .. [[, (bit.band(COMBATLOG_OBJECT_AFFILIATION_MASK, destFlags) < 5 and nil or ]] .. colourText .. [[), ]] .. flagText .. [[)]]
+			if w:find('dest') then
+				return [[WrapNameInColorAndIcons(]] .. w .. [[, destFlags, ]] .. flagText .. [[)]]
+			else
+				return [[WrapNameInColorAndIcons(]] .. w .. [[, nil, ]] .. flagText .. [[)]]
+			end
+			--local colourText = w:find('dest') and ADDON.COLOURS.TARGET or 'nil'
+			--return [[WrapNameInColorAndIcons(]] .. w .. [[, destFlags, ]] .. flagText .. [[)]]
 		else
 			return w
 		end
@@ -95,8 +100,6 @@ function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString)
 	local codeString = [[
 	if not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['] then return end
 	local sourceName, sourceRaidFlags, spell, destName, destFlags, destRaidFlags = ...
-	sourceName = sourceName or 'Unknown'
-	destName = destName or 'Unknown'
 	AstralSendMessage(string.format(']] .. fstring .. [[' ]] .. ls .. [[), 'console')]]
 
 	local func, cerr = loadstring(codeString)
@@ -168,41 +171,42 @@ ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 56222, 'taunt', '<sourceName> tau
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 2649, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Growl, Hunter Pet
 
 -- Crowd Controls
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 6770, 'crowd', '<sourceName> cast <spell> on <destName>') -- Sap, Rogue
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 2094, 'crowd', '<sourceName> cast <spell> on <destName>') -- Blind, Rogue
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 118, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 28272, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 28271, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 61780, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 61305, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 161372, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 61721, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 161354, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 126819, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 277792, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 277787, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 161353, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 161355, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 20066, 'crowd', '<sourceName> cast <spell> on <destName>') -- Repentance, Paladin
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 5782, 'crowd', '<sourceName> cast <spell> on <destName>') -- Fear, Warlock
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 6358, 'crowd', '<sourceName> cast <spell> on <destName>') -- Seduction, Warlock
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 115268, 'crowd', '<sourceName> cast <spell> on <destName>') -- Mesmerize, Warlock
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 710, 'crowd', '<sourceName> cast <spell> on <destName>') -- Banish, Warlock
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 115078, 'crowd', '<sourceName> cast <spell> on <destName>') -- Paralysis, Monk
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 217832, 'crowd', '<sourceName> cast <spell> on <destName>') -- Imprison, Demon Hunter
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 339, 'crowd', '<sourceName> cast <spell> on <destName>') -- Entangling Roots, Druid
+--[[
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6770, 'crowd', '<sourceName> cast <spell> on <destName>') -- Sap, Rogue
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 2094, 'crowd', '<sourceName> cast <spell> on <destName>') -- Blind, Rogue
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 118, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 28272, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 28271, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 61780, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 61305, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161372, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 61721, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161354, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 126819, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277792, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277787, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161353, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161355, 'crowd', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 20066, 'crowd', '<sourceName> cast <spell> on <destName>') -- Repentance, Paladin
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 5782, 'crowd', '<sourceName> cast <spell> on <destName>') -- Fear, Warlock
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6358, 'crowd', '<sourceName> cast <spell> on <destName>') -- Seduction, Warlock
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 115268, 'crowd', '<sourceName> cast <spell> on <destName>') -- Mesmerize, Warlock
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 710, 'crowd', '<sourceName> cast <spell> on <destName>') -- Banish, Warlock
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 115078, 'crowd', '<sourceName> cast <spell> on <destName>') -- Paralysis, Monk
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 217832, 'crowd', '<sourceName> cast <spell> on <destName>') -- Imprison, Demon Hunter
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 339, 'crowd', '<sourceName> cast <spell> on <destName>') -- Entangling Roots, Druid
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 132469, 'crowd', '<sourceName> cast <spell> on <destName>') -- Typhoon, Druid
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 9485, 'crowd', '<sourceName> cast <spell> on <destName>') -- Shackle Undead, Priest
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 51514, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 210875, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 211004, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 211010, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 211015, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 269352, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 277778, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 277784, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 9485, 'crowd', '<sourceName> cast <spell> on <destName>') -- Shackle Undead, Priest
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 51514, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 210875, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 211004, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 211010, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 211015, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 269352, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277778, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277784, 'crowd', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
 ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 3355, 'crowd', '<sourceName> cast <spell> on <destName>') -- Freezing Trap, Hunter
-
+]]
 -- Targeted Utility Spells
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 29166, 'utilityT', '<sourceName> cast <spell> on <destName>') -- Innervate, Druid
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 34477, 'utilityT', '<sourceName> cast <spell> on <destName>') -- Misdirect, Hunter

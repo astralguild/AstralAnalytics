@@ -2,7 +2,7 @@
 ## Title: Astral Analytics
 ## Notes: Raid analytic tool
 ## Author: Phrike
-## Version: 15
+## Version: 16
 ## RequiredDeps: AstralKeys
 ## SavedVariables: AstralAnalytics
 
@@ -20,6 +20,7 @@ libs\UnitAura.lua
 libs\SpellTracking.lua
 
 Modules\CombatParsing.lua
+Modules\CrowdControl.lua
 
 fonts.xml
 MinimapButton.lua

@@ -24,11 +24,11 @@ local mult
 
 function AstralSendMessage(msg, channel)
 	if not msg or type(msg) ~= 'string' then
-		error('ADDON:SendMessage(msg, channel) msg expected, got ' .. type(msg))
+		error('AstralSendMessage(msg, channel) msg expected, got ' .. type(msg))
 	end
 
 	local channel = channel or AstralAnalytics.options.general.reportChannel
-	if channel == 'smart' then
+	if channel == 'SMART' then
 		channel= IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and 'INSTANCE_CHAT' or IsInRaid() and 'RAID' or 'PARTY'
 	end
 	if channel == 'console' then
@@ -38,7 +38,7 @@ function AstralSendMessage(msg, channel)
 	end
 end
 
-function WrapNameInColorAndIcons(unitName, hexColor, raidFlags)
+function WrapNameInColorAndIcons(unitName, unitFlags, raidFlags)
 	if not unitName or type(unitName) ~= 'string' then
 		error('unitName expected, got ' .. type(unitName) ', ' .. tostring(unitName))
 	end
@@ -61,16 +61,24 @@ function WrapNameInColorAndIcons(unitName, hexColor, raidFlags)
 	else
 		class = select(2, UnitClass(unitName:match('<(.+)>')))
 	end
-	local nameColor = hexColor or select(4, GetClassColor(class)) -- class hex color code
-	if not nameColor or nameColor == 'nil' then
+	local nameColor
+	if unitFlags then
+		if bit.band(COMBATLOG_OBJECT_AFFILIATION_MASK, unitFlags) > 4 then
+			nameColor = ADDON.COLOURS.TARGET
+		end
+	else
+		nameColor = select(4, GetClassColor(class)) 
+	end
+	 --= hexColor or select(4, GetClassColor(class)) -- class hex color code
+	if not nameColor then
 		if AstralAnalytics.options.general.raidIcons and icon ~= '' then
-			return strformat('%s %s %s', icon, unitName, icon)
+			return strformat('%s%s%s', icon, unitName, icon)
 		else
 			return unitName
 		end
 	else
 		if AstralAnalytics.options.general.raidIcons and icon ~= '' then
-			return strformat('%s %s %s', icon, WrapTextInColorCode(unitName, nameColor), icon)
+			return strformat('%s%s%s', icon, WrapTextInColorCode(unitName, nameColor), icon)
 		else
 			return WrapTextInColorCode(unitName, nameColor)
 		end
