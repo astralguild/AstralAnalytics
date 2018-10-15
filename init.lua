@@ -57,17 +57,15 @@ function WrapNameInColorAndIcons(unitName, unitFlags, raidFlags)
 
 	local class 
 	if not unitName:find('<') then -- Pet unit, use owner's class color
-		class = class or select(2, UnitClass(unitName))
+		class = select(2, UnitClass(unitName))
 	else
 		class = select(2, UnitClass(unitName:match('<(.+)>')))
 	end
 	local nameColor
-	if unitFlags then
-		if bit.band(COMBATLOG_OBJECT_AFFILIATION_MASK, unitFlags) > 4 then
-			nameColor = ADDON.COLOURS.TARGET
-		end
+	if unitFlags and bit.band(COMBATLOG_OBJECT_AFFILIATION_MASK, unitFlags) > 4 then
+		nameColor = ADDON.COLOURS.TARGET
 	else
-		nameColor = select(4, GetClassColor(class)) 
+		nameColor = select(4, GetClassColor(class))
 	end
 	 --= hexColor or select(4, GetClassColor(class)) -- class hex color code
 	if not nameColor then

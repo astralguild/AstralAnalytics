@@ -166,6 +166,7 @@ local function UpdateUnitName(unitID)
 	for _, unit in pairs(ADDON.units) do
 		if unit.unitID == unitID then
 			unit.name = UnitName(unitID)
+			unit.class = select(2, UnitClass(unitID))
 		end
 	end
 	ADDON:SortUnits()

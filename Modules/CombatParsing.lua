@@ -69,7 +69,6 @@ function ADDON:AddCombatFunction(subEvent, funcName, func)
 	if not COMBAT_FUNCS[subEvent] then
 		COMBAT_FUNCS[subEvent] = {}
 	end
-
 end
 
 local function GetRaidTargetString(targetFlags)
@@ -147,7 +146,7 @@ end
 COMBAT_FUNCS['SPELL_CAST_SUCCESS'] = function(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17)
 	if bband(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MASK) < 5 then
 		local spellLink = GetSpellLink(spellID)
-		if bband(sourceFlags, COMBATLOG_OBJECT_TYPE_MASK) == 4096 then
+		if bband(sourceFlags, COMBATLOG_OBJECT_TYPE_MASK) == 4096 then -- Unit is a friendly group member's pet
 			if not sourceName then return end
 			sourceName = sourceName .. ' <' .. ADDON:GetPetOwner(sourceName) .. '>'
 		end
@@ -179,10 +178,10 @@ COMBAT_FUNCS['SPELL_CAST_SUCCESS'] = function(timeStamp, subEvent, hideCaster, s
 		end
 	end
 end
+
 local CONSOLE_MSG_SPELL_DISPELL = '%s removed %s from %s with %s'
 COMBAT_FUNCS['SPELL_DISPEL'] = function(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17)
 	if not AstralAnalytics.options.combatEvents.dispell.isEnabled then return end
-	--tprint({timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17})
 	local dispellSpellLink = GetSpellLink(spellID)
 	local removedSpellLink = GetSpellLink(param15)
 	AstralSendMessage(strformat(CONSOLE_MSG_SPELL_DISPELL, WrapNameInColorAndIcons(sourceName, nil, sourceRaidFlags), removedSpellLink, WrapNameInColorAndIcons(destName, destFlags, destRaidFlags), dispellSpellLink), 'console')

@@ -2,7 +2,4 @@
 	<Font name="AstralFontNormal" inherits="GameFontNormal" justifyH="LEFT" virtual="true">
 		<Color r="1" g="1" b="1" a="1"/>
 	</Font>
-	<Font name="AstralFontHeader" inherits="GameFontNormal" justifyH="LEFT" virtual="true" height = '14'>
-		<Color r="1" g="1" b="1" a="1"/>
-	</Font>
 </Ui>

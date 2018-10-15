@@ -87,14 +87,13 @@ local function SetControlledUnitLastHit(guid, data)
 	ControlledUnits[guid] = data
 end
 
-local function CrowdControl_OnAuraApplied(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, param12, param13, param14, param15, param16, param17)
+local function CrowdControl_OnAuraApplied(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17)
 	if AstralAnalytics.options.combatEvents.crowd.isEnabled and ADDON:IsSpellInCategory(spellID, 'crowd') then
 		local spellLink = GetSpellLink(spellID)
 		ADDON:GetSubEventMethod(subEvent, spellID)(sourceName, sourceRaidFlags, spellLink, destName, destFlags, destRaidFlags)		
 		AddUnitToControlledList(destGUID)
 	end
 end
-
 
 local function CrowdControl_OnDamageEvent(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, param12, param13, param14, param15, param16, param17)
 	if not UnitIsControlled(destGUID) then return end
@@ -141,3 +140,4 @@ CombatEvents:RegisterSubEventMethod('SWING_DAMAGE', 'Crowd_OnDamageSwing', Crowd
 CombatEvents:RegisterSubEventMethod('SPELL_PERIODIC_DAMAGE', 'Crowd_OnDamageSwing', CrowdControl_OnDamageEvent)
 CombatEvents:RegisterSubEventMethod('SPELL_AURA_REMOVED', 'Crowd_AuraRemoved', CrowdControl_OnAuraRemovedEvent)
 CombatEvents:RegisterSubEventMethod('SPELL_AURA_REFRESH', 'Crowd_AuraRefreshed', CrowdControl_OnAuraRefresh)
+CombatEvents:RegisterSubEventMethod('SPELL_AURA_APPLIED', 'Crowd_AuraApplied', CrowdControl_OnAuraApplied)
