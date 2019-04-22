@@ -38,10 +38,6 @@ function ADDON:AddDefaultSettings(category, name, data)
 	end
 end
 
-function testSettings(category, name, data)
-	ADDON:AddDefaultSettings(category, name, data)
-end
-
 ADDON.OPTIONS = {}
 function ADDON:AddOptionCategory(category)
 	self.OPTIONS[category] = {}

@@ -163,6 +163,7 @@ COMBAT_FUNCS['SPELL_CAST_SUCCESS'] = function(timeStamp, subEvent, hideCaster, s
 						break
 					end
 				end
+				if not unit then return end -- No unit found, wtf Blizzard
 				local name, notInterruptible
 				name, _, _, _, _, _, _, notInterruptible = UnitCastingInfo(unit .. 'target')
 				if not name then

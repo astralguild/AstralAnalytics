@@ -14,7 +14,7 @@ function ADDON:AddBuffCategory(category)
 	ADDON.BUFFS[category] = {}
 end
 
-function ADDON:AddBuffToCategory(spellID, category, raidList)
+function ADDON:AddBuffToCategory(spellID, category, raidList, buffName)
 	if not spellID or type(spellID) ~= 'number' then
 		error('ADDON:AddBuffToCategory(spellID, category) spellID, number expected, recieved ' .. type(spellID))
 	end
@@ -65,6 +65,7 @@ ADDON.BUFFS.RUNES[270058] = true -- Battle-Scarred Augment Rune
 
 -- Vantus Runes
 ADDON.BUFFS.VANTUS = {}
+-- Uldir
 ADDON.BUFFS.VANTUS[269407] = true -- Uldir, Zekvoz
 ADDON.BUFFS.VANTUS[269276] = true -- Uldir, Taloc
 ADDON.BUFFS.VANTUS[269405] = true -- Uldir, MOTHER
@@ -73,3 +74,15 @@ ADDON.BUFFS.VANTUS[269409] = true -- Uldir, Vectis
 ADDON.BUFFS.VANTUS[269411] = true -- Uldir, Zul
 ADDON.BUFFS.VANTUS[269412] = true -- Uldir, Mythrax
 ADDON.BUFFS.VANTUS[269413] = true -- Uldir, G'huun
+-- 
+ADDON:AddBuffToCategory(285535, 'VANTUS', nil, 'Champion of the Light')
+ADDON:AddBuffToCategory(285539, 'VANTUS', nil, 'Conclave of the Chosen')
+ADDON:AddBuffToCategory(285536, 'VANTUS', nil, 'King Grong')
+ADDON:AddBuffToCategory(289194, 'VANTUS', nil, 'Grong the Revenant')
+ADDON:AddBuffToCategory(285541, 'VANTUS', nil, 'High Tinker Mekkatorque')
+ADDON:AddBuffToCategory(285537, 'VANTUS', nil, 'Jadefire Masters')
+ADDON:AddBuffToCategory(289196, 'VANTUS', nil, 'Jadefire Masters')
+ADDON:AddBuffToCategory(285540, 'VANTUS', nil, 'King Rastakhan')
+ADDON:AddBuffToCategory(285543, 'VANTUS', nil, 'Lady Jaina Proudmore')
+ADDON:AddBuffToCategory(285538, 'VANTUS', nil, 'Opulence')
+ADDON:AddBuffToCategory(285542, 'VANTUS', nil, 'Stormwall Blockade')
