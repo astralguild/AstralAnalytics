@@ -86,3 +86,7 @@ ADDON:AddBuffToCategory(285540, 'VANTUS', nil, 'King Rastakhan')
 ADDON:AddBuffToCategory(285543, 'VANTUS', nil, 'Lady Jaina Proudmore')
 ADDON:AddBuffToCategory(285538, 'VANTUS', nil, 'Opulence')
 ADDON:AddBuffToCategory(285542, 'VANTUS', nil, 'Stormwall Blockade')
+
+-- Crucible of Storms Vantus Runes
+ADDON:AddBuffToCategory(285900, 'VANTUS', nil, 'The Restless Cabal')
+ADDON:AddBuffToCategory(285901, 'VANTUS', nil, 'Uu\'nat, Harbinger of the Void')
