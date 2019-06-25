@@ -2,7 +2,7 @@ local ADDON_NAME, ADDON = ...
 local bband, strformat, mfloor = bit.band, string.format, math.floor
 
 local TOTAL_BUFFS = 7 -- Total number of buffs being tracked
-local MIN_FOOD_VALUE = 70
+local MIN_FOOD_VALUE = 90
 local LOW_FLASK_TIME = 900 -- Time, in seconds, for minimum flask duration before reporting their time is low.
 
 Units_Missing_Food = {} -- Used to store unitIDs of people missing keys. Is updated via UNIT_AURA event.
