@@ -90,3 +90,13 @@ ADDON:AddBuffToCategory(285542, 'VANTUS', nil, 'Stormwall Blockade')
 -- Crucible of Storms Vantus Runes
 ADDON:AddBuffToCategory(285900, 'VANTUS', nil, 'The Restless Cabal')
 ADDON:AddBuffToCategory(285901, 'VANTUS', nil, 'Uu\'nat, Harbinger of the Void')
+
+-- Eternal Pallace
+ADDON:AddBuffToCategory(298622, 'VANTUS', nil, 'Abyssal Commander Sivara')
+ADDON:AddBuffToCategory(298642, 'VANTUS', nil, 'Blackwater Behemoth')
+ADDON:AddBuffToCategory(298646, 'VANTUS', nil, 'Za\'qul, Harbinger of Ny\'alotha')
+ADDON:AddBuffToCategory(298640, 'VANTUS', nil, 'Radiance of Azshara')
+ADDON:AddBuffToCategory(302914, 'VANTUS', nil, 'Queen Azshara')
+ADDON:AddBuffToCategory(298643, 'VANTUS', nil, 'Lady Ashvane')
+ADDON:AddBuffToCategory(298644, 'VANTUS', nil, 'Orgozoa')
+ADDON:AddBuffToCategory(298645, 'VANTUS', nil, 'The Queen\'s Court')
