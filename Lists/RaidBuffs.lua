@@ -59,6 +59,11 @@ ADDON.BUFFS.FLASKS[251839] = true -- Flask of the Undertow
 ADDON.BUFFS.FLASKS[251838] = true -- Flask of the Vast Horizon
 ADDON.BUFFS.FLASKS[276970] = true -- Mystical Flask/Cauldron -- NEEDS CHECKING
 
+ADDON:AddBuffToCategory(298837, 'FLASKS', nil, 'Greater Flask of Endless Fathoms')
+ADDON:AddBuffToCategory(298836, 'FLASKS', nil, 'Greater Flask of the Currents')
+ADDON:AddBuffToCategory(298841, 'FLASKS', nil, 'Greater Flask of the Undertow')
+ADDON:AddBuffToCategory(298839, 'FLASKS', nil, 'Greater Flask of the Vast Horizon')
+
 -- Augment Runes
 ADDON.BUFFS.RUNES = {}
 ADDON.BUFFS.RUNES[270058] = true -- Battle-Scarred Augment Rune
