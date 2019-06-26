@@ -304,6 +304,7 @@ corner:SetScript('OnDragStop', function(self)
 	local numFrames = self:GetParent().numFramesShown
 	local height = ADDON:Scale(44 + (numFrames * 19))
 	self:GetParent():SetHeight(height)
+	self:GetParent():ClearAllPoints()
 	self:GetParent():SetPoint('TOPLEFT', UIParent, 'TOPLEFT', self:GetParent().left, -ADDON:Scale((ADDON.screenHeight -(self:GetParent().top))))
 	ADDON:UpdateRowsShown(numFrames)
 	ADDON:UpdateFrameRows()
