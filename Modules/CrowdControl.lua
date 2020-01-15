@@ -7,6 +7,7 @@ ControlledUnits = {} -- Table for units currently under the affects of a crowd c
 local CONSOLE_MSG_CROWD_BREAK = '%s on %s removed by %s with %s' -- [SPELL LINK] on RAIDICON DEST RAIDICON removed by RAIDICON UNIT RAIDICON with [SPELL LINK]
 local CONSOLE_MSG_CROWD_EXPIRE = '%s expired on %s' -- [SPELL LINK] expired on DESTINATION
 local CONSOLE_AURA_BROKEN_TEXT = '%s on %s removed by %s with %s' -- [SPELL LINK] on RAIDICON DEST RAIDICON removed by RAIDICON UNIT RAIDICON with [SPELL LINK]
+local AUTO_ATTACK_SPELLID = 6603
 
 -- Add spells to be tracked as crowd controls
 ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6770, 'crowd', '<sourceName> cast <spell> on <destName>') -- Sap, Rogue
@@ -55,7 +56,7 @@ end
 local function AddUnitToControlledList(guid)
 	if not type(guid) == 'string' then
 		error('AddUnitToControlledList(guid) string expected, received ' .. type(guid))
-	end
+	end	
 	ControlledUnits[guid] = {}
 end
 
@@ -100,26 +101,23 @@ local function CrowdControl_OnDamageEvent(timeStamp, subEvent, hideCaster, sourc
 	SetControlledUnitLastHit(destGUID, {sourceName, sourceRaidFlags, timeStamp})
 end
 
-local function CrowdControl_OnAuraBreakSpell(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, crowdSpellID, param13, param14, dmgSpellID, param16, param17)
-	if not AstralAnalytics.options.combatEvents.cc_break then return end
-	if bband(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MASK) > 4 then return end
+local function CrowdControl_OnAuraBreakSpell(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, ccBreakSpellID, param16, param17)
+	if not UnitIsControlled(destGUID) then return end -- Unit not being controlled
+	if not ADDON:IsSpellInCategory(spellID, 'crowd') then return end -- Wasn't a CC spell being removed
 
-	if ADDON:IsSpellInCategory(crowdSpellID, 'crowd') then
-		RemoveUnitFromControlledList(destGUID)
-		local ccSpellLink = GetSpellLink(crowdSpellID)
-		local breakSpellLink = GetSpellLink(dmgSpellID)
-		AstralSendMessage(strformat(CONSOLE_AURA_BROKEN_TEXT, ccSpellLink, WrapNameInColorAndIcons(destName, destFlags, destRaidFlags), WrapNameInColorAndIcons(sourceName, nil, sourceRaidFlags), breakSpellLink), 'console')
-	end
+	local ccBreakSpellLink = GetSpellLink(ccBreakSpellID)
+	local spellLink = GetSpellLink(spellID)
+	
+	AstralSendMessage(strformat(CONSOLE_MSG_CROWD_BREAK, spellLink, WrapNameInColorAndIcons(destName, destFlags, destRaidFlags), WrapNameInColorAndIcons(sourceName, nil, sourceFlags), ccBreakSpellLink), 'console')
+	RemoveUnitFromControlledList(destGUID)
 end
-
 
 local function CrowdControl_OnAuraRemovedEvent(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17)
 	if not UnitIsControlled(destGUID) then return end -- Unit not being controlled
 	if not ADDON:IsSpellInCategory(spellID, 'crowd') then return end -- Wasn't a CC spell being removed
-
 	local name, flags, timeStamp = RemoveUnitFromControlledList(destGUID)
 	local spellLink = GetSpellLink(spellID)
-	local ccBreakSpellLink = GetSpellLink(6603) -- Auto attack spell ID I found on rogue, is it the same for all others? Who knows.
+	local ccBreakSpellLink = GetSpellLink(AUTO_ATTACK_SPELLID)
 	if name then -- Someone broke the crowd control effect, report that information
 		AstralSendMessage(strformat(CONSOLE_MSG_CROWD_BREAK, spellLink, WrapNameInColorAndIcons(destName, destFlags, destRaidFlags), WrapNameInColorAndIcons(name, nil, flags), ccBreakSpellLink), 'console')
 	else
@@ -136,8 +134,11 @@ local function CrowdControl_OnAuraRefresh(timeStamp, subEvent, hideCaster, sourc
 end
 
 
-CombatEvents:RegisterSubEventMethod('SWING_DAMAGE', 'Crowd_OnDamageSwing', CrowdControl_OnDamageEvent)
-CombatEvents:RegisterSubEventMethod('SPELL_PERIODIC_DAMAGE', 'Crowd_OnDamageSwing', CrowdControl_OnDamageEvent)
+CombatEvents:RegisterSubEventMethod('SWING_DAMAGE', 'Crowd_OnSwingDamage', CrowdControl_OnDamageEvent)
+CombatEvents:RegisterSubEventMethod('SPELL_PERIODIC_DAMAGE', 'Crowd_OnPeriodicDamage', CrowdControl_OnDamageEvent)
+CombatEvents:RegisterSubEventMethod('SPELL_DAMAGE', 'Crowd_OnSpellDamage', CrowdControl_OnDamageEvent)
+CombatEvents:RegisterSubEventMethod('SPELL_AURA_BROKEN_SPELL', 'Crowd_OnAuraBrokenSpell', CrowdControl_OnAuraBreakSpell)
+CombatEvents:RegisterSubEventMethod('RANGE_DAMAGE', 'Crowd_OnRangeDamage', CrowdControl_OnDamageEvent)
 CombatEvents:RegisterSubEventMethod('SPELL_AURA_REMOVED', 'Crowd_AuraRemoved', CrowdControl_OnAuraRemovedEvent)
 CombatEvents:RegisterSubEventMethod('SPELL_AURA_REFRESH', 'Crowd_AuraRefreshed', CrowdControl_OnAuraRefresh)
 CombatEvents:RegisterSubEventMethod('SPELL_AURA_APPLIED', 'Crowd_AuraApplied', CrowdControl_OnAuraApplied)

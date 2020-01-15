@@ -344,8 +344,8 @@ optionsButton:SetScript('OnLeave', function(self)
 	end)
 
 local reportButton = CreateFrame('BUTTON', nil, AAFrame)
-reportButton:SetSize(14, 14)
-reportButton:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\speaker.tga')
+reportButton:SetSize(12, 12)
+reportButton:SetNormalTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-volume_up-24px@2x')
 reportButton:SetPoint('RIGHT', optionsButton, 'LEFT', -5, 0)
 reportButton:SetScript('OnEnter', function(self)
 	self:GetNormalTexture():SetVertexColor(126/255, 126/255, 126/255)
@@ -468,7 +468,7 @@ for i = 1, 6 do
 	btn.texture = btn:CreateTexture()
 	btn.texture:SetSize(14, 14)
 	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
-	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\check.tga')
+	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-done-small@2x')
 	btn.texture:Hide()
 
 	btn:SetScript('OnClick', function(self)
@@ -517,7 +517,7 @@ for i = 1, 8 do
 	btn.texture = btn:CreateTexture()
 	btn.texture:SetSize(14, 14)
 	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
-	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\check.tga')
+	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-done-small@2x')
 	btn.texture:Hide()
 
 	btn:SetScript('OnClick', function(self)
@@ -562,7 +562,7 @@ function DropDownMenuMixin:NewObject(entry, category)
 	btn.texture = btn:CreateTexture()
 	btn.texture:SetSize(14, 14)
 	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
-	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\check.tga')
+	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-done-small@2x')
 	
 	if entry.option ~= 'announceChannel' and entry.option ~= 'group' then
 		if entry.value then

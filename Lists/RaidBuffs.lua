@@ -105,3 +105,19 @@ ADDON:AddBuffToCategory(302914, 'VANTUS', nil, 'Queen Azshara')
 ADDON:AddBuffToCategory(298643, 'VANTUS', nil, 'Lady Ashvane')
 ADDON:AddBuffToCategory(298644, 'VANTUS', nil, 'Orgozoa')
 ADDON:AddBuffToCategory(298645, 'VANTUS', nil, 'The Queen\'s Court')
+
+-- Ny'alotha, the Waking City
+ADDON:AddBuffToCategory(306485, 'VANTUS', nil, 'Dest\'agath')
+ADDON:AddBuffToCategory(306477, 'VANTUS', nil, 'Dark Inquisitor Xanesh')
+ADDON:AddBuffToCategory(313550, 'VANTUS', nil, 'Ra-Den the Despoiled')
+ADDON:AddBuffToCategory(306480, 'VANTUS', nil, 'Maut')
+ADDON:AddBuffToCategory(306484, 'VANTUS', nil, 'Shad\'har the Insatiable')
+ADDON:AddBuffToCategory(306479, 'VANTUS', nil, 'Vexiona')
+ADDON:AddBuffToCategory(306506, 'VANTUS', nil, 'Ny\'alotha, the Waking City')
+ADDON:AddBuffToCategory(313556, 'VANTUS', nil, 'N\'Zoth the Corruptor')
+ADDON:AddBuffToCategory(306476, 'VANTUS', nil, 'The Prophet Skitra')
+ADDON:AddBuffToCategory(313554, 'VANTUS', nil, 'Carapace of N\'Zoth')
+ADDON:AddBuffToCategory(313551, 'VANTUS', nil, 'Il\'gynoth, Corruption Reborn')
+ADDON:AddBuffToCategory(306478, 'VANTUS', nil, 'The Hivemind')
+
+

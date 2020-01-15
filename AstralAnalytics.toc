@@ -2,14 +2,14 @@
 ## Title: Astral Analytics
 ## Notes: Raid analytic tool
 ## Author: Phrike
-## Version: 23
+## Version: 24
 ## RequiredDeps: AstralKeys
 ## SavedVariables: AstralAnalytics
 
 embeds.xml
 libs\Events.lua
 
-Init.lua
+init.lua
 Settings.lua
 
 Lists\RaidBuffs.lua

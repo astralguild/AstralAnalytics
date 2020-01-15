@@ -3,6 +3,7 @@ local ADDON_NAME, ADDON = ...
 if not AstralAnalytics then
 	AstralAnalytics = {}
 	AstralAnalytics.options = {}
+	AstralAnalytics.last_spellID_searched = 0
 end
 
 function ADDON:AddDefaultSettings(category, name, data)

@@ -365,16 +365,16 @@ function ADDON:ReportList(list, msgChannel)
 					string = string.format('%s, %s', string, self:ColouredName(self.buffs[list][i].name, self.buffs[list][i].class))
 				end
 			else
-				string = strform('%s (%dm)', self:ColouredName(self.buffs[list][1].name, self.buffs[list][1].class), mfloor(self.buffs[list][1].buff[4][3]/60))
+				string = strformat('%s (%dm)', self:ColouredName(self.buffs[list][1].name, self.buffs[list][1].class), mfloor(self.buffs[list][1].buff[4][3]/60))
 				for i = 2, #self.buffs[list] do
-					string = string.format('%s, %s (%dm)', string, self:ColouredName(self.buffs[list][i].name, self.buffs[list][i].class), mfloor(self.buffs[list][i].buff[4][3]/60))
+					string = strformat('%s, %s (%dm)', string, self:ColouredName(self.buffs[list][i].name, self.buffs[list][i].class), mfloor(self.buffs[list][i].buff[4][3]/60))
 				end
 			end
 		else
 			if list ~= 'lowFlaskTime' then
 				string = self.buffs[list][1].name
 				for i = 2, #self.buffs[list] do
-					string = string.format('%s, %s', string, self.buffs[list][i].name)
+					string = strformat('%s, %s', string, self.buffs[list][i].name)
 				end
 			else
 				string = strformat('%s (%dm)', self.buffs[list][1].name, mfloor(self.buffs[list][1].buff[4][3]/60))
