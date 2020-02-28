@@ -67,6 +67,7 @@ ADDON:AddBuffToCategory(298839, 'FLASKS', nil, 'Greater Flask of the Vast Horizo
 -- Augment Runes
 ADDON.BUFFS.RUNES = {}
 ADDON.BUFFS.RUNES[270058] = true -- Battle-Scarred Augment Rune
+ADDON.BUFFS.RUNES[317065] = true -- Lightning-Forged Augment Rune
 
 -- Vantus Runes
 ADDON.BUFFS.VANTUS = {}
