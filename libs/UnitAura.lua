@@ -355,6 +355,11 @@ function ADDON:ReportList(list, msgChannel)
 	local msgChannel = msgChannel or 'SMART'
 	local string
 
+	if AstralAnalytics.options.reportLists['announceOwnGuild'].isEnabled then
+		local inGuildGroup = InGuildParty()
+		if not inGuildGroup then return end
+	end
+
 	if not AstralAnalytics.options.reportLists[list].isEnabled then return end
 
 	if #self.buffs[list] > 0 then

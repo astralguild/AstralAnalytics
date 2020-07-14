@@ -64,6 +64,10 @@ local function LoadDefaultSettings(addon)
 		{
 		isEnabled = true,
 		})
+	ADDON:AddDefaultSettings('general', 'announceOwnGuild',
+	{
+		isEnabled = true,
+	})
 	ADDON:AddDefaultSettings('general', 'announceChannel', 'console')
 
 	-- Default Groups selected to track
@@ -203,6 +207,7 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddOption('General', 'Wrap Names in Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons.isEnabled)
 	ADDON:AddOption('General', 'Announce to Channel', 'announceChannel', AstralAnalytics.options.general.reportChannel)
 	ADDON:AddOption('General', 'Announce on ready check', 'autoAnnounce', AstralAnalytics.options.general.autoAnnounce.isEnabled)
+	ADDON:AddOption('General', 'Announce if in Guild Group', 'announceOwnGuild', AstralAnalytics.options.general.announceOwnGuild.isEnabled)
 	ADDON:AddOption('General', 'Sub groups', 'group', AstralAnalytics.options.general.group)
 
 	ADDON:AddOptionCategory('Buffs to report')
