@@ -2,7 +2,7 @@
 ## Title: Astral Analytics
 ## Notes: Raid analytic tool
 ## Author: Phrike
-## Version: 26
+## Version: 27
 ## RequiredDeps: AstralKeys
 ## SavedVariables: AstralAnalytics
 
