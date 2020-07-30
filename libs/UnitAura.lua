@@ -290,7 +290,7 @@ function ADDON:UpdateUnitBuff(guid)
 		name, icon, _, _, duration, expirationTime, _, _, _, spellId, _, _, _, _, _, amount = UnitBuff(unit.unitID, i)
 		if not name then break end
 
-		if self.BUFFS.FLASKS[spellId] then
+		if self.BUFFS.FLASKS[spellId] then -- Flask buff
 			local timeLeft = expirationTime - GetTime()
 			unit.buff[4] = {spellId, icon, timeLeft} -- FLask
 			unit.numMissing = unit.numMissing - 1
@@ -353,7 +353,7 @@ AAEvents:Register('UNIT_AURA', UpdateUnitAura, 'UpdateUnitAura')
 
 function ADDON:ReportList(list, msgChannel)
 	local msgChannel = msgChannel or 'SMART'
-	local string
+	local msg
 
 	if AstralAnalytics.options.general['announceOwnGuild'].isEnabled then
 		local inGuildGroup = InGuildParty()
@@ -365,33 +365,33 @@ function ADDON:ReportList(list, msgChannel)
 	if #self.buffs[list] > 0 then
 		if msgChannel == 'console' then
 			if list ~= 'lowFlaskTime' then
-				string = self:ColouredName(self.buffs[list][1].name, self.buffs[list][1].class)
+				msg = self:ColouredName(self.buffs[list][1].name, self.buffs[list][1].class)
 				for i = 2, #self.buffs[list] do
-					string = string.format('%s, %s', string, self:ColouredName(self.buffs[list][i].name, self.buffs[list][i].class))
+					msg = string.format('%s, %s', msg, self:ColouredName(self.buffs[list][i].name, self.buffs[list][i].class))
 				end
 			else
-				string = strformat('%s (%dm)', self:ColouredName(self.buffs[list][1].name, self.buffs[list][1].class), mfloor(self.buffs[list][1].buff[4][3]/60))
+				msg = strformat('%s (%dm)', self:ColouredName(self.buffs[list][1].name, self.buffs[list][1].class), mfloor(self.buffs[list][1].buff[4][3]/60))
 				for i = 2, #self.buffs[list] do
-					string = strformat('%s, %s (%dm)', string, self:ColouredName(self.buffs[list][i].name, self.buffs[list][i].class), mfloor(self.buffs[list][i].buff[4][3]/60))
+					msg = strformat('%s, %s (%dm)', msg, self:ColouredName(self.buffs[list][i].name, self.buffs[list][i].class), mfloor(self.buffs[list][i].buff[4][3]/60))
 				end
 			end
 		else
 			if list ~= 'lowFlaskTime' then
-				string = self.buffs[list][1].name
+				msg = self.buffs[list][1].name
 				for i = 2, #self.buffs[list] do
-					string = strformat('%s, %s', string, self.buffs[list][i].name)
+					msg = strformat('%s, %s', msg, self.buffs[list][i].name)
 				end
 			else
-				string = strformat('%s (%dm)', self.buffs[list][1].name, mfloor(self.buffs[list][1].buff[4][3]/60))
+				msg = strformat('%s (%dm)', self.buffs[list][1].name, mfloor(self.buffs[list][1].buff[4][3]/60))
 				for i = 2, #self.buffs[list] do
-					string = strformat('%s, %s (%dm)', self.buffs[list][i].name, mfloor(self.buffs[list][i].buff[4][3]/60))
+					msg = strformat('%s, %s (%dm)', self.buffs[list][i].name, mfloor(self.buffs[list][i].buff[4][3]/60))
 				end
 			end
 		end
 	else
-		string = 'None'
+		msg = 'None'
 	end
-	AstralSendMessage(string.format('%s (%d): %s', LIST_NAMES[list], #self.buffs[list], string), msgChannel)
+	AstralSendMessage(string.format('%s (%d): %s', LIST_NAMES[list], #self.buffs[list], msg), msgChannel)
 end
 
 function ADDON:HasBuff(guid, missingList)

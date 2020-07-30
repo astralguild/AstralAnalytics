@@ -170,6 +170,17 @@ ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 49576, 'taunt', '<sourceName> tau
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 56222, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Dark Command, Death Knight
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 2649, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Growl, Hunter Pet
 
+-- Azerite Essence AoE Taunt
+-- Rank 1 310592
+-- Rank 2 310601
+-- Rank 3 310602
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 310592, 'taunt', '<sourceName> taunted with <spell>')
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 310601, 'taunt', '<sourceName> taunted with <spell>')
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 310602, 'taunt', '<sourceName> taunted with <spell>')
+
+
+
+
 -- Crowd Controls
 --[[
 ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6770, 'crowd', '<sourceName> cast <spell> on <destName>') -- Sap, Rogue
