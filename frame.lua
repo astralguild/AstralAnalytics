@@ -65,7 +65,7 @@ function Row:CreateRow(parent, index)
 	self.background:Show()
 
 	self.name = self:CreateFontString(nil, 'OVERLAY', 'AstralFontNormal')
-	self.name:SetPoint('LEFT', self, 'LEFT', 4, 0)
+	self.name:SetPoint('LEFT', self, 'LEFT', 4, -1)
 	self.name:SetTextColor(1, 1, 1)
 	self.name:SetText('Test')
 
@@ -234,8 +234,8 @@ end
 
 local AAFrame = CreateFrame('FRAME', 'AAFrame', UIParent)
 AAFrame:SetFrameStrata('DIALOG')
-AAFrame:SetSize(300, 440)
-AAFrame:SetMinResize(250, 65)
+AAFrame:SetSize(330, 440)
+AAFrame:SetMinResize(280, 139)
 AAFrame:SetPoint('CENTER', UIParent, 'CENTER')
 AAFrame:EnableMouse(true)
 AAFrame:SetResizable(true)
@@ -248,6 +248,26 @@ AAFrame:EnableKeyboard(true)
 AAFrame:SetPropagateKeyboardInput(true)
 AAFrame:Hide()
 AAFrame.elapsed = 0
+
+function AAFrame:AdjustHeight(height)
+	self:SetHeight(height)
+	AAFrameMenuBar:AdjustHeight(height)
+end
+
+local menuBar = CreateFrame('FRAME', '$parentMenuBar', AAFrame)
+menuBar.timeSinceUpdate = 0
+menuBar:SetWidth(30)
+menuBar:SetHeight(440)
+menuBar:SetPoint('TOPLEFT', AAFrame, 'TOPLEFT')
+menuBar.texture = menuBar:CreateTexture(nil, 'BACKGROUND')
+menuBar.texture:SetSize(30, 440)
+menuBar.texture:SetPoint('TOPLEFT', menuBar, 'TOPLEFT')
+menuBar.texture:SetColorTexture(33/255, 33/255, 33/255, 0.8)
+
+function menuBar:AdjustHeight(height)
+	self:SetHeight(height)
+	self.texture:SetHeight(height)
+end
 
 local AstralToolTip = CreateFrame( "GameTooltip", "AstralToolTip", AAFrame, "GameTooltipTemplate" )
 AstralToolTip:SetOwner(AAFrame, "ANCHOR_CURSOR")
@@ -265,8 +285,17 @@ corner:SetClampedToScreen(true)
 
 local cornerTexture = corner:CreateTexture('ARTWORK')
 cornerTexture:SetSize(8, 8)
-cornerTexture:SetTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\Corner.tga')
+cornerTexture:SetTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\Corner')
 cornerTexture:SetPoint('BOTTOMRIGHT', corner, 'BOTTOMRIGHT')
+
+local MIN_RESIZE_TIME = 0.01
+local function MenuBarResize_OnUpdate(self, elapsed)
+	self.timeSinceUpdate = self.timeSinceUpdate + elapsed
+	if self.timeSinceUpdate > MIN_RESIZE_TIME then
+		AAFrameMenuBar.texture:SetHeight(self:GetHeight())
+		self.timeSinceUpdate = 0
+	end
+end
 
 AAFrame:SetScript('OnDragStart', function(self)
 	self:StartMoving()
@@ -282,13 +311,15 @@ corner:SetScript('OnDragStart', function(self)
 	self:GetParent().bottom = bottom
 	self:GetParent().top = (bottom + height)
 	self:GetParent():StartSizing()
+	AAFrameMenuBar:SetScript('OnUpdate', MenuBarResize_OnUpdate)
 end)
 
 AAFrame:SetScript('OnSizeChanged', function(self)
 	if not AAFrameDrag:IsDragging() then return end
-	local width = ADDON:Scale(self:GetWidth() - 10)
+	local width = ADDON:Scale(self:GetWidth() - 10 - 30) -- 30 is for left menubar
 	local height = self:GetHeight() - ADDON:Scale(44)
 	self.numFramesShown = min(floor(height/ADDON:Scale(19)), 40)
+	AAFrameMenuBar:SetHeight(self:GetHeight())
 
 	if ADDON.row then
 		for i = 0, #ADDON.row do
@@ -301,20 +332,32 @@ AAFrame:SetScript('OnSizeChanged', function(self)
 
 corner:SetScript('OnDragStop', function(self)
 	self:GetParent():StopMovingOrSizing()
+	AAFrameMenuBar:StopMovingOrSizing()
 	local numFrames = self:GetParent().numFramesShown
 	local height = ADDON:Scale(44 + (numFrames * 19))
-	self:GetParent():SetHeight(height)
+	self:GetParent():AdjustHeight(height)
+	AAFrameMenuBar:SetScript('OnUpdate', nil)
 	self:GetParent():ClearAllPoints()
-	self:GetParent():SetPoint('TOPLEFT', UIParent, 'TOPLEFT', self:GetParent().left, -ADDON:Scale((ADDON.screenHeight -(self:GetParent().top))))
+	self:GetParent():SetPoint('TOPLEFT', UIParent, 'TOPLEFT', self:GetParent().left, -ADDON:Scale((UIParent:GetHeight() -(self:GetParent().top))))
 	ADDON:UpdateRowsShown(numFrames)
 	ADDON:UpdateFrameRows()
 end)
 
 a.AddEscHandler(AAFrame)
 
-local AAFrameTitle = AAFrame:CreateFontString('$parentTitle', 'ARTWORK', 'AstralFontNormal')
-AAFrameTitle:SetPoint('TOPLEFT', AAFrame, 'TOPLEFT', 8, -8)
+local AAFrameLogo = AAFrameMenuBar:CreateTexture(nil, 'ARTWORK')
+AAFrameLogo:SetSize(20, 20)
+AAFrameLogo:SetTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\Asset_54x2')
+AAFrameLogo:SetPoint('TOPLEFT', AAFrameMenuBar, 'TOPLEFT', 6, -10)
+
+local AAFrameTitle = AAFrame:CreateFontString('$parentTitle', 'ARTWORK', 'InterUIBlack_Large')
+AAFrameTitle:SetPoint('LEFT', AAFrameLogo, 'RIGHT', 12, -1)
 AAFrameTitle:SetText('Astral Analytics')
+
+local divider = menuBar:CreateTexture(nil, 'ARTWORK')
+divider:SetSize(16, 1)
+divider:SetColorTexture(.6, .6, .6, .8)
+divider:SetPoint('TOP', AAFrameLogo, 'BOTTOM', 0, -14)
 
 -- Header Buttons
 local closeButton = CreateFrame('BUTTON', '$parentCloseButton', AAFrame)
@@ -332,40 +375,59 @@ closeButton:SetScript('OnLeave', function(self)
 	self:GetNormalTexture():SetVertexColor(0.8, 0.8, 0.8, 0.8)
 end)
 
-local optionsButton = CreateFrame('BUTTON', nil, AAFrame)
-optionsButton:SetSize(14, 14)
-optionsButton:SetPoint('RIGHT', closeButton, 'LEFT', -5, 0)
-optionsButton:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\menu3.tga')
-optionsButton:SetScript('OnEnter', function(self)
-	self:GetNormalTexture():SetVertexColor(126/255, 126/255, 126/255)
-	end)
-optionsButton:SetScript('OnLeave', function(self)
-	self:GetNormalTexture():SetVertexColor(1, 1, 1)
-	end)
-
 local reportButton = CreateFrame('BUTTON', nil, AAFrame)
 reportButton:SetSize(12, 12)
 reportButton:SetNormalTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-volume_up-24px@2x')
-reportButton:SetPoint('RIGHT', optionsButton, 'LEFT', -5, 0)
+reportButton:SetPoint('TOP', divider, 'BOTTOM', 0, -14)
 reportButton:SetScript('OnEnter', function(self)
-	self:GetNormalTexture():SetVertexColor(126/255, 126/255, 126/255)
+	self:GetNormalTexture():SetVertexColor(126/255, 126/255, 126/255, 0.8)
 	end)
 reportButton:SetScript('OnLeave', function(self)
-	self:GetNormalTexture():SetVertexColor(1, 1, 1)
+	self:GetNormalTexture():SetVertexColor(0.8, 0.8, 0.8, 0.8)
 	end)
 reportButton:SetScript('OnClick', function()
 	ADDON:CheckForBuffs(true)
 end)
 
+local optionsButton = CreateFrame('BUTTON', nil, AAFrame)
+optionsButton:SetSize(14, 14)
+optionsButton:SetPoint('TOP', reportButton, 'BOTTOM', 0, -14)
+optionsButton:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\menu3')
+optionsButton:SetScript('OnEnter', function(self)
+	self:GetNormalTexture():SetVertexColor(126/255, 126/255, 126/255, 0.8)
+	end)
+optionsButton:SetScript('OnLeave', function(self)
+	self:GetNormalTexture():SetVertexColor(0.8, 0.8, 0.8, 0.8)
+	end)
+
+local logo_Astral = CreateFrame('BUTTON', nil, menuBar)
+logo_Astral:SetSize(32, 32)
+logo_Astral:SetPoint('BOTTOMLEFT', menuBar, 'BOTTOMLEFT', 0, 3)
+logo_Astral:SetAlpha(0.8)
+logo_Astral:SetNormalTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\Logo@2x')
+
+logo_Astral:SetScript('OnClick', function()
+	--astralGuildInfo:SetShown(not astralGuildInfo:IsShown())
+	end)
+
+logo_Astral:SetScript('OnEnter', function(self)
+	self:SetAlpha(1)
+	end)
+
+logo_Astral:SetScript('OnLeave', function(self)
+	self:SetAlpha(0.8)
+	end)
+
 function ADDON:CreateMainWindow()
 	self.row = {}
 	-- Create Header row
 	self.row[0] = Row:CreateRow(AAFrame, 0)
-	self.row[0]:SetPoint('TOPLEFT', AAFrame, 'TOPLEFT', 5, -20)
+	self.row[0]:SetPoint('TOPLEFT', AAFrame, 'TOPLEFT', 35, -20)
 	MixIn(self.row[0], Row)
 	self.row[0]:SetUnit('header')
 	-- Create 20 rows by default
 	for i = 1, 20 do
+		local xOffSet = i == 1 and 30 or 0
 		self.row[i] = Row:CreateRow(AAFrame, i)
 		self.row[i]:SetPoint('TOPLEFT', self.row[i-1], 'BOTTOMLEFT', 0, self:Scale(-3))
 		MixIn(self.row[i], Row)
@@ -633,10 +695,11 @@ local function InitializeWindow()
 	local width = ADDON:Scale(math.max(250, AAFrame:GetWidth()))
 	local height = ADDON:Scale(math.max(65, AAFrame:GetHeight()))
 	AAFrame:SetSize(width, height)
+	AAFrameMenuBar:AdjustHeight(height)
 	-- Re-use width to set width of rows
 	width = width - ADDON:Scale(10)
 	for i = 0, #ADDON.row do
-		ADDON.row[i]:SetWidth(width)
+		ADDON.row[i]:SetWidth(width - 30) -- 30 is for menubar width
 	end
 end
 
