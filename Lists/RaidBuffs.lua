@@ -58,6 +58,7 @@ ADDON.BUFFS.FLASKS[251836] = true -- Flask of the Currents
 ADDON.BUFFS.FLASKS[251839] = true -- Flask of the Undertow
 ADDON.BUFFS.FLASKS[251838] = true -- Flask of the Vast Horizon
 ADDON.BUFFS.FLASKS[276970] = true -- Mystical Flask/Cauldron -- NEEDS CHECKING
+ADDON.BUFFS.FLASKS[79468] = true -- Ghost Elixir
 
 ADDON:AddBuffToCategory(298837, 'FLASKS', nil, 'Greater Flask of Endless Fathoms')
 ADDON:AddBuffToCategory(298836, 'FLASKS', nil, 'Greater Flask of the Currents')

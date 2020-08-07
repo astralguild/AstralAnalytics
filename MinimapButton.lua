@@ -5,7 +5,7 @@ local addon = LibStub("AceAddon-3.0"):NewAddon("AstralAnalytics", "AceConsole-3.
 local AstralAnalyticsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("AstralAnalytics", {
 	type = "data source",
 	text = "AstralAnalytics",
-	icon = 801132,
+	icon = "Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\Asset_54x2",
 	OnClick = function() ADDON:ToggleMainWindow() end,
 	OnTooltipShow = function(tooltip)
 		tooltip:AddLine("Astral Analytics")
