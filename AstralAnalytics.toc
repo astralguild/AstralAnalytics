@@ -1,10 +1,10 @@
-## Interface: 80000
+## Interface: 90001
 ## Title: Astral Analytics
 ## Notes: Raid analytic tool
 ## Author: Phrike
-## Version: 30
+## Version: 32
 ## RequiredDeps: AstralKeys
-## SavedVariables: AstralAnalytics
+## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
 
 embeds.xml
 libs\Events.lua

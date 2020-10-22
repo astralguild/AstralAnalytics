@@ -5,7 +5,7 @@ local floor, min = math.floor, math.min
 -- CONSTANTS
 local BACKDROP = {
 bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-edgeFile = nil, tile = true, tileSize = 16, edgeSize = 0,
+edgeFile = nil, tile = true, tileSize = 16, edgeSize = 1,
 insets = {left = 0, right = 0, top = 0, bottom = 0}
 }
 local BACKDROP2 = {
@@ -148,6 +148,7 @@ function Row:SetUnit(unit)
 		self.background:SetGradientAlpha("HORIZONTAL",r/1.5,g/1.5,b/1.5,1,r/1.5,g/2,b/1.5,.1)
 
 		for i = 1, TOTAL_BUFFS do
+			self.buff[i].texture:SetTexture(BUFF_TEXTURES[i])
 			if unit.buff[i] then
 				self.buff[i].spellID = unit.buff[i][1]
 				self.buff[i].texture:SetTexture(unit.buff[i][2])
@@ -232,10 +233,10 @@ function ADDON:UpdateRowsShown(numFrames)
 	end
 end
 
-local AAFrame = CreateFrame('FRAME', 'AAFrame', UIParent)
+local AAFrame = CreateFrame('FRAME', 'AAFrame', UIParent, "BackdropTemplate")
 AAFrame:SetFrameStrata('DIALOG')
 AAFrame:SetSize(330, 440)
-AAFrame:SetMinResize(280, 139)
+AAFrame:SetMinResize(300, 139)
 AAFrame:SetPoint('CENTER', UIParent, 'CENTER')
 AAFrame:EnableMouse(true)
 AAFrame:SetResizable(true)
@@ -269,7 +270,7 @@ function menuBar:AdjustHeight(height)
 	self.texture:SetHeight(height)
 end
 
-local AstralToolTip = CreateFrame( "GameTooltip", "AstralToolTip", AAFrame, "GameTooltipTemplate" )
+local AstralToolTip = CreateFrame( "GameTooltip", "AstralToolTip", AAFrame, "GameTooltipTemplate")
 AstralToolTip:SetOwner(AAFrame, "ANCHOR_CURSOR")
 AstralToolTip:SetBackdrop(BACKDROP)
 
@@ -476,7 +477,7 @@ function ADDON:ToggleMainWindow()
 	AAFrame:SetShown(not AAFrame:IsShown())
 end
 
-local mainMenu = CreateFrame('FRAME', 'aa_dropdown', UIParent)
+local mainMenu = CreateFrame('FRAME', 'aa_dropdown', UIParent, "BackdropTemplate")
 mainMenu.dtbl = {}
 mainMenu:Hide()
 mainMenu:SetFrameStrata('TOOLTIP')
@@ -487,7 +488,7 @@ mainMenu:SetBackdropBorderColor(0, 0, 0, 1)
 mainMenu:SetBackdropColor(75/255, 75/255, 75/255)
 mainMenu:SetPoint('TOPLEFT', optionsButton, 'BOTTOMLEFT', 0, -2)
 
-local subMenu = CreateFrame('FRAME', 'aa_dropdown_sub', UIParent)
+local subMenu = CreateFrame('FRAME', 'aa_dropdown_sub', UIParent, "BackdropTemplate")
 subMenu.dtbl = {}
 subMenu:Hide()
 subMenu:SetFrameStrata('TOOLTIP')
@@ -508,7 +509,7 @@ function subMenu:UpdateChannels()
 end
 
 for i = 1, 6 do
-	local btn = CreateFrame('BUTTON', nil, aa_dropdown_sub)
+	local btn = CreateFrame('BUTTON', nil, aa_dropdown_sub, "BackdropTemplate")
 	btn.category = 'general'
 	btn.option = 'announceChannel'
 	btn.channel = ''
@@ -536,7 +537,7 @@ for i = 1, 6 do
 	table.insert(aa_dropdown_sub.dtbl, btn)
 end
 
-local subMenuGroups = CreateFrame('FRAME', 'aa_dropdown_subGroups', UIParent)
+local subMenuGroups = CreateFrame('FRAME', 'aa_dropdown_subGroups', UIParent, "BackdropTemplate")
 subMenuGroups.dtbl = {}
 subMenuGroups:Hide()
 subMenuGroups:SetFrameStrata('TOOLTIP')
@@ -557,7 +558,7 @@ function subMenuGroups:UpdateGroups()
 end
 
 for i = 1, 8 do
-	local btn = CreateFrame('BUTTON', nil, aa_dropdown_subGroups)
+	local btn = CreateFrame('BUTTON', nil, aa_dropdown_subGroups, "BackdropTemplate")
 	btn.category = 'group'
 	btn.option = i
 	btn.isChecked = false
@@ -590,7 +591,7 @@ local DropDownMenuMixin = {}
 
 local btnWidth = 190
 function DropDownMenuMixin:NewObject(entry, category)
-	local btn = CreateFrame('BUTTON', nil, self)
+	local btn = CreateFrame('BUTTON', nil, self, "BackdropTemplate")
 	btn.category = category
 	btn.option = entry.option
 	btn:SetSize(btnWidth, 20)
