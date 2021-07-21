@@ -172,7 +172,7 @@ ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 355, 'taunt', '<sourceName> taunt
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 185245, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Torment, Demon Hunter
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 62124, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Hand of Reckoning, Paladin
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 6795, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Growl, Druid
---ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 49576, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Death Grip, Death Knight
+ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 49576, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Death Grip, Death Knight
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 56222, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Dark Command, Death Knight
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 2649, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Growl, Hunter Pet
 
