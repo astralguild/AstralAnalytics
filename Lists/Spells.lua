@@ -1,19 +1,29 @@
 local ADDON_NAME, ADDON = ...
 local strformat = string.format
 
-local VARIABLE_STRINGS = {}
-VARIABLE_STRINGS['sourceName'] = true
-VARIABLE_STRINGS['destName'] = true
-VARIABLE_STRINGS['sourceSpell'] = true
-VARIABLE_STRINGS['destSpell'] = true
-VARIABLE_STRINGS['destIcon'] = true
-VARIABLE_STRINGS['sourceIcon'] = true
-
 ADDON.SPELL_CATEGORIES = {}
+
+function ADDON:LoadSpells()
+	for key, value in pairs(AstralAnalytics.spellIds) do
+		if value ~= nil then
+			if value == 'taunt' then
+				ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', key, 'taunt', '<sourceName> taunted <destName> with <spell>')
+			elseif value == 'heroism' then
+				ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', key, 'heroism', '<sourceName> cast <spell>')
+			elseif value == 'utilityT' then
+				ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', key, 'utilityT', '<sourceName> cast <spell> on <destName>')
+			elseif value == 'utilityNT' then
+				ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', key, 'utilityNT', '<sourceName> cast <spell>')
+			else
+				ADDON:AddSpellToCategory(key, value)
+			end
+		end
+	end
+end
 
 function ADDON:AddSpellToCategory(spellID, spellCategory)
 	if not spellID or type(spellID) ~= 'number' then
-		error('ADDON:AddSpellToCategory(spellID, spellCategory) spellID, string expected got ' .. type(spellID))
+		error('ADDON:AddSpellToCategory(spellID, spellCategory) spellID, number expected got ' .. type(spellID))
 	end
 	if not spellCategory or type(spellCategory) ~= 'string' then
 		error('ADDON:AddSpellToCategory(spellID, spellCategory) spellCategory, string expected got ' .. type(spellCategory))
@@ -21,7 +31,11 @@ function ADDON:AddSpellToCategory(spellID, spellCategory)
 	if not self.SPELL_CATEGORIES[spellCategory] then
 		self.SPELL_CATEGORIES[spellCategory] = {}
 	end
+	if self.SPELL_CATEGORIES[spellCategory][spellID] ~= nil then
+		error('ADDON:AddSpellToCategory(spellID, spellCategory) spellId already exists ' .. type(spellID))
+	end
 	table.insert(self.SPELL_CATEGORIES[spellCategory], spellID)
+	AstralAnalytics.spellIds[spellID] = spellCategory
 end
 
 function ADDON:RetrieveSpellCategorySpells(spellCategory)
@@ -34,7 +48,7 @@ end
 
 function ADDON:IsSpellInCategory(spellID, spellCategory)
 	if not spellID or type(spellID) ~= 'number' then
-		error('ADDON:IsSpellInCategory(spellID, spellCategory) spellID, string expected got ' .. type(spellID))
+		error('ADDON:IsSpellInCategory(spellID, spellCategory) spellID, number expected got ' .. type(spellID))
 	end
 	if not spellCategory or type(spellCategory) ~= 'string' then
 		error('ADDON:IsSpellInCategory(spellID, spellCategory) spellCategory, string expected got ' .. type(spellCategory))
@@ -136,14 +150,6 @@ function ADDON:GetSubEventMethod(subEvent, spellID)
 	return self[subEvent][spellID].method
 end
 
-
---[[
-SPELLS TO ADD
-Pet taunts
-dispells  <sourceName> removed <spell> from <destName> with <sourceSpell>  HELPFUL and HARMFUL
-spellsteal
-]]
-
 -- Heroism
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 32182, 'heroism', '<sourceName> cast <spell>') -- Heroism
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 90355, 'heroism', '<sourceName> cast <spell>') -- Ancient Hysteria
@@ -169,14 +175,6 @@ ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 6795, 'taunt', '<sourceName> taun
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 49576, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Death Grip, Death Knight
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 56222, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Dark Command, Death Knight
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 2649, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Growl, Hunter Pet
-
--- Azerite Essence AoE Taunt
--- Rank 1 310592
--- Rank 2 310601
--- Rank 3 310602
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 310592, 'taunt', '<sourceName> taunted with <spell>')
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 310601, 'taunt', '<sourceName> taunted with <spell>')
-ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 310602, 'taunt', '<sourceName> taunted with <spell>')
 
 
 

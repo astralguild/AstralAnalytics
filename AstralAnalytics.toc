@@ -23,5 +23,5 @@ Modules\CombatParsing.lua
 Modules\CrowdControl.lua
 
 fonts.xml
-MinimapButton.lua
+main.lua
 frame.lua

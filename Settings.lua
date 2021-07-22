@@ -4,6 +4,8 @@ if not AstralAnalytics then
 	AstralAnalytics = {}
 	AstralAnalytics.options = {}
 	AstralAnalytics.last_spellID_searched = 0
+	AstralAnalytics.spellIds = {}
+	AstralAnalytics.buffIds = {}
 end
 
 function ADDON:AddDefaultSettings(category, name, data)
