@@ -2,9 +2,17 @@ local ADDON_NAME, ADDON = ...
 
 if not AstralAnalytics then
 	AstralAnalytics = {}
+end
+if not AstralAnalytics.options then
 	AstralAnalytics.options = {}
-	AstralAnalytics.last_spellID_searched = 0
+end
+if not AstralAnalytics.last_spellID_searched then
+	AstralAnalytics.last_spellID_searched = {}
+end
+if not AstralAnalytics.spellIds then
 	AstralAnalytics.spellIds = {}
+end
+if not AstralAnalytics.buffIds then
 	AstralAnalytics.buffIds = {}
 end
 
