@@ -6,9 +6,6 @@ end
 if not AstralAnalytics.options then
 	AstralAnalytics.options = {}
 end
-if not AstralAnalytics.last_spellID_searched then
-	AstralAnalytics.last_spellID_searched = {}
-end
 if not AstralAnalytics.spellIds then
 	AstralAnalytics.spellIds = {}
 end
