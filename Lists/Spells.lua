@@ -4,6 +4,9 @@ local strformat = string.format
 ADDON.SPELL_CATEGORIES = {}
 
 function ADDON:LoadSpells()
+	if(AstralAnalytics.spellIds == nil) then
+		AstralAnalytics.spellIds = {}
+	end
 	for key, value in pairs(AstralAnalytics.spellIds) do
 		if value ~= nil then
 			if value == 'taunt' then
@@ -32,7 +35,7 @@ function ADDON:AddSpellToCategory(spellID, spellCategory)
 		self.SPELL_CATEGORIES[spellCategory] = {}
 	end
 	if self.SPELL_CATEGORIES[spellCategory][spellID] ~= nil then
-		error('ADDON:AddSpellToCategory(spellID, spellCategory) spellId already exists ' .. type(spellID))
+		ADDON:Print('AstralAnalytics:AddSpellToCategory(spellID, spellCategory) spellId already exists ' .. type(spellID))
 	end
 	table.insert(self.SPELL_CATEGORIES[spellCategory], spellID)
 	AstralAnalytics.spellIds[spellID] = spellCategory
@@ -71,7 +74,7 @@ function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString)
 	end
 
 	if self[subEvent][spellID] then
-		error('ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString) spellID already registered')
+		ADDON:Print('AstralAnalytics:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString) spellID already registered')
 	end
 
 	local string = msgString
@@ -175,6 +178,7 @@ ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 6795, 'taunt', '<sourceName> taun
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 49576, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Death Grip, Death Knight
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 56222, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Dark Command, Death Knight
 ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 2649, 'taunt', '<sourceName> taunted <destName> with <spell>') -- Growl, Hunter Pet
+-- need to check provoke
 
 
 

@@ -5,6 +5,9 @@ ADDON.BUFFS = {}
 local CONSOLE_REMOVED_TEXT = 'Removed %s from being tracked.'
 
 function ADDON:LoadBuffs()
+	if(AstralAnalytics.buffIds == nil) then
+		AstralAnalytics.buffIds = {}
+	end
 	for key, value in pairs(AstralAnalytics.buffIds) do
 		ADDON.BUFFS[value][key] = true
 	end
