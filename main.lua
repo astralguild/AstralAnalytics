@@ -46,16 +46,16 @@ function HandleChatCommand(input)
 		ADDON:AddBuffToCategory(tonumber(args[2]), args[3])
 
 	elseif(args[1] == 'addtaunt') then
-		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'taunt', '<sourceName> taunted <destName> with <spell>')
+		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'Taunt', '<sourceName> taunted <destName> with <spell>')
 
 	elseif(args[1] == 'addheroism') then
-		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'heroism', '<sourceName> cast <spell>')
+		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'Bloodlust', '<sourceName> cast <spell>')
 
 	elseif(args[1] == 'addtargetedutility') then
-		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'utilityT', '<sourceName> cast <spell> on <destName>')
+		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'Individual Utility', '<sourceName> cast <spell> on <destName>')
 
 	elseif(args[1] == 'adduntargetedutility') then
-		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'utilityNT', '<sourceName> cast <spell>')
+		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'Group Utility', '<sourceName> cast <spell>')
 
 	else
 		ADDON:Print("Example usage:")
@@ -67,6 +67,4 @@ function HandleChatCommand(input)
 		ADDON:Print("/astral addtargetedutility 1022")
 		ADDON:Print("/astral adduntargetedutility 77761")
 	end
-
-	ADDON:LoadSpells()
 end

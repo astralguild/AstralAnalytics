@@ -160,7 +160,7 @@ local function LoadDefaultSettings(addon)
 		reportChannel = 'console',
 		isEnabled = true,
 		})
-	ADDON:AddDefaultSettings('combatEvents', 'taunt', 
+	ADDON:AddDefaultSettings('combatEvents', 'Taunt', 
 		{
 		reportChannel = 'console',
 		isEnabled = true,
@@ -190,25 +190,25 @@ local function LoadDefaultSettings(addon)
 		reportChannel = 'console',
 		isEnabled = true,
 		})
-	ADDON:AddDefaultSettings('combatEvents', 'heroism', 
+	ADDON:AddDefaultSettings('combatEvents', 'Bloodlust', 
 		{
 		reportChannel = 'console',
 		isEnabled = true,
 		})
 
 	ADDON:AddOptionCategory('Combat Events')
-	ADDON:AddOption('Combat Events', 'Announce taunts', 'taunt', AstralAnalytics.options.combatEvents.taunt.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce interrupts', 'interrupts', AstralAnalytics.options.combatEvents.interrupts.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce taunts', 'Taunt', AstralAnalytics.options.combatEvents.Taunt.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce interrupts', 'Interrupts', AstralAnalytics.options.combatEvents.interrupts.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce own interrupts', 'selfInterrupt', AstralAnalytics.options.combatEvents.selfInterrupt.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce missed interrupts', 'missedInterrupts', AstralAnalytics.options.combatEvents.missedInterrupts.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce combat ressurection', 'battleRes', AstralAnalytics.options.combatEvents.battleRes.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce combat ressurection', 'Battle Res', AstralAnalytics.options.combatEvents.battleRes.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce CC casts', 'crowd', AstralAnalytics.options.combatEvents.crowd.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce CC breaks', 'cc_removed', AstralAnalytics.options.combatEvents.cc_break.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce dispells', 'dispell', AstralAnalytics.options.combatEvents.dispell.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce enrage removals', 'removeEnrage', AstralAnalytics.options.combatEvents.removeEnrage.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce targeted utility', 'utilityT', AstralAnalytics.options.combatEvents.utilityT.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce non-targeted utility', 'utilityNT', AstralAnalytics.options.combatEvents.utilityNT.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce Heroism casts', 'heroism', AstralAnalytics.options.combatEvents.heroism.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce targeted utility', 'Targeted Utility', AstralAnalytics.options.combatEvents.utilityT.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce non-targeted utility', 'Group Utility', AstralAnalytics.options.combatEvents.utilityNT.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce Heroism casts', 'Bloodlust', AstralAnalytics.options.combatEvents.Bloodlust.isEnabled)
 
 	ADDON:AddOptionCategory('General')
 	ADDON:AddOption('General', 'Wrap Names in Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons.isEnabled)

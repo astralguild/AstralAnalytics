@@ -2,6 +2,9 @@
 	<Font name="AstralFontNormal" inherits="GameFontNormal" justifyH="LEFT" virtual="true">
 		<Color r="1" g="1" b="1" a="1"/>
 	</Font>
+		<Font name="AstralFontBigger" inherits="GameFontNormal" justifyH="LEFT" virtual="true" height="16">
+		<Color r="1" g="1" b="1" a="1"/>
+	</Font>
 	<FontFamily name="Lato_Regular_Normal" virtual="true">
 		<Member alphabet="roman">
 			<Font font="Interface\AddOns\AstralAnalytics\Media\Font\Lato-Regular.ttf" height="13" justifyH="LEFT">
