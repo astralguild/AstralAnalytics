@@ -1,8 +1,8 @@
-## Interface: 90001
+## Interface: 90100
 ## Title: Astral Analytics
 ## Notes: Raid analytic tool
-## Author: Phrike
-## Version: 32
+## Author: Phrike, Khazak
+## Version: 33
 ## RequiredDeps: AstralKeys
 ## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
 
@@ -12,16 +12,18 @@ libs\Events.lua
 init.lua
 Settings.lua
 
-Lists\RaidBuffs.lua
-Lists\Spells.lua
-
-
 libs\UnitAura.lua
 libs\SpellTracking.lua
 
+fonts.xml
+OptionsFrame.lua
+main.lua
+
+frame.lua
+dropdown.lua
+
+Lists\RaidBuffs.lua
+Lists\Spells.lua
+
 Modules\CombatParsing.lua
 Modules\CrowdControl.lua
-
-fonts.xml
-main.lua
-frame.lua

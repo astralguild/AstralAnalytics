@@ -3,14 +3,9 @@ local a = ADDON.a
 local floor, min = math.floor, math.min
 
 -- CONSTANTS
-local BACKDROP = {
+ADDON.BACKDROP = {
 bgFile = "Interface/Tooltips/UI-Tooltip-Background",
 edgeFile = nil, tile = true, tileSize = 16, edgeSize = 1,
-insets = {left = 0, right = 0, top = 0, bottom = 0}
-}
-local BACKDROP2 = {
-bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-edgeFile = "Interface\\ChatFrame\\ChatFrameBackground", tile = true, tileSize = 16, edgeSize = 1,
 insets = {left = 0, right = 0, top = 0, bottom = 0}
 }
 
@@ -82,7 +77,6 @@ function Row:CreateRow(parent, index)
 	self.buff[1]:SetScript('OnEnter', function(self)
 			if self.unitID == 'header' then return nil end
 			AstralToolTip:SetOwner(self, "ANCHOR_CURSOR")
-			AstralToolTip:SetBackdrop(BACKDROP2)
 			AstralToolTip:SetBackdropColor(0, 0, 0, .8)
 			AstralToolTip:SetBackdropBorderColor(0, 0, 0)
 			for spellID, index in ADDON:AuraInfo(self:GetParent().unitID, 'spellID') do
@@ -103,7 +97,6 @@ function Row:CreateRow(parent, index)
 		self.buff[i]:SetScript('OnEnter', function(self)
 			if self.unitID == 'header' then return nil end
 			AstralToolTip:SetOwner(self, "ANCHOR_CURSOR")
-			AstralToolTip:SetBackdrop(BACKDROP2)
 			AstralToolTip:SetBackdropColor(0, 0, 0, .8)
 			AstralToolTip:SetBackdropBorderColor(0, 0, 0)
 			for spellID, index in ADDON:AuraInfo(self:GetParent().unitID, 'spellID') do
@@ -199,6 +192,29 @@ function ADDON:ClearUnitBuffs(guid)
 	end
 end
 
+
+local AAFrame = CreateFrame('FRAME', 'AAFrame', UIParent, "BackdropTemplate")
+AAFrame:SetFrameStrata('DIALOG')
+AAFrame:SetSize(330, 440)
+AAFrame:SetMinResize(300, 139)
+AAFrame:SetPoint('CENTER', UIParent, 'CENTER')
+AAFrame:EnableMouse(true)
+AAFrame:SetResizable(true)
+AAFrame:SetBackdrop(ADDON.BACKDROP)
+AAFrame:SetBackdropColor(0, 0, 0, 1)
+AAFrame:SetMovable(true)
+AAFrame:RegisterForDrag('LeftButton')
+AAFrame:SetClampedToScreen(true)
+AAFrame:EnableKeyboard(true)
+AAFrame:SetPropagateKeyboardInput(true)
+AAFrame:Hide()
+AAFrame.elapsed = 0
+
+function AAFrame:AdjustHeight(height)
+	self:SetHeight(height)
+	AAFrameMenuBar:AdjustHeight(height)
+end
+
 function ADDON:UpdateFrameRows()
 	local numGroup = #self.units
 
@@ -233,28 +249,6 @@ function ADDON:UpdateRowsShown(numFrames)
 	end
 end
 
-local AAFrame = CreateFrame('FRAME', 'AAFrame', UIParent, "BackdropTemplate")
-AAFrame:SetFrameStrata('DIALOG')
-AAFrame:SetSize(330, 440)
-AAFrame:SetMinResize(300, 139)
-AAFrame:SetPoint('CENTER', UIParent, 'CENTER')
-AAFrame:EnableMouse(true)
-AAFrame:SetResizable(true)
-AAFrame:SetBackdrop(BACKDROP)
-AAFrame:SetBackdropColor(0, 0, 0, 1)
-AAFrame:SetMovable(true)
-AAFrame:RegisterForDrag('LeftButton')
-AAFrame:SetClampedToScreen(true)
-AAFrame:EnableKeyboard(true)
-AAFrame:SetPropagateKeyboardInput(true)
-AAFrame:Hide()
-AAFrame.elapsed = 0
-
-function AAFrame:AdjustHeight(height)
-	self:SetHeight(height)
-	AAFrameMenuBar:AdjustHeight(height)
-end
-
 local menuBar = CreateFrame('FRAME', '$parentMenuBar', AAFrame)
 menuBar.timeSinceUpdate = 0
 menuBar:SetWidth(30)
@@ -270,9 +264,9 @@ function menuBar:AdjustHeight(height)
 	self.texture:SetHeight(height)
 end
 
-local AstralToolTip = CreateFrame( "GameTooltip", "AstralToolTip", AAFrame, "GameTooltipTemplate")
+local AstralToolTip = CreateFrame( "GameTooltip", "AstralToolTip", AAFrame, "GameTooltipTemplate,BackdropTemplate")
 AstralToolTip:SetOwner(AAFrame, "ANCHOR_CURSOR")
-AstralToolTip:SetBackdrop(BACKDROP)
+AstralToolTip:SetBackdrop(ADDON.BACKDROP)
 
 local corner = CreateFrame('FRAME', '$parentDrag', AAFrame)
 corner:SetFrameStrata('DIALOG')
@@ -390,7 +384,7 @@ reportButton:SetScript('OnClick', function()
 	ADDON:CheckForBuffs(true)
 end)
 
-local optionsButton = CreateFrame('BUTTON', nil, AAFrame)
+local optionsButton = CreateFrame('BUTTON', 'optionsButton', AAFrame)
 optionsButton:SetSize(14, 14)
 optionsButton:SetPoint('TOP', reportButton, 'BOTTOM', 0, -14)
 optionsButton:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\menu3')
@@ -419,6 +413,146 @@ logo_Astral:SetScript('OnLeave', function(self)
 	self:SetAlpha(0.8)
 	end)
 
+--BEGIN SETTINGS FRAME
+
+local settingsButton = CreateFrame('BUTTON', '$parentSettingsButton', menuBar)
+settingsButton:SetNormalTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-settings-20px@2x')
+settingsButton:SetSize(12, 12)
+settingsButton:GetNormalTexture():SetVertexColor(.8, .8, .8, 0.8)
+settingsButton:SetPoint('TOP', optionsButton, 'BOTTOM', 0, -14)
+settingsButton:SetScript('OnEnter', function(self)
+	self:GetNormalTexture():SetVertexColor(126/255, 126/255, 126/255, 0.8)
+end)
+settingsButton:SetScript('OnLeave', function(self)
+	self:GetNormalTexture():SetVertexColor(0.8, 0.8, 0.8, 0.8)
+end)
+
+
+
+--[[local contentFrame = CreateFrame('FRAME', ADDON.AAOptionsContent, 'AAOptionsFrame')
+contentFrame:SetPoint('TOPLEFT', menuBar, 'TOPRIGHT', 15, -15)
+contentFrame:SetSize(550, 360)
+--END SETTINGS FRAME]]--
+
+local listScrollFrame = CreateFrame('ScrollFrame', 'parentListContainer', ADDON.AAOptionsFrame, 'FauxScrollFrameTemplate')
+listScrollFrame:SetSize(415, 375)
+listScrollFrame:SetPoint('TOPLEFT')
+
+local currentDropdownValue = 'Taunt'
+local row = {}
+
+local function CreateSpellList()
+	for key, value in pairs(row) do
+		ADDON.Print("Hiding")
+		ADDON.SpellRow:ClearSpell(value)
+	end
+
+	if row[1] == nil then
+		row[1] = ADDON.SpellRow:CreateRow(listScrollFrame, 1, 1)
+		row[1]:SetPoint('TOPLEFT', 'AAOptionsFrame', 'TOPLEFT', 25, -10)
+	end
+	local currentRow = 1
+	for spellId, _ in pairs(AstralAnalytics.spellIds[currentDropdownValue]) do
+		if row[currentRow] == nil then
+			ADDON.Print('new row for ' .. currentRow .. ' with id ' .. spellId)
+			row[currentRow] = ADDON.SpellRow:CreateRow(listScrollFrame, currentRow, spellId)
+			row[currentRow]:SetPoint('TOPLEFT', 'spellIdRow' .. currentRow-1, 'BOTTOMLEFT', 0, 0)
+			ADDON.SpellRow:SetSpell(row[currentRow], spellId)
+		else 
+			ADDON.Print('setting existing row for ' .. currentRow .. ' with id ' .. spellId)
+			ADDON.SpellRow:SetSpell(row[currentRow], spellId)
+	    end
+		currentRow = currentRow + 1
+	end
+	FauxScrollFrame_Update(listScrollFrame, 54, 18, row[1]:GetHeight())
+end
+
+settingsButton:SetScript('OnClick', function()
+	ADDON.AAOptionsFrame:SetShown( not ADDON.AAOptionsFrame:IsShown())
+	CreateSpellList()
+	end)
+
+local function spellCategoryDropdown_OnClick(self, arg1, arg2, checked)
+	currentDropdownValue = arg1
+	UIDropDownMenu_SetText(spellCategoryDropdown, currentDropdownValue)
+	CreateSpellList()
+end
+
+local function initSpellCategoryDropdown(frame, level, menulist)
+	local info = UIDropDownMenu_CreateInfo()
+	info.func = spellCategoryDropdown_OnClick
+	for key, value in pairs(AstralAnalytics.spellIds) do
+		info.text, info.arg1, info.checked = key, key, key == currentDropdownValue
+		UIDropDownMenu_AddButton(info)
+	end
+end
+
+local spellCategoryDropdown = CreateFrame("Frame", "spellCategoryDropdown", listScrollFrame, "UIDropDownMenuTemplate")
+spellCategoryDropdown:SetPoint('TOPLEFT', listScrollFrame, 'TOPRIGHT', 20, 0)
+spellCategoryDropdown:SetWidth(200)
+UIDropDownMenu_Initialize(spellCategoryDropdown, initSpellCategoryDropdown)
+UIDropDownMenu_SetText(spellCategoryDropdown, currentDropdownValue)
+
+local addSpellInput = CreateFrame('EditBox', 'spellInputbox', spellCategoryDropdown)
+addSpellInput:SetSize(80, 20)
+addSpellInput:SetPoint('TOPLEFT', spellCategoryDropdown, 'BOTTOMLEFT', 5, -5)
+addSpellInput:SetFontObject(AstralFontNormal)
+addSpellInput:EnableKeyboard(true)
+addSpellInput:SetAutoFocus(false)
+addSpellInput.background = addSpellInput:CreateTexture(nil, 'BACKGROUND')
+addSpellInput.background:SetAllPoints(addSpellInput)
+addSpellInput.background:SetColorTexture(0.3, 0.3, 0.3, 1)
+addSpellInput.Label = addSpellInput:CreateFontString(nil, "BORDER", "GameFontNormal")
+addSpellInput.Label:SetJustifyH("Right")
+addSpellInput.Label:SetPoint("BOTTOMLEFT", addSpellInput, "TOPLEFT")
+addSpellInput.Label:SetText("Spell ID to add")
+
+addSpellInput:SetScript('OnEscapePressed', function(self)
+	self:ClearFocus()
+	addSpellInput.SetText('')
+end)
+
+local addSpellInputButton = CreateFrame('Button', 'spellinputbutton', addSpellInput, 'UIPanelButtonTemplate')
+addSpellInputButton:SetSize(40, 20)
+addSpellInputButton:SetPoint('LEFT', addSpellInput, 'RIGHT')
+addSpellInputButton:SetText("Add")
+
+addSpellInputButton:SetScript('OnClick', function()
+	ADDON:AddSpellToCategory(tonumber(addSpellInput:GetText()), currentDropdownValue)
+	addSpellInput:SetText('')
+	CreateSpellList()
+end)
+
+local removeSpellInput = CreateFrame('EditBox', 'spellRemoveInputbox', addSpellInput)
+removeSpellInput:SetSize(80, 20)
+removeSpellInput:SetPoint('TOP', addSpellInput, 'BOTTOM', 0, -20)
+removeSpellInput:SetFontObject(AstralFontNormal)
+removeSpellInput:EnableKeyboard(true)
+removeSpellInput:SetAutoFocus(false)
+removeSpellInput.background = removeSpellInput:CreateTexture(nil, 'BACKGROUND')
+removeSpellInput.background:SetAllPoints(removeSpellInput)
+removeSpellInput.background:SetColorTexture(0.3, 0.3, 0.3, 1)
+removeSpellInput.Label = removeSpellInput:CreateFontString(nil, "BORDER", "GameFontNormal")
+removeSpellInput.Label:SetJustifyH("Right")
+removeSpellInput.Label:SetPoint("BOTTOMLEFT", removeSpellInput, "TOPLEFT")
+removeSpellInput.Label:SetText("Spell ID to remove")
+
+removeSpellInput:SetScript('OnEscapePressed', function(self)
+	self:ClearFocus()
+	removeSpellInput.SetText('')
+end)
+
+local removeSpellInputButton = CreateFrame('Button', 'spellremovebutton', removeSpellInput, 'UIPanelButtonTemplate')
+removeSpellInputButton:SetSize(60, 20)
+removeSpellInputButton:SetPoint('LEFT', removeSpellInput, 'RIGHT')
+removeSpellInputButton:SetText('Remove')
+
+removeSpellInputButton:SetScript('OnClick', function()
+	ADDON:RemoveSpellFromCategory(tonumber(removeSpellInput:GetText()), currentDropdownValue)
+	removeSpellInput:SetText('')
+	CreateSpellList()
+end)
+
 function ADDON:CreateMainWindow()
 	self.row = {}
 	-- Create Header row
@@ -428,7 +562,6 @@ function ADDON:CreateMainWindow()
 	self.row[0]:SetUnit('header')
 	-- Create 20 rows by default
 	for i = 1, 20 do
-		local xOffSet = i == 1 and 30 or 0
 		self.row[i] = Row:CreateRow(AAFrame, i)
 		self.row[i]:SetPoint('TOPLEFT', self.row[i-1], 'BOTTOMLEFT', 0, self:Scale(-3))
 		MixIn(self.row[i], Row)
@@ -476,219 +609,6 @@ end
 function ADDON:ToggleMainWindow()
 	AAFrame:SetShown(not AAFrame:IsShown())
 end
-
-local mainMenu = CreateFrame('FRAME', 'aa_dropdown', UIParent, "BackdropTemplate")
-mainMenu.dtbl = {}
-mainMenu:Hide()
-mainMenu:SetFrameStrata('TOOLTIP')
-mainMenu:SetWidth(200)
-mainMenu:SetHeight(40)
-mainMenu:SetBackdrop(BACKDROP2)
-mainMenu:SetBackdropBorderColor(0, 0, 0, 1)
-mainMenu:SetBackdropColor(75/255, 75/255, 75/255)
-mainMenu:SetPoint('TOPLEFT', optionsButton, 'BOTTOMLEFT', 0, -2)
-
-local subMenu = CreateFrame('FRAME', 'aa_dropdown_sub', UIParent, "BackdropTemplate")
-subMenu.dtbl = {}
-subMenu:Hide()
-subMenu:SetFrameStrata('TOOLTIP')
-subMenu:SetWidth(150)
-subMenu:SetHeight(130)
-subMenu:SetBackdrop(BACKDROP2)
-subMenu:SetBackdropBorderColor(0, 0, 0, 1)
-subMenu:SetBackdropColor(75/255, 75/255, 75/255)
-
-function subMenu:UpdateChannels()
-	for i = 1, 6 do
-		if self.dtbl[i].channel == AstralAnalytics.options.general.announceChannel then
-			self.dtbl[i].texture:Show()
-		else
-			self.dtbl[i].texture:Hide()
-		end
-	end
-end
-
-for i = 1, 6 do
-	local btn = CreateFrame('BUTTON', nil, aa_dropdown_sub, "BackdropTemplate")
-	btn.category = 'general'
-	btn.option = 'announceChannel'
-	btn.channel = ''
-	btn:SetSize(140, 20)
-	btn:SetBackdrop(BACKDROP2)
-	btn:SetBackdropBorderColor(0, 0, 0, 0)
-	btn:SetBackdropColor(75/255, 75/255, 75/255)
-	btn:SetNormalFontObject(Lato_Regular_Normal)
-	btn:SetText('channel')
-	btn:GetFontString():SetPoint('LEFT', btn, 'LEFT', 5, 0)
-
-	btn.texture = btn:CreateTexture()
-	btn.texture:SetSize(14, 14)
-	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
-	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-done-small@2x')
-	btn.texture:Hide()
-
-	btn:SetScript('OnClick', function(self)
-		AstralAnalytics.options[self.category][self.option] = self.channel
-		self:GetParent():UpdateChannels()
-		end)
-
-	btn:SetPoint('TOPLEFT', aa_dropdown_sub, 'TOPLEFT', 5, -20*(i - 1) - 5)
-
-	table.insert(aa_dropdown_sub.dtbl, btn)
-end
-
-local subMenuGroups = CreateFrame('FRAME', 'aa_dropdown_subGroups', UIParent, "BackdropTemplate")
-subMenuGroups.dtbl = {}
-subMenuGroups:Hide()
-subMenuGroups:SetFrameStrata('TOOLTIP')
-subMenuGroups:SetWidth(150)
-subMenuGroups:SetHeight(170)
-subMenuGroups:SetBackdrop(BACKDROP2)
-subMenuGroups:SetBackdropBorderColor(0, 0, 0, 1)
-subMenuGroups:SetBackdropColor(75/255, 75/255, 75/255)
-
-function subMenuGroups:UpdateGroups()
-	for i = 1, 8 do
-		if AstralAnalytics.options.group[i].isEnabled then
-			self.dtbl[i].texture:Show()
-		else
-			self.dtbl[i].texture:Hide()
-		end
-	end
-end
-
-for i = 1, 8 do
-	local btn = CreateFrame('BUTTON', nil, aa_dropdown_subGroups, "BackdropTemplate")
-	btn.category = 'group'
-	btn.option = i
-	btn.isChecked = false
-	btn:SetSize(140, 20)
-	btn:SetBackdrop(BACKDROP2)
-	btn:SetBackdropBorderColor(0, 0, 0, 0)
-	btn:SetBackdropColor(75/255, 75/255, 75/255)
-	btn:SetNormalFontObject(Lato_Regular_Normal)
-	btn:SetText('Group ' .. i)
-	btn:GetFontString():SetPoint('LEFT', btn, 'LEFT', 5, 0)
-
-	btn.texture = btn:CreateTexture()
-	btn.texture:SetSize(14, 14)
-	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
-	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-done-small@2x')
-	btn.texture:Hide()
-
-	btn:SetScript('OnClick', function(self)
-		AstralAnalytics.options[self.category][self.option].isEnabled = not AstralAnalytics.options[self.category][self.option].isEnabled
-		self:GetParent():UpdateGroups()
-		ADDON:InitializeTableMembers()
-		end)
-
-	btn:SetPoint('TOPLEFT', aa_dropdown_subGroups, 'TOPLEFT', 5, -20*(i - 1) - 5)
-
-	table.insert(aa_dropdown_subGroups.dtbl, btn)
-end
-
-local DropDownMenuMixin = {}
-
-local btnWidth = 190
-function DropDownMenuMixin:NewObject(entry, category)
-	local btn = CreateFrame('BUTTON', nil, self, "BackdropTemplate")
-	btn.category = category
-	btn.option = entry.option
-	btn:SetSize(btnWidth, 20)
-	btn:SetBackdrop(BACKDROP2)
-	btn:SetBackdropBorderColor(0, 0, 0, 0)
-	btn:SetBackdropColor(75/255, 75/255, 75/255)
-	btn:SetNormalFontObject(Lato_Regular_Normal)
-	btn:SetText(entry.label)
-	
-	local fontString = btn:GetFontString()
-	fontString:SetPoint('LEFT', btn, 'LEFT', 5, 0)
-	local textWidth = fontString:GetStringWidth()
-	if textWidth > (btnWidth - 24) then -- 10 for padding, 14 for check texture
-		btnWidth = textWidth + 24
-		btn:GetParent():SetWidth(textWidth + 29)
-		btn:SetWidth(btnWidth)
-		local btns = btn:GetParent().dtbl
-		for i = 1, #btns do
-			btns[i]:SetWidth(btnWidth)
-		end
-	end
-	btn:GetFontString():SetPoint('LEFT', btn, 'LEFT', 5, 0)
-
-	btn.texture = btn:CreateTexture()
-	btn.texture:SetSize(14, 14)
-	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
-	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-done-small@2x')
-	
-	if entry.option ~= 'announceChannel' and entry.option ~= 'group' then
-		if entry.value then
-			btn.texture:Show()
-		else
-			btn.texture:Hide()
-		end
-		btn:SetScript('OnClick', function(self)
-			AstralAnalytics.options[self.category][self.option].isEnabled = not AstralAnalytics.options[self.category][self.option].isEnabled
-			self.texture:SetShown(AstralAnalytics.options[self.category][self.option].isEnabled)
-			end)
-	elseif entry.option == 'announceChannel' then
-		btn.texture:Hide()
-		btn.value = entry.value
-		btn:SetScript('OnClick', function(self)
-			aa_dropdown_sub:SetPoint('LEFT', self, 'RIGHT', 10, 0)
-			aa_dropdown_sub:SetShown(not aa_dropdown_sub:IsShown())
-			if aa_dropdown_sub:IsShown() then
-				aa_dropdown_subGroups:Hide()
-			end
-
-		end)
-	elseif entry.option == 'group' then
-		btn.texture:Hide()
-		btn.value = entry.value
-		btn:SetScript('OnClick', function(self)
-			aa_dropdown_subGroups:SetPoint('LEFT', self, 'RIGHT', 10, 0)
-			aa_dropdown_subGroups:SetShown(not aa_dropdown_subGroups:IsShown())
-			if aa_dropdown_subGroups:IsShown() then
-				aa_dropdown_sub:Hide()
-			end
-		end)
-	end
-
-	return btn
-end
-
-function DropDownMenuMixin:AddEntry(entry, category)
-	local dtbl = self.dtbl
-	dtbl[#dtbl + 1] = self:NewObject(entry, category)
-	self:SetHeight((#dtbl -1) * 20 + 30)
-
-	if onClick then
-		dtbl[#dtbl]:HookScript('OnClick', function(self)
-				
-			self:GetParent():Update()
-			abr_dropdownMenu:Hide() end)
-	end
-	dtbl[#dtbl]:SetPoint('TOPLEFT', self, 'TOPLEFT', 0, -20*(#dtbl - 1) - 5)
-end
-
-MixIn(aa_dropdown, DropDownMenuMixin)
-
-optionsButton:SetScript('OnClick', function(self)
-	aa_dropdown:SetShown(not aa_dropdown:IsShown())
-	if not aa_dropdown:IsShown() then
-		aa_dropdown_sub:Hide()
-		aa_dropdown_subGroups:Hide()
-	end
-	end)
-
-aa_dropdown:SetScript('OnHide', function(self)
-	aa_dropdown_sub:Hide()
-	aa_dropdown_subGroups:Hide()
-	end)
-a.AddEscHandler(aa_dropdown)
-
-AAFrame:SetScript('OnHide', function(self)
-	aa_dropdown:Hide()
-end)
 
 local function InitializeWindow()
 	ADDON:CreateMainWindow()

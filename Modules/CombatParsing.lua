@@ -155,7 +155,7 @@ COMBAT_FUNCS['SPELL_CAST_SUCCESS'] = function(timeStamp, subEvent, hideCaster, s
 		end
 		-- Missed interrupts
 		if AstralAnalytics.options.combatEvents.missedInterrupts.isEnabled then
-			if ADDON:IsSpellInCategory(spellID, 'INTERRUPTS') then
+			if ADDON:IsSpellInCategory(spellID, 'Interrupts') then
 				local unit
 				for i = 1, #ADDON.units do
 					if ADDON.units[i].guid == sourceGUID then
@@ -225,4 +225,5 @@ local function ParseCombatLog()
 	end
 end
 
+--todo, gate this behind an init check?
 CombatEvents:Register('COMBAT_LOG_EVENT_UNFILTERED', ParseCombatLog, 'CombatLogParser')

@@ -137,7 +137,7 @@ end
 CombatEvents:RegisterSubEventMethod('SWING_DAMAGE', 'Crowd_OnSwingDamage', CrowdControl_OnDamageEvent)
 CombatEvents:RegisterSubEventMethod('SPELL_PERIODIC_DAMAGE', 'Crowd_OnPeriodicDamage', CrowdControl_OnDamageEvent)
 CombatEvents:RegisterSubEventMethod('SPELL_DAMAGE', 'Crowd_OnSpellDamage', CrowdControl_OnDamageEvent)
-CombatEvents:RegisterSubEventMethod('SPELL_AURA_BROKEN_SPELL', 'Crowd_OnAuraBrokenSpell', CrowdControl_OnAuraBreakSpell)
+CombatEvents:RegisterSubEventMethod('Dispel', 'Crowd_OnAuraBrokenSpell', CrowdControl_OnAuraBreakSpell)
 CombatEvents:RegisterSubEventMethod('RANGE_DAMAGE', 'Crowd_OnRangeDamage', CrowdControl_OnDamageEvent)
 CombatEvents:RegisterSubEventMethod('SPELL_AURA_REMOVED', 'Crowd_AuraRemoved', CrowdControl_OnAuraRemovedEvent)
 CombatEvents:RegisterSubEventMethod('SPELL_AURA_REFRESH', 'Crowd_AuraRefreshed', CrowdControl_OnAuraRefresh)
