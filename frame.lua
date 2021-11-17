@@ -443,7 +443,6 @@ local row = {}
 
 local function CreateSpellList()
 	for key, value in pairs(row) do
-		ADDON.Print("Hiding")
 		ADDON.SpellRow:ClearSpell(value)
 	end
 
@@ -454,12 +453,10 @@ local function CreateSpellList()
 	local currentRow = 1
 	for spellId, _ in pairs(AstralAnalytics.spellIds[currentDropdownValue]) do
 		if row[currentRow] == nil then
-			ADDON.Print('new row for ' .. currentRow .. ' with id ' .. spellId)
 			row[currentRow] = ADDON.SpellRow:CreateRow(listScrollFrame, currentRow, spellId)
 			row[currentRow]:SetPoint('TOPLEFT', 'spellIdRow' .. currentRow-1, 'BOTTOMLEFT', 0, 0)
 			ADDON.SpellRow:SetSpell(row[currentRow], spellId)
 		else 
-			ADDON.Print('setting existing row for ' .. currentRow .. ' with id ' .. spellId)
 			ADDON.SpellRow:SetSpell(row[currentRow], spellId)
 	    end
 		currentRow = currentRow + 1

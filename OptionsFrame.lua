@@ -46,7 +46,11 @@ end
 
 function ADDON.SpellRow:SetSpell(self, spell)
 	local name, rank, icon = GetSpellInfo(spell)
-	self.name:SetText("|T"..icon..":20|t" .. name .. " (" .. spell .. ")")
+	if name == nil then
+		self.name:SetText("Invalid spell id: "..spell)
+	else
+		self.name:SetText("|T"..icon..":20|t" .. name .. " (" .. spell .. ")")
+	end
 	self:Show()
 end
 

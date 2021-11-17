@@ -49,7 +49,6 @@ function ADDON:AddSpellToCategory(spellID, spellCategory)
 		ADDON:Print('AstralAnalytics:AddSpellToCategory(spellID, spellCategory) spellId already exists ' .. type(spellID))
 	end
 	table.insert(self.SPELL_CATEGORIES[spellCategory], spellID)
-	ADDON:Print(spellID)
 	if (AstralAnalytics.spellIds[spellCategory] == nil) then
 		AstralAnalytics.spellIds[spellCategory] = {}
 	end
