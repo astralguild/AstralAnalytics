@@ -4,9 +4,15 @@ local floor, min = math.floor, math.min
 
 -- CONSTANTS
 ADDON.BACKDROP = {
-bgFile = "Interface/Tooltips/UI-Tooltip-Background",
-edgeFile = nil, tile = true, tileSize = 16, edgeSize = 1,
-insets = {left = 0, right = 0, top = 0, bottom = 0}
+	bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+	edgeFile = nil, tile = true, tileSize = 16, edgeSize = 1,
+	insets = {left = 0, right = 0, top = 0, bottom = 0}
+}
+
+ADDON.BACKDROP2 = {
+	bgFile = "Interface/Tooltips/UI-Tooltip-Background",
+	edgeFile = "Interface\\ChatFrame\\ChatFrameBackground", tile = true, tileSize = 16, edgeSize = 1,
+	insets = {left = 0, right = 0, top = 0, bottom = 0}
 }
 
 -- Local variables

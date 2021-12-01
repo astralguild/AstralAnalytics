@@ -75,7 +75,7 @@ subMenuGroups:Hide()
 subMenuGroups:SetFrameStrata('TOOLTIP')
 subMenuGroups:SetWidth(150)
 subMenuGroups:SetHeight(170)
-subMenuGroups:SetBackdrop(BACKDROP2)
+subMenuGroups:SetBackdrop(ADDON.BACKDROP2)
 subMenuGroups:SetBackdropBorderColor(0, 0, 0, 1)
 subMenuGroups:SetBackdropColor(75/255, 75/255, 75/255)
 
@@ -95,7 +95,7 @@ for i = 1, 8 do
 	btn.option = i
 	btn.isChecked = false
 	btn:SetSize(140, 20)
-	btn:SetBackdrop(BACKDROP2)
+	btn:SetBackdrop(ADDON.BACKDROP2)
 	btn:SetBackdropBorderColor(0, 0, 0, 0)
 	btn:SetBackdropColor(75/255, 75/255, 75/255)
 	btn:SetNormalFontObject(Lato_Regular_Normal)
@@ -127,7 +127,7 @@ function DropDownMenuMixin:NewObject(entry, category)
 	btn.category = category
 	btn.option = entry.option
 	btn:SetSize(btnWidth, 20)
-	btn:SetBackdrop(BACKDROP2)
+	btn:SetBackdrop(ADDON.BACKDROP2)
 	btn:SetBackdropBorderColor(0, 0, 0, 0)
 	btn:SetBackdropColor(75/255, 75/255, 75/255)
 	btn:SetNormalFontObject(Lato_Regular_Normal)
