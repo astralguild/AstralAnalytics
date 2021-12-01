@@ -14,7 +14,7 @@ ADDON.AAOptionsFrame = CreateFrame('FRAME', 'AAOptionsFrame', UIParent)
 	ADDON.AAOptionsFrame:SetClampedToScreen(true)
 	ADDON.AAOptionsFrame.background =  ADDON.AAOptionsFrame:CreateTexture(nil, 'BACKGROUND')
 	ADDON.AAOptionsFrame.background:SetAllPoints( ADDON.AAOptionsFrame)
-	ADDON.AAOptionsFrame.background:SetColorTexture(0, 0, 0, 1)
+	ADDON.AAOptionsFrame.background:SetColorTexture(0, 0, 0, .70)
 	ADDON.AAOptionsFrame:Hide()
 
 	ADDON.AAOptionsFrame:SetScript('OnKeyDown', function(self, key)
