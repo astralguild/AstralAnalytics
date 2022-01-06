@@ -28,7 +28,7 @@ local CONSOLE_INTERRUPT_TEXT = '%s interrupted %s casting %s' -- RAIDICON UNIT R
 local CONSOLE_INTERRUPT_TEXT_MISSED = '%s missed %s on %s (Not Casting)'
 local CONSOLE_INTERRUPT_TEXT_IMMUNE = '%s missed %s on %s (Immune)'
 
-local CHAT_INTERRUPT_TEXT = 'Interrupted %s casting %s' -- INTERRUPTED UNIT's SPELL LINK
+local CHAT_INTERRUPT_TEXT = 'Interrupted %s%s%s casting %s' -- INTERRUPTED UNIT's SPELL LINK
 
 CombatEvents = Event:New()
 CombatEvents.SubEventFunctions = {}
@@ -69,27 +69,6 @@ function ADDON:AddCombatFunction(subEvent, funcName, func)
 	if not COMBAT_FUNCS[subEvent] then
 		COMBAT_FUNCS[subEvent] = {}
 	end
-end
-
-local function GetRaidTargetString(targetFlags)
-	if AstralAnalytics.options.general.raidIcons.isEnabled then -- Settings, enableIconsInReports.  Maybe have it be specific to what option it is?
-		local bitRaid = bband(targetFlags, COMBATLOG_OBJECT_RAIDTARGET_MASK)	
-		local raidIndex = bitRaid and RAID_TARGET_BIT[bitRaid] or nil
-
-		if raidIndex then
-			return _G['COMBATLOG_ICON_RAIDTARGET' .. raidIndex]
-		end
-	end
-
-	return ''
-end
-
-local function NewFunctionObject(func, name)
-	local self = {}
-	self.name = name
-	self.method = func
-
-	return self
 end
 
 function ADDON:AddCombatFunction(subEvent, func, name)
