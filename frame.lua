@@ -441,7 +441,7 @@ contentFrame:SetSize(550, 360)
 --END SETTINGS FRAME]]--
 
 local listScrollFrame = CreateFrame('ScrollFrame', 'parentListContainer', ADDON.AAOptionsFrame, 'FauxScrollFrameTemplate')
-listScrollFrame:SetSize(415, 375)
+listScrollFrame:SetSize(325, 400)
 listScrollFrame:SetPoint('TOPLEFT')
 
 local currentDropdownValue = 'Taunt'
