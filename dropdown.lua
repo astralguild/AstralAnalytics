@@ -9,7 +9,7 @@ local function MixIn(D, T)
 	end
 end
 
-local mainMenu = CreateFrame('FRAME', 'aa_dropdown', UIParent, "BackdropTemplate")
+local mainMenu = CreateFrame('FRAME', 'optionsMenu', UIParent, "BackdropTemplate")
 mainMenu.dtbl = {}
 mainMenu:Hide()
 mainMenu:SetFrameStrata('TOOLTIP')
@@ -29,6 +29,37 @@ subMenu:SetHeight(130)
 subMenu:SetBackdrop(ADDON.BACKDROP2)
 subMenu:SetBackdropBorderColor(0, 0, 0, 1)
 subMenu:SetBackdropColor(75/255, 75/255, 75/255)
+
+local reportMenu = CreateFrame('FRAME', 'aa_reportDropdown', UIParent, "BackdropTemplate")
+reportMenu.dtbl = {}
+reportMenu:Hide()
+reportMenu:SetFrameStrata('TOOLTIP')
+reportMenu:SetWidth(200)
+reportMenu:SetHeight(20)
+reportMenu:SetBackdrop(ADDON.BACKDROP2)
+reportMenu:SetBackdropBorderColor(0, 0, 0, 1)
+reportMenu:SetBackdropColor(75/255, 75/255, 75/255)
+reportMenu:SetPoint('TOPLEFT', reportMenuButton, 'BOTTOMLEFT', 0, -2)
+
+reportMenuButton:SetScript('OnClick', function(self)
+	reportMenu:SetShown(not reportMenu:IsShown())
+	if not reportMenu:IsShown() then
+		reportMenu:Hide()
+	end
+end)
+
+local reportButton = CreateFrame('BUTTON', 'announceButton', reportMenu, "BackdropTemplate")
+reportButton:SetSize(200, 20)
+reportButton:SetBackdrop(ADDON.BACKDROP2)
+reportButton:SetBackdropBorderColor(0, 0, 0, 0)
+reportButton:SetBackdropColor(75/255, 75/255, 75/255)
+reportButton:SetNormalFontObject(Lato_Regular_Normal)
+reportButton:SetText("Check for Buffs")
+reportButton:SetPoint('LEFT')
+
+reportButton:SetScript('OnClick', function()
+	ADDON:CheckForBuffs(true)
+end)
 
 function subMenu:UpdateChannels()
 	for i = 1, 6 do
@@ -202,22 +233,23 @@ function DropDownMenuMixin:AddEntry(entry, category)
 	dtbl[#dtbl]:SetPoint('TOPLEFT', self, 'TOPLEFT', 0, -20*(#dtbl - 1) - 5)
 end
 
-MixIn(aa_dropdown, DropDownMenuMixin)
+MixIn(optionsMenu, DropDownMenuMixin)
 
 optionsButton:SetScript('OnClick', function(self)
-	aa_dropdown:SetShown(not aa_dropdown:IsShown())
-	if not aa_dropdown:IsShown() then
+	optionsMenu:SetShown(not optionsMenu:IsShown())
+	if not optionsMenu:IsShown() then
 		aa_dropdown_sub:Hide()
 		aa_dropdown_subGroups:Hide()
 	end
-	end)
+end)
 
-aa_dropdown:SetScript('OnHide', function(self)
+optionsMenu:SetScript('OnHide', function(self)
 	aa_dropdown_sub:Hide()
 	aa_dropdown_subGroups:Hide()
 	end)
-a.AddEscHandler(aa_dropdown)
+a.AddEscHandler(optionsMenu)
 
 AAFrame:SetScript('OnHide', function(self)
-	aa_dropdown:Hide()
+	optionsMenu:Hide()
+	reportMenu:Hide()
 end)
