@@ -198,7 +198,7 @@ local function LoadDefaultSettings(addon)
 
 	ADDON:AddOptionCategory('Combat Events')
 	ADDON:AddOption('Combat Events', 'Announce taunts', 'Taunt', AstralAnalytics.options.combatEvents.Taunt.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce interrupts', 'Interrupts', AstralAnalytics.options.combatEvents.interrupts.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce interrupts', 'Interrupts', AstralAnalytics.options.combatEvents.Interrupts.isEnabled)
 	ADDON:AddOption('Combat Events', 'Say own interrupts to group', 'selfInterrupt', AstralAnalytics.options.combatEvents.selfInterrupt.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce missed interrupts', 'missedInterrupts', AstralAnalytics.options.combatEvents.missedInterrupts.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce combat ressurection', 'Battle Res', AstralAnalytics.options.combatEvents.battleRes.isEnabled)
@@ -239,7 +239,7 @@ local function LoadDefaultSettings(addon)
 
 		for _, entry in pairs(entries) do
 			ADDON:Print(entry.option..cat)
-			aa_dropdown:AddEntry(entry, cat)
+			optionsMenu:AddEntry(entry, cat)
 		end
 	end
 
