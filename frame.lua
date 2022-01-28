@@ -406,7 +406,6 @@ logo_Astral:SetAlpha(0.8)
 logo_Astral:SetNormalTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\Logo@2x')
 
 --BEGIN SETTINGS FRAME
-
 local spellSettingsButton = CreateFrame('BUTTON', '$parentspellSettingsButton', menuBar)
 spellSettingsButton:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\menu3')
 spellSettingsButton:SetSize(14, 14)
@@ -419,52 +418,91 @@ spellSettingsButton:SetScript('OnLeave', function(self)
 	self:GetNormalTexture():SetVertexColor(0.8, 0.8, 0.8, 0.8)
 end)
 
+local spellListFrame = CreateFrame('Frame', 'spellListFrame', ADDON.AAOptionsFrame)
+spellListFrame:SetSize(325, 400)
+spellListFrame:SetPoint('TOPLEFT')
 
-
---[[local contentFrame = CreateFrame('FRAME', ADDON.AAOptionsContent, 'AAOptionsFrame')
-contentFrame:SetPoint('TOPLEFT', menuBar, 'TOPRIGHT', 15, -15)
-contentFrame:SetSize(550, 360)
---END SETTINGS FRAME]]--
-
-local listScrollFrame = CreateFrame('ScrollFrame', 'parentListContainer', ADDON.AAOptionsFrame, 'FauxScrollFrameTemplate')
-listScrollFrame:SetSize(325, 400)
+local listScrollFrame = CreateFrame('ScrollFrame', 'parentListContainer', spellListFrame, 'FauxScrollFrameTemplate')
+listScrollFrame:SetSize(310, 380)
 listScrollFrame:SetPoint('TOPLEFT')
-
 local currentDropdownValue = 'Taunt'
+
+
 local row = {}
-
-local function CreateSpellList()
-	for key, value in pairs(row) do
-		ADDON.SpellRow:ClearSpell(value)
-	end
-
-	if row[1] == nil then
-		row[1] = ADDON.SpellRow:CreateRow(listScrollFrame, 1, 1)
-		row[1]:SetPoint('TOPLEFT', 'AAOptionsFrame', 'TOPLEFT', 25, -10)
-	end
-	local currentRow = 1
+local currentSpells = {}
+local BUTTON_HEIGHT = 20
+local visibleRows = 18
+local function PopSpellData()
+	currentSpells = {}
 	for spellId, _ in pairs(AstralAnalytics.spellIds[currentDropdownValue]) do
-		if row[currentRow] == nil then
-			row[currentRow] = ADDON.SpellRow:CreateRow(listScrollFrame, currentRow, spellId)
-			row[currentRow]:SetPoint('TOPLEFT', 'spellIdRow' .. currentRow-1, 'BOTTOMLEFT', 0, 0)
-			ADDON.SpellRow:SetSpell(row[currentRow], spellId)
-		else 
-			ADDON.SpellRow:SetSpell(row[currentRow], spellId)
-	    end
-		currentRow = currentRow + 1
+
+		table.insert(currentSpells, spellId)
 	end
-	FauxScrollFrame_Update(listScrollFrame, 54, 18, row[1]:GetHeight())
 end
+
+local function listScrollFrameUpdate()
+	local numRows = #currentSpells
+	FauxScrollFrame_Update(listScrollFrame, numRows, visibleRows, BUTTON_HEIGHT)
+	local offset = FauxScrollFrame_GetOffset(listScrollFrame)
+	for line = 1, visibleRows do 
+		local lineplusoffset = line + offset
+		local button = row[line]
+		if button ~= nil then
+			if lineplusoffset > numRows then 
+				button:Hide()
+			else
+				ADDON.SpellRow:SetSpell(button, currentSpells[lineplusoffset])
+				button:Show()
+			end
+		else
+			row[line] = ADDON.SpellRow:CreateRow(listScrollFrame, line, 0)
+			row[line]:SetPoint('TOPLEFT', 'spellIdRow' .. line-1, 'BOTTOMLEFT', 0, 0)
+			row[line]:Hide()
+		end
+
+	end
+	for line = visibleRows, #row do 
+		row[line]:Hide()
+	end
+end
+
+
+if row[1] == nil then
+	row[1] = ADDON.SpellRow:CreateRow(listScrollFrame, 1, 1)
+	row[1]:SetPoint('TOPLEFT', 'AAOptionsFrame', 'TOPLEFT', 25, -10)
+end
+local currentRow = 1
+for i = 1, visibleRows do
+	if row[currentRow] == nil then
+		row[currentRow] = ADDON.SpellRow:CreateRow(listScrollFrame, currentRow, 0)
+		row[currentRow]:SetPoint('TOPLEFT', 'spellIdRow' .. currentRow-1, 'BOTTOMLEFT', 0, 0)
+		row[currentRow]:Hide()
+		end
+	currentRow = currentRow + 1
+end
+
+listScrollFrame:SetScript("OnVerticalScroll", function(listScrollFrame, offset)
+	FauxScrollFrame_OnVerticalScroll(listScrollFrame, offset, BUTTON_HEIGHT, listScrollFrameUpdate)
+end)
+
+ADDON.AAOptionsFrame:SetScript('OnSizeChanged', function(self)
+	local height = self:GetHeight()
+	visibleRows = min(floor(height/ADDON:Scale(20)), 40)
+	listScrollFrame:SetHeight(height)
+	listScrollFrameUpdate()
+end)
 
 spellSettingsButton:SetScript('OnClick', function()
 	ADDON.AAOptionsFrame:SetShown( not ADDON.AAOptionsFrame:IsShown())
-	CreateSpellList()
+	PopSpellData()
+	listScrollFrameUpdate()
 	end)
 
 local function spellCategoryDropdown_OnClick(self, arg1, arg2, checked)
 	currentDropdownValue = arg1
 	UIDropDownMenu_SetText(spellCategoryDropdown, currentDropdownValue)
-	CreateSpellList()
+	PopSpellData()
+	listScrollFrameUpdate()
 end
 
 local function initSpellCategoryDropdown(frame, level, menulist)
@@ -476,8 +514,8 @@ local function initSpellCategoryDropdown(frame, level, menulist)
 	end
 end
 
-local spellCategoryDropdown = CreateFrame("Frame", "spellCategoryDropdown", listScrollFrame, "UIDropDownMenuTemplate")
-spellCategoryDropdown:SetPoint('TOPLEFT', listScrollFrame, 'TOPRIGHT', 20, 0)
+local spellCategoryDropdown = CreateFrame("Frame", "spellCategoryDropdown", spellListFrame, "UIDropDownMenuTemplate")
+spellCategoryDropdown:SetPoint('TOPLEFT', spellListFrame, 'TOPRIGHT', 20, 0)
 spellCategoryDropdown:SetWidth(200)
 UIDropDownMenu_Initialize(spellCategoryDropdown, initSpellCategoryDropdown)
 UIDropDownMenu_SetText(spellCategoryDropdown, currentDropdownValue)
@@ -564,7 +602,7 @@ function ADDON:CreateMainWindow()
 	local height = ADDON:Scale(44 + (AAFrame.numFramesShown * 19))
 	AAFrame:SetHeight(height)
 end
-
+--END SETTINGS FRAME]]--
 --[[
 BUFF LIST FROM RIGHT TO LEFT
 1 VANTUS RUNE

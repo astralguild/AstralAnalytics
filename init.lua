@@ -100,7 +100,7 @@ function ADDON:SetUIScale()
 	self.screenHeight = UIParent:GetHeight()
 	self.scale = string.match( GetCVar( "gxWindowedResolution" ), "%d+x(%d+)" )
 	uiScale = UIParent:GetScale()
-	mult = 768/self.scale/uiScale
+	mult = 1080/self.scale/uiScale
 end
 
 function ADDON:Scale(x)

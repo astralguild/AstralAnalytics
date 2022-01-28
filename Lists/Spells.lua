@@ -26,6 +26,10 @@ function ADDON:LoadSpells()
 				for spellId, _ in pairs(value) do
 					ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Group Utility', '<sourceName> cast <spell>')
 				end
+			elseif key == 'crowd' then
+				for spellId, _ in pairs(value) do
+					ADDON:AddSpellToCategory(spellId, 'Crowd Control')
+				end
 			else
 				for spellId, _ in pairs(value) do
 					ADDON:AddSpellToCategory(spellId, key)
@@ -229,7 +233,7 @@ function LoadPresets()
 	ADDON:AddSpellToCategory(218164, 'Dispel') -- Detox, Monk
 	ADDON:AddSpellToCategory(115450, 'Dispel') -- Detox, Monk
 	ADDON:AddSpellToCategory(2908, 'Dispel') -- Soothe, Druid
-	ADDON:AddSpellToCategory(88425, 'Dispel') -- Nature's Cure, Druid
+	ADDON:AddSpellToCategory(88423, 'Dispel') -- Nature's Cure, Druid
 	ADDON:AddSpellToCategory(213644, 'Dispel') -- Cleanse Toxins, Paladin
 	ADDON:AddSpellToCategory(4987, 'Dispel') -- Cleanse, Paladin
 	ADDON:AddSpellToCategory(475, 'Dispel') -- Remove Curse, Mage
@@ -264,4 +268,41 @@ function LoadPresets()
 	ADDON:AddSpellToCategory(347008, 'Interrupts') -- Axe Toss
 	ADDON:AddSpellToCategory(47528, 'Interrupts') -- Mind Freeze
 	ADDON:AddSpellToCategory(31935, 'Interrupts') -- Avenger's Shield
+
+		-- Add spells to be tracked as crowd controls
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6770, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Sap, Rogue
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 2094, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Blind, Rogue
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 118, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 28272, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 28271, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 61780, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 61305, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161372, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 61721, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161354, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 126819, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277792, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277787, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161353, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161355, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 20066, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Repentance, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 5782, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Fear, Warlock
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6358, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Seduction, Warlock
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 115268, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Mesmerize, Warlock
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 710, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Banish, Warlock
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 115078, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Paralysis, Monk
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 217832, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Imprison, Demon Hunter
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 339, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Entangling Roots, Druid
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 132469, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Typhoon, Druid
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 9484, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Shackle Undead, Priest
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 51514, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 210875, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 211004, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 211010, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 211015, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 269352, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277778, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277784, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 3355, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Freezing Trap, Hunter
+
 end
