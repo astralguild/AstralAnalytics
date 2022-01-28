@@ -15,6 +15,12 @@ Settings.lua
 libs\UnitAura.lua
 libs\SpellTracking.lua
 
+Lists\RaidBuffs.lua
+Lists\Spells.lua
+
+Modules\CombatParsing.lua
+Modules\CrowdControl.lua
+
 fonts.xml
 OptionsFrame.lua
 main.lua
@@ -22,8 +28,3 @@ main.lua
 frame.lua
 dropdown.lua
 
-Lists\RaidBuffs.lua
-Lists\Spells.lua
-
-Modules\CombatParsing.lua
-Modules\CrowdControl.lua
