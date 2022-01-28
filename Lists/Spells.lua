@@ -244,7 +244,7 @@ function LoadPresets()
 	-- Offensive Dispells
 	ADDON:AddSpellToCategory(528, 'Dispel') -- Dispel Magic, Priest
 	ADDON:AddSpellToCategory(30449, 'Dispel') -- Spellsteal, Mage
-	ADDON:AddSpellToCategory(264028, 'Dispel') -- Chi-Ji's Tranquility, Hunter Pet
+	ADDON:AddSpellToCategory(334350, 'Dispel') -- Chi-Ji's Tranquility, Hunter Pet
 	ADDON:AddSpellToCategory(278326, 'Dispel') -- Consume Magic, Demon Hunter
 	ADDON:AddSpellToCategory(370, 'Dispel') -- Purge, Shaman
 

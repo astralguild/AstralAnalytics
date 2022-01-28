@@ -459,9 +459,8 @@ local function listScrollFrameUpdate()
 			row[line]:SetPoint('TOPLEFT', 'spellIdRow' .. line-1, 'BOTTOMLEFT', 0, 0)
 			row[line]:Hide()
 		end
-
 	end
-	for line = visibleRows, #row do 
+	for line = visibleRows+1, #row do 
 		row[line]:Hide()
 	end
 end
@@ -487,7 +486,7 @@ end)
 
 ADDON.AAOptionsFrame:SetScript('OnSizeChanged', function(self)
 	local height = self:GetHeight()
-	visibleRows = min(floor(height/ADDON:Scale(20)), 40)
+	visibleRows = min(floor(height/ADDON:Scale(20)), 40) - 1
 	listScrollFrame:SetHeight(height)
 	listScrollFrameUpdate()
 end)
@@ -547,7 +546,8 @@ addSpellInputButton:SetText("Add")
 addSpellInputButton:SetScript('OnClick', function()
 	ADDON:AddSpellToCategory(tonumber(addSpellInput:GetText()), currentDropdownValue)
 	addSpellInput:SetText('')
-	CreateSpellList()
+	PopSpellData()
+	listScrollFrameUpdate()
 end)
 
 local removeSpellInput = CreateFrame('EditBox', 'spellRemoveInputbox', addSpellInput)
@@ -577,7 +577,8 @@ removeSpellInputButton:SetText('Remove')
 removeSpellInputButton:SetScript('OnClick', function()
 	ADDON:RemoveSpellFromCategory(tonumber(removeSpellInput:GetText()), currentDropdownValue)
 	removeSpellInput:SetText('')
-	CreateSpellList()
+	PopSpellData()
+	listScrollFrameUpdate()
 end)
 
 function ADDON:CreateMainWindow()
