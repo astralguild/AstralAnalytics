@@ -5,8 +5,8 @@
 ## Version: 34
 ## RequiredDeps: AstralKeys
 ## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
-## X-Wago-ID: 573967
-## X-Curse-Project-ID: 265199
+## X-Wago-ID: RBKpPOKE
+## X-Curse-Project-ID: 573967
 
 embeds.xml
 libs\Events.lua
