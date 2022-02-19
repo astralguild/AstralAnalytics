@@ -80,3 +80,16 @@ ADDON:AddBuffToCategory(354390, 'VANTUS')
 ADDON:AddBuffToCategory(354391, 'VANTUS')
 ADDON:AddBuffToCategory(354392, 'VANTUS')
 ADDON:AddBuffToCategory(354393, 'VANTUS')
+
+--SotFO
+ADDON:AddBuffToCategory(367126, 'VANTUS')
+ADDON:AddBuffToCategory(367132, 'VANTUS')
+ADDON:AddBuffToCategory(367124, 'VANTUS')
+ADDON:AddBuffToCategory(367143, 'VANTUS')
+ADDON:AddBuffToCategory(367134, 'VANTUS')
+ADDON:AddBuffToCategory(367140, 'VANTUS')
+ADDON:AddBuffToCategory(367130, 'VANTUS')
+ADDON:AddBuffToCategory(367121, 'VANTUS')
+ADDON:AddBuffToCategory(367128, 'VANTUS')
+ADDON:AddBuffToCategory(367136, 'VANTUS')
+ADDON:AddBuffToCategory(359893, 'VANTUS') -- vigilant guardian???  Verify later

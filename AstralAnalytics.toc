@@ -1,8 +1,8 @@
-## Interface: 90105
+## Interface: 90200
 ## Title: Astral Analytics
 ## Notes: Raid analytic tool
 ## Author: Phrike, Khazak
-## Version: 34
+## Version: 35
 ## RequiredDeps: AstralKeys
 ## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
 ## X-Wago-ID: RBKpPOKE
