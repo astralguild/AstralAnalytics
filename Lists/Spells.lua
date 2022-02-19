@@ -267,6 +267,7 @@ function LoadPresets()
 	ADDON:AddSpellToCategory(183752, 'Interrupts') -- Disrupt
 	ADDON:AddSpellToCategory(347008, 'Interrupts') -- Axe Toss
 	ADDON:AddSpellToCategory(47528, 'Interrupts') -- Mind Freeze
+	ADDON:AddSpellToCategory(31935, 'Interrupts') -- Avenger's Shield
 
 		-- Add spells to be tracked as crowd controls
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6770, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Sap, Rogue
