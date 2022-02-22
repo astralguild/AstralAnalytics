@@ -25,13 +25,16 @@ function ADDON:OnInitialize()
 	ADDON.icon:Register("AstralAnalytics", AstralAnalyticsLDB, self.db.profile.minimap)
 
 	ADDON:RegisterChatCommand('astral', HandleChatCommand)
+	ADDON:RegisterChatCommand('aa', OpenMainWindow)
 	ADDON:LoadBuffs()
 	ADDON:LoadSpells()
 end
 
-function HandleChatCommand(input)
-	ADDON:Print(input)
+function OpenMainWindow(input)
+	ADDON:ToggleMainWindow()
+end
 
+function HandleChatCommand(input)
 	local args = {strsplit(' ', input)}
 
 	--TODO: less fragile arg handling
