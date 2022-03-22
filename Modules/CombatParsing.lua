@@ -59,18 +59,6 @@ end
 
 local COMBAT_FUNCS = {}
 
-function ADDON:AddCombatFunction(subEvent, funcName, func)
-	if not subEvent or type(subEvent) ~= 'string' then
-		error('AddCombatFunction(subEvent, func): subEvent string expected, got ' ..  type(subEvent))
-	end
-	if not func and type(func) ~= 'func' then
-		error('AddCombatFunction(subEvent, func): func string expected, got ' .. type(func))
-	end
-	if not COMBAT_FUNCS[subEvent] then
-		COMBAT_FUNCS[subEvent] = {}
-	end
-end
-
 function ADDON:AddCombatFunction(subEvent, func, name)
 	if not subEvent and type(subEvent) ~= 'string' then
 		error('AddCombatFunction(subEvent, func): subEvent string expected, got ' ..  type(subEvent))

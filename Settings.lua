@@ -175,17 +175,22 @@ local function LoadDefaultSettings(addon)
 		reportChannel = 'console',
 		isEnabled = true,
 		})
-	ADDON:AddDefaultSettings('combatEvents', 'removeEnrage', 
+	ADDON:AddDefaultSettings('combatEvents', 'Soothe', 
 		{
 		reportChannel = 'console',
 		isEnabled = true,
 		})
-	ADDON:AddDefaultSettings('combatEvents', 'utilityT', 
+	ADDON:AddDefaultSettings('combatEvents', 'Targeted Utility', 
 		{
 		reportChannel = 'console',
 		isEnabled = true,
 		})
-	ADDON:AddDefaultSettings('combatEvents', 'utilityNT', 
+	ADDON:AddDefaultSettings('combatEvents', 'misdirects', 
+		{
+		reportChannel = 'console',
+		isEnabled = true,
+		})
+	ADDON:AddDefaultSettings('combatEvents', 'Group Utility', 
 		{
 		reportChannel = 'console',
 		isEnabled = true,
@@ -201,13 +206,14 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddOption('Combat Events', 'Announce interrupts', 'Interrupts', AstralAnalytics.options.combatEvents.Interrupts.isEnabled)
 	ADDON:AddOption('Combat Events', 'Say own interrupts to group', 'selfInterrupt', AstralAnalytics.options.combatEvents.selfInterrupt.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce missed interrupts', 'missedInterrupts', AstralAnalytics.options.combatEvents.missedInterrupts.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce combat ressurection', 'Battle Res', AstralAnalytics.options.combatEvents.battleRes.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce combat ressurection', 'Battle Res', AstralAnalytics.options.combatEvents['battleRes'].isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce CC casts', 'crowd', AstralAnalytics.options.combatEvents.crowd.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce CC breaks', 'cc_break', AstralAnalytics.options.combatEvents.cc_break.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce dispells', 'dispell', AstralAnalytics.options.combatEvents.dispell.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce enrage removals', 'removeEnrage', AstralAnalytics.options.combatEvents.removeEnrage.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce targeted utility', 'Targeted Utility', AstralAnalytics.options.combatEvents.utilityT.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce non-targeted utility', 'Group Utility', AstralAnalytics.options.combatEvents.utilityNT.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce soothe', 'Soothe', AstralAnalytics.options.combatEvents['Soothe'].isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce targeted utility', 'Targeted Utility', AstralAnalytics.options.combatEvents['Targeted Utility'].isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce misdirects', 'misdirects', AstralAnalytics.options.combatEvents.misdirects.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce non-targeted utility', 'Group Utility', AstralAnalytics.options.combatEvents['Group Utility'].isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce Heroism casts', 'Bloodlust', AstralAnalytics.options.combatEvents.Bloodlust.isEnabled)
 
 	ADDON:AddOptionCategory('General')
@@ -238,7 +244,6 @@ local function LoadDefaultSettings(addon)
 		end
 
 		for _, entry in pairs(entries) do
-			ADDON:Print(entry.option..cat)
 			optionsMenu:AddEntry(entry, cat)
 		end
 	end

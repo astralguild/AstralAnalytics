@@ -22,6 +22,10 @@ function ADDON:LoadSpells()
 				for spellId, _ in pairs(value) do
 					ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Targeted Utility', '<sourceName> cast <spell> on <destName>')
 				end
+			elseif key == 'Misdirects' then
+				for spellId, _ in pairs(value) do
+					ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Misdirects', '<sourceName> cast <spell> on <destName>')
+				end
 			elseif key == 'Group Utility' then
 				for spellId, _ in pairs(value) do
 					ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Group Utility', '<sourceName> cast <spell>')
@@ -196,10 +200,10 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 230935, 'Bloodlust', '<sourceName> cast <spell>') -- Drums of the Mountain
 
 	-- Battle res
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 20484, 'Battle Res', '<sourceName> resurrected <destName> with <spell>') -- Rebirth
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 20707, 'Battle Res', '<sourceName> cast <spell> on <destName>') -- Soulstone
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 61999, 'Battle Res', '<sourceName> resurrected <destName> with <spell>') -- Raise Ally
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 207399, 'Battle Res', '<sourceName> cast <spell>') -- Ancestral Protection Totem
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 20484, 'battleRes', '<sourceName> resurrected <destName> with <spell>') -- Rebirth
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 20707, 'battleRes', '<sourceName> cast <spell> on <destName>') -- Soulstone
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 61999, 'battleRes', '<sourceName> resurrected <destName> with <spell>') -- Raise Ally
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 207399, 'battleRes', '<sourceName> cast <spell>') -- Ancestral Protection Totem
 
 	-- Taunts
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 115546, 'Taunt', '<sourceName> taunted <destName> with <spell>') -- Provoke, Monk
@@ -214,10 +218,12 @@ function LoadPresets()
 
 	-- Targeted Utility Spells
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 29166, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Innervate, Druid
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 34477, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Misdirect, Hunter
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 73325, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Leap of Faith, Priest
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 1022, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Protection, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 57934, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Tricks of the Trade, Rogue
+
+	-- Misdirects
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 57934, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Tricks of the Trade, Rogue
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 34477, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Misdirect, Hunter
 
 	-- Non-targeted Utility Spells
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 205636, 'Group Utility', '<sourceName> cast <spell>') -- Force of Nature, Druid
@@ -232,7 +238,6 @@ function LoadPresets()
 	ADDON:AddSpellToCategory(527, 'Dispel') -- Purify, Priest
 	ADDON:AddSpellToCategory(218164, 'Dispel') -- Detox, Monk
 	ADDON:AddSpellToCategory(115450, 'Dispel') -- Detox, Monk
-	ADDON:AddSpellToCategory(2908, 'Dispel') -- Soothe, Druid
 	ADDON:AddSpellToCategory(88423, 'Dispel') -- Nature's Cure, Druid
 	ADDON:AddSpellToCategory(213644, 'Dispel') -- Cleanse Toxins, Paladin
 	ADDON:AddSpellToCategory(4987, 'Dispel') -- Cleanse, Paladin
@@ -248,6 +253,10 @@ function LoadPresets()
 	ADDON:AddSpellToCategory(278326, 'Dispel') -- Consume Magic, Demon Hunter
 	ADDON:AddSpellToCategory(370, 'Dispel') -- Purge, Shaman
 
+	-- Purges
+	ADDON:AddSpellToCategory(5938, 'Soothe') -- Shiv, Rogue
+	ADDON:AddSpellToCategory(2908, 'Soothe') -- Soothe, Druid
+	ADDON:AddSpellToCategory(19801, 'Soothe') -- Tranquilizing Shot, Druid
 
 	-- Interrupts
 	ADDON:AddSpellToCategory(1766, 'Interrupts') -- Kick, Rogue
@@ -267,7 +276,6 @@ function LoadPresets()
 	ADDON:AddSpellToCategory(183752, 'Interrupts') -- Disrupt
 	ADDON:AddSpellToCategory(347008, 'Interrupts') -- Axe Toss
 	ADDON:AddSpellToCategory(47528, 'Interrupts') -- Mind Freeze
-	ADDON:AddSpellToCategory(31935, 'Interrupts') -- Avenger's Shield
 
 		-- Add spells to be tracked as crowd controls
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6770, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Sap, Rogue
@@ -305,4 +313,8 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277784, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 3355, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Freezing Trap, Hunter
 
+
+	ADDON:RemoveSpellFromCategory(34477, 'Targeted Utility') -- tricks of the trade
+	ADDON:RemoveSpellFromCategory(57934, 'Targeted Utility') -- misdirect
+	ADDON:RemoveSpellFromCategory(31935, 'Interrupts') -- avengers shield
 end
