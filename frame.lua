@@ -22,7 +22,7 @@ local sortedTable = {}
 local TOTAL_BUFFS = 7 -- Hard coded for now. Will Change later to match the tracked buffs
 
 local BUFF_TEXTURES = {}
-BUFF_TEXTURES[1] = 4074774 -- Vantus
+BUFF_TEXTURES[1] = 4238797 -- Vantus
 BUFF_TEXTURES[2] = 134078 --134425 -- Augment
 BUFF_TEXTURES[3] = 133943 -- Food
 BUFF_TEXTURES[4] = 3566840 -- Flask
