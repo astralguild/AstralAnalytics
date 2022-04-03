@@ -2,7 +2,7 @@
 ## Title: Astral Analytics
 ## Notes: Raid analytic tool
 ## Author: Phrike, Khazak
-## Version: 0.36
+## Version: 0.37
 ## RequiredDeps: AstralKeys
 ## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
 ## X-Wago-ID: RBKpPOKE
