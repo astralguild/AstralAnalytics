@@ -317,4 +317,6 @@ function LoadPresets()
 	ADDON:RemoveSpellFromCategory(34477, 'Targeted Utility') -- tricks of the trade
 	ADDON:RemoveSpellFromCategory(57934, 'Targeted Utility') -- misdirect
 	ADDON:RemoveSpellFromCategory(31935, 'Interrupts') -- avengers shield
+	AstralAnalytics.spellIds['Dispel'] = nil
+	AstralAnalytics.spellIds['Soothe'] = nil
 end
