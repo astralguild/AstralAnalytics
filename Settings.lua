@@ -172,12 +172,7 @@ local function LoadDefaultSettings(addon)
 		reportChannel = 'console',
 		isEnabled = true,
 		})
-	ADDON:AddDefaultSettings('combatEvents', 'dispell', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Soothe', 
+		ADDON:AddDefaultSettings('combatEvents', 'dispell', 
 		{
 		reportChannel = 'console',
 		isEnabled = true,
@@ -187,7 +182,7 @@ local function LoadDefaultSettings(addon)
 		reportChannel = 'console',
 		isEnabled = true,
 		})
-	ADDON:AddDefaultSettings('combatEvents', 'misdirects', 
+	ADDON:AddDefaultSettings('combatEvents', 'Misdirects', 
 		{
 		reportChannel = 'console',
 		isEnabled = true,
@@ -212,11 +207,10 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddOption('Combat Events', 'Announce CC casts', 'crowd', AstralAnalytics.options.combatEvents.crowd.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce CC breaks', 'cc_break', AstralAnalytics.options.combatEvents.cc_break.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce dispells', 'dispell', AstralAnalytics.options.combatEvents.dispell.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce soothe', 'Soothe', AstralAnalytics.options.combatEvents['Soothe'].isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce targeted utility', 'Targeted Utility', AstralAnalytics.options.combatEvents['Targeted Utility'].isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce misdirects', 'misdirects', AstralAnalytics.options.combatEvents.misdirects.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce misdirects', 'Misdirects', AstralAnalytics.options.combatEvents.Misdirects.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce non-targeted utility', 'Group Utility', AstralAnalytics.options.combatEvents['Group Utility'].isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce Heroism casts', 'Bloodlust', AstralAnalytics.options.combatEvents.Bloodlust.isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce Bloodlust casts', 'Bloodlust', AstralAnalytics.options.combatEvents.Bloodlust.isEnabled)
 
 	ADDON:AddOptionCategory('General')
 	ADDON:AddOption('General', 'Wrap Names in Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons.isEnabled)
@@ -270,6 +264,9 @@ local function LoadDefaultSettings(addon)
 	end
 	aa_dropdown_subGroups:UpdateGroups()
 	AAEvents:Unregister('ADDON_LOADED', 'LoadDefaultSettings')
+
+	AstralAnalytics.options.combatEvents.Misdirects.isEnabled = false
+	AstralAnalytics.options.combatEvents.Misdirects = nil
 end
 
 
