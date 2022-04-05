@@ -66,6 +66,7 @@ ADDON:AddBuffToCategory(307166, 'FLASKS') --Cauldron version of SFoP
 -- Augment Runes
 ADDON.BUFFS.RUNES = {}
 ADDON:AddBuffToCategory(347901, 'RUNES') --Veiled Augment Rune
+ADDON:AddBuffToCategory(367405, 'RUNES') --Eternal Augment Rune
 
 -- Vantus Runes
 ADDON.BUFFS.VANTUS = {}

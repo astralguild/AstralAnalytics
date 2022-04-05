@@ -582,7 +582,7 @@ removeSpellInputButton:SetScript('OnClick', function()
 end)
 
 local scaleSlider = CreateFrame('Slider', 'AAScaleSlider', removeSpellInput, 'OptionsSliderTemplate')
-scaleSlider:SetPoint('TOP', removeSpellInput, 'BOTTOM', 0, -20)
+scaleSlider:SetPoint('TOP', removeSpellInput, 'BOTTOM', 50, -200)
 getglobal(scaleSlider:GetName() .. 'Low'):SetText('0.5');
 getglobal(scaleSlider:GetName() .. 'High'):SetText('1.5');
 getglobal(scaleSlider:GetName() .. 'Text'):SetText('Scale');

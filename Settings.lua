@@ -265,7 +265,6 @@ local function LoadDefaultSettings(addon)
 	aa_dropdown_subGroups:UpdateGroups()
 	AAEvents:Unregister('ADDON_LOADED', 'LoadDefaultSettings')
 
-	AstralAnalytics.options.combatEvents.misdirects.isEnabled = false
 	AstralAnalytics.options.combatEvents.misdirects = nil
 end
 
