@@ -220,6 +220,8 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 29166, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Innervate, Druid
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 73325, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Leap of Faith, Priest
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 1022, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Protection, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 327661, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Fae Guardians, Priest
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 10060, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Power Infusion, Priest
 
 	-- Misdirects
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 57934, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Tricks of the Trade, Rogue
