@@ -220,7 +220,12 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 29166, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Innervate, Druid
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 73325, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Leap of Faith, Priest
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 1022, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Protection, Paladin
-
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 327661, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Fae Guardians, Priest
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 10060, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Power Infusion, Priest
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328282, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Spring, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328620, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Summer, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328622, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Autumn, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328281, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Winter, Paladin
 	-- Misdirects
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 57934, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Tricks of the Trade, Rogue
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 34477, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Misdirect, Hunter
