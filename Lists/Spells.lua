@@ -226,6 +226,9 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328620, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Summer, Paladin
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328622, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Autumn, Paladin
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328281, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Winter, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 1022, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Protection, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 204018, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Spellwarding, Paladin
+
 	-- Misdirects
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 57934, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Tricks of the Trade, Rogue
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 34477, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Misdirect, Hunter
@@ -238,6 +241,16 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 64901, 'Group Utility', '<sourceName> cast <spell>') -- Symbol of Hope, Priest
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 114018, 'Group Utility', '<sourceName> cast <spell>') -- Shroud of Concealment, Rogue
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 192077, 'Group Utility', '<sourceName> cast <spell>') -- Wind Rush Totem, Shaman
+
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 119381, 'AoE CC', '<sourceName> cast <spell>') -- Leg Sweep, Monk
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 115750, 'AoE CC', '<sourceName> cast <spell>') -- Blinding Light, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 179057, 'AoE CC', '<sourceName> cast <spell>') -- Chaos Nova, Demon Hunter
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 99, 'AoE CC', '<sourceName> cast <spell>') -- Incapacitating Roar, Warrior
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 30283, 'AoE CC', '<sourceName> cast <spell>') -- Shadowfury, Warlock
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 192058, 'AoE CC', '<sourceName> cast <spell>') -- Capacitator Totem, Shaman
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 207167, 'AoE CC', '<sourceName> cast <spell>') -- Blinding Sleet, Death Knight
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 205369, 'AoE CC', '<sourceName> cast <spell>') -- Mind Bomb, Priest
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 31661, 'AoE CC', '<sourceName> cast <spell>') -- Dragon's Breath, Mage
 
 	-- Defensive Dispells
 	ADDON:AddSpellToCategory(527, 'Dispel') -- Purify, Priest
