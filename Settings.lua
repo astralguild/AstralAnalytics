@@ -202,6 +202,11 @@ local function LoadDefaultSettings(addon)
 		reportChannel = 'console',
 		isEnabled = true,
 		})
+		ADDON:AddDefaultSettings('combatEvents', 'Externals', 
+		{
+		reportChannel = 'console',
+		isEnabled = true,
+		})
 		
 
 	ADDON:AddOptionCategory('Combat Events')
@@ -218,6 +223,7 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddOption('Combat Events', 'Announce non-targeted utility', 'Group Utility', AstralAnalytics.options.combatEvents['Group Utility'].isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce Bloodlust casts', 'Bloodlust', AstralAnalytics.options.combatEvents.Bloodlust.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce AoE CC', 'AoE CC', AstralAnalytics.options.combatEvents['AoE CC'].isEnabled)
+	ADDON:AddOption('Combat Events', 'External Defensives', 'Externals', AstralAnalytics.options.combatEvents.Externals.isEnabled)
 
 	ADDON:AddOptionCategory('General')
 	ADDON:AddOption('General', 'Wrap Names in Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons.isEnabled)

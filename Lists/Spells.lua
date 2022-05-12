@@ -219,15 +219,12 @@ function LoadPresets()
 	-- Targeted Utility Spells
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 29166, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Innervate, Druid
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 73325, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Leap of Faith, Priest
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 1022, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Protection, Paladin
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 327661, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Fae Guardians, Priest
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 10060, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Power Infusion, Priest
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328282, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Spring, Paladin
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328620, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Summer, Paladin
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328622, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Autumn, Paladin
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328281, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Winter, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 1022, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Protection, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 204018, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Spellwarding, Paladin
 
 	-- Misdirects
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 57934, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Tricks of the Trade, Rogue
@@ -251,6 +248,9 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 207167, 'AoE CC', '<sourceName> cast <spell>') -- Blinding Sleet, Death Knight
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 205369, 'AoE CC', '<sourceName> cast <spell>') -- Mind Bomb, Priest
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 31661, 'AoE CC', '<sourceName> cast <spell>') -- Dragon's Breath, Mage
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 12323, 'AoC CC', '<sourceName> cast <spell>') -- Piercing Howl, Warrior
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 132469, 'AoE CC', '<sourceName> cast <spell>') -- Typhoon, Druid
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 51490, 'AoE CC', '<sourceName> cast <spell>') -- Thunderstorm, Shaman
 
 	-- Defensive Dispells
 	ADDON:AddSpellToCategory(527, 'Dispel') -- Purify, Priest
@@ -330,11 +330,26 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277778, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277784, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 3355, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Freezing Trap, Hunter
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 334275, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Curse of Exhaustion, Warlock
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 186387, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Bursting Shot, Hunter
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 45524, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Chains of Ice, Death Knight
+
+	-- Externals
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 1022, 'Externals', '<sourceName> cast <spell> on <destName>') -- Blessing of Protection, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 204018, 'Externals', '<sourceName> cast <spell> on <destName>') -- Blessing of Spellwarding, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6940, 'Externals', '<sourceName> cast <spell> on <destName>') -- Blessing of Sacrifice, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 633, 'Externals', '<sourceName> cast <spell> on <destName>') -- Lay on Hands, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 47788, 'Externals', '<sourceName> cast <spell> on <destName>') -- Guardian Spirit, Priest
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 2050, 'Externals', '<sourceName> cast <spell> on <destName>') -- Holy Word Serenity, Priest
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 116849, 'Externals', '<sourceName> cast <spell> on <destName>') -- Life Cocoon, Monk
+	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 102342, 'Externals', '<sourceName> cast <spell> on <destName>') -- Ironbark, Druid
 
 
 	ADDON:RemoveSpellFromCategory(34477, 'Targeted Utility') -- tricks of the trade
 	ADDON:RemoveSpellFromCategory(57934, 'Targeted Utility') -- misdirect
 	ADDON:RemoveSpellFromCategory(31935, 'Interrupts') -- avengers shield
+	ADDON:RemoveSpellFromCategory(1022, 'Targeted Utility') -- bop
+	ADDON:RemoveSpellFromCategory(204018, 'Targeted Utility') -- bos
 	AstralAnalytics.spellIds['Dispel'] = nil
 	AstralAnalytics.spellIds['Soothe'] = nil
 end
