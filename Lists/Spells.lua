@@ -248,9 +248,8 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 207167, 'AoE CC', '<sourceName> cast <spell>') -- Blinding Sleet, Death Knight
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 205369, 'AoE CC', '<sourceName> cast <spell>') -- Mind Bomb, Priest
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 31661, 'AoE CC', '<sourceName> cast <spell>') -- Dragon's Breath, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 12323, 'AoC CC', '<sourceName> cast <spell>') -- Piercing Howl, Warrior
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 132469, 'AoE CC', '<sourceName> cast <spell>') -- Typhoon, Druid
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 51490, 'AoE CC', '<sourceName> cast <spell>') -- Thunderstorm, Shaman
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 132469, 'AoE CC', '<sourceName> cast <spell>') -- Typhoon, Druid
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 51490, 'AoE CC', '<sourceName> cast <spell>') -- Thunderstorm, Shaman
 
 	-- Defensive Dispells
 	ADDON:AddSpellToCategory(527, 'Dispel') -- Purify, Priest
@@ -319,7 +318,6 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 115078, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Paralysis, Monk
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 217832, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Imprison, Demon Hunter
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 339, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Entangling Roots, Druid
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 132469, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Typhoon, Druid
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 9484, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Shackle Undead, Priest
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 51514, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 210875, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
@@ -344,12 +342,22 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 116849, 'Externals', '<sourceName> cast <spell> on <destName>') -- Life Cocoon, Monk
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 102342, 'Externals', '<sourceName> cast <spell> on <destName>') -- Ironbark, Druid
 
+	-- Slows
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 45524, 'Slows', '<sourceName> cast <spell> on <destName>') -- Chains of Ice, Death Knight
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 334275, 'Slows', '<sourceName> cast <spell> on <destName>') -- Curse of Exhaustion, Warlock
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 12323, 'Slows', '<sourceName> cast <spell>') -- Piercing Howl, Warrior
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 1715, 'Slows', '<sourceName> cast <spell> on <destName>') -- Hamstring, Warrior
 
 	ADDON:RemoveSpellFromCategory(34477, 'Targeted Utility') -- tricks of the trade
 	ADDON:RemoveSpellFromCategory(57934, 'Targeted Utility') -- misdirect
 	ADDON:RemoveSpellFromCategory(31935, 'Interrupts') -- avengers shield
 	ADDON:RemoveSpellFromCategory(1022, 'Targeted Utility') -- bop
 	ADDON:RemoveSpellFromCategory(204018, 'Targeted Utility') -- bos
+	ADDON:RemoveSpellFromCategory(132469, 'Crowd Control') -- duplicate typhoon
+	ADDON:RemoveSpellFromCategory(334275, 'Crowd Control') -- coe
+	ADDON:RemoveSpellFromCategory(45524, 'Crowd Control') -- coi
+	ADDON:RemoveSpellFromCategory(12323, 'AoE CC') -- piercing howl
 	AstralAnalytics.spellIds['Dispel'] = nil
 	AstralAnalytics.spellIds['Soothe'] = nil
+	AstralAnalytics.spellIds['AoC CC'] = nil
 end
