@@ -252,7 +252,7 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 51490, 'AoE CC', '<sourceName> cast <spell>') -- Thunderstorm, Shaman
 
 	-- Defensive Dispells
-	ADDON:AddSpellToCategory(527, 'Dispel') -- Purify, Priest
+--[[ 	ADDON:AddSpellToCategory(527, 'Dispel') -- Purify, Priest
 	ADDON:AddSpellToCategory(218164, 'Dispel') -- Detox, Monk
 	ADDON:AddSpellToCategory(115450, 'Dispel') -- Detox, Monk
 	ADDON:AddSpellToCategory(88423, 'Dispel') -- Nature's Cure, Druid
@@ -273,10 +273,10 @@ function LoadPresets()
 	-- Purges
 	ADDON:AddSpellToCategory(5938, 'Soothe') -- Shiv, Rogue
 	ADDON:AddSpellToCategory(2908, 'Soothe') -- Soothe, Druid
-	ADDON:AddSpellToCategory(19801, 'Soothe') -- Tranquilizing Shot, Druid
+	ADDON:AddSpellToCategory(19801, 'Soothe') -- Tranquilizing Shot, Druid ]]
 
 	-- Interrupts
-	ADDON:AddSpellToCategory(1766, 'Interrupts') -- Kick, Rogue
+  ADDON:AddSpellToCategory(1766, 'Interrupts') -- Kick, Rogue
 	ADDON:AddSpellToCategory(106839, 'Interrupts') -- Skull Bash
 	ADDON:AddSpellToCategory(97547, 'Interrupts') -- Solar Beam 
 	ADDON:AddSpellToCategory(183752, 'Interrupts') -- Consume Magic
@@ -292,7 +292,7 @@ function LoadPresets()
 	ADDON:AddSpellToCategory(171138, 'Interrupts') -- Shadow Lock
 	ADDON:AddSpellToCategory(183752, 'Interrupts') -- Disrupt
 	ADDON:AddSpellToCategory(347008, 'Interrupts') -- Axe Toss
-	ADDON:AddSpellToCategory(47528, 'Interrupts') -- Mind Freeze
+	ADDON:AddSpellToCategory(47528, 'Interrupts') -- Mind Freeze 
 
 		-- Add spells to be tracked as crowd controls
 	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6770, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Sap, Rogue
@@ -347,6 +347,14 @@ function LoadPresets()
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 334275, 'Slows', '<sourceName> cast <spell> on <destName>') -- Curse of Exhaustion, Warlock
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 12323, 'Slows', '<sourceName> cast <spell>') -- Piercing Howl, Warrior
 	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 1715, 'Slows', '<sourceName> cast <spell> on <destName>') -- Hamstring, Warrior
+
+	-- Major defensives
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 642, 'Major Defensives', '<sourceName> cast <spell>') -- Divine Shield, Paladin
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 186265, 'Major Defensives', '<sourceName> cast <spell>') -- Aspect of the Turtle, Hunter
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 31224, 'Major Defensives', '<sourceName> cast <spell>') -- Cloak of Shadows, Rogue
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 48707, 'Major Defensives', '<sourceName> cast <spell>') -- Anti Magic Shield, Death Knight
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 45438, 'Major Defensives', '<sourceName> cast <spell>') -- Ice Block, Mage
+	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 196555, 'Major Defensives', '<sourceName> cast <spell>') -- Netherwalk, Demon Hunter
 
 	ADDON:RemoveSpellFromCategory(34477, 'Targeted Utility') -- tricks of the trade
 	ADDON:RemoveSpellFromCategory(57934, 'Targeted Utility') -- misdirect

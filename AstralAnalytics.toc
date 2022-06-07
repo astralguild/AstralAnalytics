@@ -2,7 +2,7 @@
 ## Title: |cffa335eeAstral|r |cffffffffAnalytics|r
 ## Notes: Raid analytic tool
 ## Author: Phrike, Khazak
-## Version: 0.43
+## Version: 0.44
 ## RequiredDeps: AstralKeys
 ## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
 ## X-Wago-ID: RBKpPOKE
