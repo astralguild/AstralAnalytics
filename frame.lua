@@ -144,7 +144,7 @@ function Row:SetUnit(unit)
 	else
 		self.guid = unit and UnitGUID(unit.unitID) or ''
 		local r, g, b = GetClassColor(unit.class)
-		self.background:SetGradientAlpha("HORIZONTAL",r/1.5,g/1.5,b/1.5,1,r/1.5,g/2,b/1.5,.1)
+		self.background:SetGradient("HORIZONTAL", CreateColor(r/1.5,g/1.5,b/1.5,1), CreateColor(r/1.5,g/2,b/1.5,.1))
 
 		for i = 1, TOTAL_BUFFS do
 			self.buff[i].texture:SetTexture(BUFF_TEXTURES[i])
@@ -202,7 +202,7 @@ end
 local AAFrame = CreateFrame('FRAME', 'AAFrame', UIParent, "BackdropTemplate")
 AAFrame:SetFrameStrata('DIALOG')
 AAFrame:SetSize(330, 440)
-AAFrame:SetMinResize(300, 139)
+AAFrame:SetResizeBounds(300, 139)
 AAFrame:SetPoint('CENTER', UIParent, 'CENTER')
 AAFrame:EnableMouse(true)
 AAFrame:SetResizable(true)

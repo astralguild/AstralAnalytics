@@ -1,4 +1,4 @@
-## Interface: 90207
+## Interface: 100000
 ## Title: |cffa335eeAstral|r |cffffffffAnalytics|r
 ## Notes: Raid analytic tool
 ## Author: Phrike, Khazak
