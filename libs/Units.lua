@@ -19,6 +19,7 @@ local function GroupMembers(reversed, forceParty)
 end
 
 function ADDON:WipeTables()
+	wipe(self.buffs.missingMark)
 	wipe(self.buffs.missingFort)
 	wipe(self.buffs.missingInt)
 	wipe(self.buffs.missingShout)
@@ -81,6 +82,7 @@ end
 function ADDON:PopulateMissingTables()
 	local self = ADDON;
 	for k, unit in ipairs(self.units) do
+		table.insert(self.buffs.missingMark, unit)
 		table.insert(self.buffs.missingFort, unit)
 		table.insert(self.buffs.missingInt, unit)
 		table.insert(self.buffs.missingShout, unit)

@@ -52,6 +52,7 @@ ADDON.BUFFS.CLASS_BUFFS = {}
 ADDON.BUFFS.CLASS_BUFFS[1459] = 'missingInt' -- Arcane Intellect
 ADDON.BUFFS.CLASS_BUFFS[21562] = 'missingFort' -- Power Word: Fortitude
 ADDON.BUFFS.CLASS_BUFFS[6673] = 'missingShout' -- Battle Shout
+ADDON.BUFFS.CLASS_BUFFS[1126] = 'missingMark'
 
 -- Food Buffs
 ADDON.BUFFS.FOOD = {}
