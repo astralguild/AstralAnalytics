@@ -19,7 +19,7 @@ ADDON.BACKDROP2 = {
 local offset, shownOffset = 0, 0
 local sortedTable = {}
 
-local TOTAL_BUFFS = 7 -- Hard coded for now. Will Change later to match the tracked buffs
+local TOTAL_BUFFS = 8 -- Hard coded for now. Will Change later to match the tracked buffs
 
 local BUFF_TEXTURES = {}
 BUFF_TEXTURES[1] = 4238797 -- Vantus
@@ -29,6 +29,7 @@ BUFF_TEXTURES[4] = 3566840 -- Flask
 BUFF_TEXTURES[5] = 132333 -- Shout
 BUFF_TEXTURES[6] = 135932 -- Int
 BUFF_TEXTURES[7] = 135987 -- Fort
+BUFF_TEXTURES[8] = 136078 -- MotW
 
 --[[
 BUFF LIST FROM RIGHT TO LEFT
@@ -657,25 +658,6 @@ BUFF LIST FROM RIGHT TO LEFT
 6 INTELLECT
 7 FORT
 ]]
-
-function ADDON:UpdateWindowHeader()
-	local numShown = 1
-	for i = 1, #self.buffsTracked do
-		headerIcons[i].isEnabled = self.buffsTracked[i].isEnabled
-		headerIcons[i]:SetTexture(AstralOverseer.buffsWatched[i].texture)
-		if numShown == 1 then
-			if headerIcons[i]:IsShown() then 
-				headerIcons[i]:SetPoint('TOPRIGHT', AAFrameContentHeader, 'TOPRIGHT')
-				numShown = numShown + 1
-			end
-		else
-			if headerIcons[i]:IsShown() then 
-				headerIcons[i]:SetPoint('TOPRIGHT', AAFrameContentHeader, 'TOPRIGHT')
-				numShown = numShown + 1
-			end
-		end
-	end
-end
 
 function ADDON:ToggleMainWindow()
 	AAFrame:SetShown(not AAFrame:IsShown())

@@ -20,6 +20,7 @@ UNIT_BUFF_FIELDS['isBossAura'] = 12
 
 ADDON.units = {}
 ADDON.buffs = {}
+ADDON.buffs.missingMark = {}
 ADDON.buffs.missingFort = {}
 ADDON.buffs.missingInt = {}
 ADDON.buffs.missingShout = {}
@@ -148,6 +149,7 @@ AAEvents:Register('GROUP_ROSTER_UPDATE', ADDON.InitializeTableMembers, 'GROUP_RO
 function ADDON:PopulateMissingTables()
 	local self = ADDON;
 	for k, unit in ipairs(self.units) do
+		table.insert(self.buffs.missingMark, unit)
 		table.insert(self.buffs.missingFort, unit)
 		table.insert(self.buffs.missingInt, unit)
 		table.insert(self.buffs.missingShout, unit)
@@ -327,6 +329,8 @@ function ADDON:UpdateUnitBuff(guid)
 				unit.buff[7] = {spellId, icon}
 			elseif spellId == 6673 or spellId == 264761 then -- Battle Shout
 				unit.buff[5] = {spellId, icon}
+			elseif spellId == 1126 then -- Mark of the Wild
+				unit.buff[8] = {spellId, icon}
 			end
 			unit.numMissing = unit.numMissing - 1
 		end
