@@ -15,6 +15,9 @@ end
 if not AstralAnalytics.scale then
 	AstralAnalytics.scale = 1.0
 end
+if not AstralAnalytics.minimapIcon then
+	AstralAnalytics.minimapIcon = true
+end
 
 function ADDON:AddDefaultSettings(category, name, data)
 	if not category or type(category) ~= 'string' then

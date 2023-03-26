@@ -18,7 +18,7 @@ function ADDON:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("AstralAnalyticsMinimap", {
 		profile = {
 			minimap = {
-				hide = not true --AstralAnalyticsSettings.optoins.showMiniMap,
+				hide = not AstralAnalytics.minimapIcon,
 			},
 		},
 	})
@@ -59,6 +59,15 @@ function HandleChatCommand(input)
 
 	elseif(args[1] == 'adduntargetedutility') then
 		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'Group Utility', '<sourceName> cast <spell>')
+
+	elseif(args[1] == 'minimap') then
+		AstralAnalytics.minimapIcon = not AstralAnalytics.minimapIcon
+		if AstralAnalytics.minimapIcon then
+			ADDON.icon:Show("AstralAnalytics")
+		else
+			ADDON.icon:Hide("AstralAnalytics")
+		end
+
 
 	else
 		ADDON:Print("Example usage:")
