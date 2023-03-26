@@ -1,5 +1,5 @@
-## Interface: 100002
-## Title: |cffa335eeAstral|r |cffffffffAnalytics|r
+## Interface: 100007
+## Title: Astral |cffa335eeAnalytics|r
 ## Notes: Raid analytic tool
 ## Author: Phrike, Khazak
 ## Version: 0.49
