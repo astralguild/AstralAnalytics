@@ -113,7 +113,7 @@ end
 
 local closeButton = CreateFrame('BUTTON', '$parentCloseButton', ADDON.AAOptionsFrame)
 closeButton:SetPoint('TOPRIGHT', ADDON.AAOptionsFrame, 'TOPRIGHT', -5, -5)
-closeButton:SetNormalTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-close-24px@2x')
+closeButton:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\baseline-close-24px@2x')
 closeButton:SetSize(10, 10)
 closeButton:GetNormalTexture():SetVertexColor(.8, .8, .8, 0.8)
 closeButton:SetScript('OnClick', function()
