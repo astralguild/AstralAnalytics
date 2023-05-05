@@ -30,7 +30,7 @@ function ADDON:LoadSpells()
         for spellId, _ in pairs(value) do
           ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Group Utility', '<sourceName> cast <spell>')
         end
-      elseif key == 'AoE Stop' then
+      elseif key == 'AoE Stops' then
         for spellId, _ in pairs(value) do
           ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'AoE Stops', '<sourceName> cast <spell>')
         end
@@ -38,7 +38,11 @@ function ADDON:LoadSpells()
         for spellId, _ in pairs(value) do
           ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Major Defensives', '<sourceName> cast <spell>')
         end
-      elseif key == 'External' then
+      elseif key == 'Toys' then
+        for spellId, _ in pairs(value) do
+          ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Toys', '<sourceName> cast <spell>')
+        end
+      elseif key == 'Externals' then
         for spellId, _ in pairs(value) do
           ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Externals', '<sourceName> cast <spell> on <destName>')
         end
@@ -248,6 +252,10 @@ function LoadPresets()
 
   for _, s in pairs(ADDON:GetSpellsForCategory('majorDefensives')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Major Defensives', '<sourceName> cast <spell>')
+  end
+
+  for _, s in pairs(ADDON:GetSpellsForCategory('toys')) do
+    ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> used ' .. s.name .. ' and cast <spell>')
   end
 
   -- Misdirects
