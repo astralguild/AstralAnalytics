@@ -260,9 +260,9 @@ function LoadPresets()
 
   for _, s in pairs(ADDON:GetSpellsForCategory('toys')) do
     if s.spellID == 161399 then
-      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> swapped <destName>')
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> cast <spell> on <destName>')
     else
-      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> used toy <spell>')
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> cast <spell>')
     end
   end
 
@@ -270,7 +270,10 @@ function LoadPresets()
   ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 57934, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Tricks of the Trade, Rogue
   ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 34477, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Misdirect, Hunter
 
+  AstralAnalytics.spellIds['crowd'] = nil
+  AstralAnalytics.spellIds['Targeted Crowd Control'] = nil
   AstralAnalytics.spellIds['Dispel'] = nil
   AstralAnalytics.spellIds['Soothe'] = nil
   AstralAnalytics.spellIds['AoE CC'] = nil
+  AstralAnalytics.spellIds['Battle Res'] = nil
 end

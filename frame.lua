@@ -15,6 +15,8 @@ ADDON.BACKDROP2 = {
 	insets = {left = 0, right = 0, top = 0, bottom = 0}
 }
 
+ADDON.CLIENT_VERSION = GetAddOnMetadata('AstralAnalytics', 'Version')
+
 -- Local variables
 local offset, shownOffset = 0, 0
 local sortedTable = {}
@@ -364,7 +366,7 @@ divider:SetPoint('TOP', AAFrameLogo, 'BOTTOM', 0, -14)
 -- Header Buttons
 local closeButton = CreateFrame('BUTTON', '$parentCloseButton', AAFrame)
 closeButton:SetPoint('TOPRIGHT', AAFrame, 'TOPRIGHT', -5, -5)
-closeButton:SetNormalTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-close-24px@2x')
+closeButton:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\baseline-close-24px@2x')
 closeButton:SetSize(10, 10)
 closeButton:GetNormalTexture():SetVertexColor(.8, .8, .8, 0.8)
 closeButton:SetScript('OnClick', function()
@@ -379,7 +381,7 @@ end)
 
 local reportMenuButton = CreateFrame('BUTTON', 'reportMenuButton', AAFrame)
 reportMenuButton:SetSize(12, 12)
-reportMenuButton:SetNormalTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-volume_up-24px@2x')
+reportMenuButton:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\baseline-volume_up-24px@2x')
 reportMenuButton:SetPoint('TOP', divider, 'BOTTOM', 0, -14)
 reportMenuButton:SetScript('OnEnter', function(self)
 	self:GetNormalTexture():SetVertexColor(126/255, 126/255, 126/255, 0.8)
@@ -392,7 +394,7 @@ reportMenuButton:SetScript('OnLeave', function(self)
 local optionsButton = CreateFrame('BUTTON', 'optionsButton', AAFrame)
 optionsButton:SetSize(14, 14)
 optionsButton:SetPoint('TOP', reportMenuButton, 'BOTTOM', 0, -14)
-optionsButton:SetNormalTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-settings-20px@2x')
+optionsButton:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\baseline-settings-20px@2x')
 optionsButton:SetScript('OnEnter', function(self)
 	self:GetNormalTexture():SetVertexColor(126/255, 126/255, 126/255, 0.8)
 	end)
@@ -404,7 +406,13 @@ local logo_Astral = CreateFrame('BUTTON', nil, menuBar)
 logo_Astral:SetSize(32, 32)
 logo_Astral:SetPoint('BOTTOMLEFT', menuBar, 'BOTTOMLEFT', 0, 3)
 logo_Astral:SetAlpha(0.8)
-logo_Astral:SetNormalTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\Logo@2x')
+logo_Astral:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\Logo@2x')
+
+local guildVersionString = CreateFrame('BUTTON', nil, AAFrame)
+guildVersionString:SetNormalFontObject(InterUIRegular_Small)
+guildVersionString:SetSize(110, 20)
+guildVersionString:SetPoint('BOTTOM', AAFrame, 'BOTTOM', 0, 10)
+guildVersionString:SetAlpha(0.2)
 
 --BEGIN SETTINGS FRAME
 local spellSettingsButton = CreateFrame('BUTTON', '$parentspellSettingsButton', menuBar)
@@ -659,6 +667,76 @@ BUFF LIST FROM RIGHT TO LEFT
 7 FORT
 ]]
 
+function ADDON:CreateGuildInfoFrame()
+	local astralGuildInfo = CreateFrame('FRAME', 'astralGuildInfo', AAFrame, "BackdropTemplate")
+	astralGuildInfo:Hide()
+	astralGuildInfo:SetFrameLevel(8)
+	astralGuildInfo:SetSize(200, 100)
+	astralGuildInfo:SetBackdrop(BACKDROPBUTTON)
+	astralGuildInfo:EnableKeyboard(true)
+	astralGuildInfo:SetBackdropBorderColor(.2, .2, .2, 1)
+	astralGuildInfo:SetPoint('BOTTOM', UIParent, 'TOP', 0, -300)
+	astralGuildInfo.text = astralGuildInfo:CreateFontString(nil, 'OVERLAY', 'InterUIRegular_Normal')
+	astralGuildInfo.text:SetPoint('TOP', astralGuildInfo,'TOP', 0, -10)
+	astralGuildInfo.text:SetText('Visit Astral at')
+	astralGuildInfo.editBox = CreateFrame('EditBox', nil, astralGuildInfo, "BackdropTemplate")
+	astralGuildInfo.editBox:SetSize(180, 20)
+	astralGuildInfo.editBox:SetPoint('TOP', astralGuildInfo.text, 'BOTTOM', 0, -10)
+	astralGuildInfo.tex = astralGuildInfo:CreateTexture('ARTWORK')
+	astralGuildInfo.tex:SetSize(198, 98)
+	astralGuildInfo.tex:SetPoint('TOPLEFT', astralGuildInfo, 'TOPLEFT', 1, -1)
+	astralGuildInfo.tex:SetColorTexture(0, 0, 0)
+	astralGuildInfo.editBox:SetBackdrop(BACKDROPBUTTON)
+	astralGuildInfo.editBox:SetBackdropBorderColor(.2, .2, .2, 1)
+	astralGuildInfo.editBox:SetFontObject(InterUIRegular_Normal)
+	astralGuildInfo.editBox:SetText('www.astralguild.com')
+	astralGuildInfo.editBox:HighlightText()
+	astralGuildInfo.editBox:SetScript('OnChar', function(self)
+	  self:SetText('www.astralguild.com')
+	  self:HighlightText()
+	end)
+	astralGuildInfo.editBox:SetScript("OnEscapePressed", function()
+	  astralGuildInfo:Hide()
+	end)
+	astralGuildInfo.editBox:SetScript('OnEditFocusLost', function(self)
+	  self:SetText('www.astralguild.com')
+	  self:HighlightText()
+	  end)
+
+	local astralGuildInfoCloseButton = CreateFrame('BUTTON', nil, astralGuildInfo, "BackdropTemplate")
+	astralGuildInfoCloseButton:SetSize(40, 20)
+	astralGuildInfoCloseButton:SetNormalFontObject(InterUIRegular_Normal)
+	astralGuildInfoCloseButton:SetText('Close')
+	astralGuildInfoCloseButton:SetBackdrop(BACKDROPBUTTON)
+	astralGuildInfoCloseButton:SetBackdropBorderColor(.2, .2, .2, 1)
+	astralGuildInfoCloseButton:SetPoint('BOTTOM', astralGuildInfo, 'BOTTOM', 0, 10)
+
+	astralGuildInfoCloseButton:SetScript('OnClick', function()
+	  astralGuildInfo:Hide() end)
+
+	-- Add event handlers
+	logo_Astral:SetScript('OnClick', function()
+	  astralGuildInfo:SetShown(not astralGuildInfo:IsShown())
+	  end)
+	logo_Astral:SetScript('OnEnter', function(self)
+	  self:SetAlpha(1)
+	  end)
+	logo_Astral:SetScript('OnLeave', function(self)
+	  self:SetAlpha(0.8)
+	  end)
+
+	guildVersionString:SetScript('OnEnter', function(self)
+	self:SetAlpha(.8)
+	end)
+	guildVersionString:SetScript('OnLeave', function(self)
+		self:SetAlpha(0.2)
+		end)
+
+	guildVersionString:SetScript('OnClick', function()
+		astralGuildInfo:SetShown(not astralGuildInfo:IsShown())
+	end)
+end
+
 function ADDON:ToggleMainWindow()
 	AAFrame:SetShown(not AAFrame:IsShown())
 	setAddonScale(AstralAnalytics.scale)
@@ -676,6 +754,8 @@ local function InitializeWindow()
 	for i = 0, #ADDON.row do
 		ADDON.row[i]:SetWidth(width - 30) -- 30 is for menubar width
 	end
+	ADDON:CreateGuildInfoFrame()
+	guildVersionString:SetFormattedText('Astral - Area 52 (US) %s', ADDON.CLIENT_VERSION)
 end
 
 AAEvents:Register('PLAYER_LOGIN', InitializeWindow, 'initWindow')
