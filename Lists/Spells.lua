@@ -280,6 +280,8 @@ toys[384911] = {name = 'Atomic Recalibrator', class = 'Toy', subEvent = 'SPELL_C
 toys[161399] = {name = 'Swapblaster', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 161399}
 toys[297571] = {name = 'Transmorpher Beacon', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 297571}
 toys[302750] = {name = 'Brewfest Chowdown Trophy', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 302750}
+toys[376664] = {name = 'Ohuna Perch', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 376664}
+toys[261602] = {name = 'Katy\'s Stampwhistle', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 261602}
 
 -- Other
 
