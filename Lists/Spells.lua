@@ -1,371 +1,300 @@
-local ADDON_NAME, ADDON = ...
-local strformat = string.format
+local _, ADDON = ...
 
-ADDON.SPELL_CATEGORIES = {}
+local SPELL_TABLE = {}
 
-function ADDON:LoadSpells()
-	if (AstralAnalytics.spellIds == nil) then
-		AstralAnalytics.spellIds = {}
-	end
-	LoadPresets()
-	for key, value in pairs(AstralAnalytics.spellIds) do
-		if key ~= nil then
-			if key == 'Taunt' then
-				for spellId, _ in pairs(value) do
-					ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Taunt', '<sourceName> taunted <destName> with <spell>')
-				end
-			elseif key == 'Bloodlust' then
-				for spellId, _ in pairs(value) do
-					ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Bloodlust', '<sourceName> cast <spell>')
-				end
-			elseif key == 'Targeted Utility' then
-				for spellId, _ in pairs(value) do
-					ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Targeted Utility', '<sourceName> cast <spell> on <destName>')
-				end
-			elseif key == 'Misdirects' then
-				for spellId, _ in pairs(value) do
-					ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Misdirects', '<sourceName> cast <spell> on <destName>')
-				end
-			elseif key == 'Group Utility' then
-				for spellId, _ in pairs(value) do
-					ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Group Utility', '<sourceName> cast <spell>')
-				end
-			elseif key == 'crowd' then
-				for spellId, _ in pairs(value) do
-					ADDON:AddSpellToCategory(spellId, 'Crowd Control')
-				end
-			else
-				for spellId, _ in pairs(value) do
-					ADDON:AddSpellToCategory(spellId, key)
-				end
-			end
-		end
-	end
+-- AoE Stops
+
+SPELL_TABLE['aoeStops'] = {}
+local aoeStops = SPELL_TABLE['aoeStops']
+
+aoeStops[31661] = {name = 'Dragon\'s Breath', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 31661}
+aoeStops[192058] = {name = 'Capacitor Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 192058}
+aoeStops[207167] = {name = 'Blinding Sleet', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 207167}
+aoeStops[205369] = {name = 'Mind Bomb', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 205369}
+aoeStops[51490] = {name = 'Thunderstorm', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 51490}
+aoeStops[30282] = {name = 'Shadowfury', class = 'Warlock', subEvent = 'SPELL_CAST_SUCCESS', spellID = 30282}
+aoeStops[132469] = {name = 'Typhoon', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 132469}
+aoeStops[108119] = {name = 'Gorefiend\'s Grasp', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 108119}
+aoeStops[119381] = {name = 'Leg Sweep', class = 'Monk', subEvent = 'SPELL_CAST_SUCCESS', spellID = 119381}
+aoeStops[115750] = {name = 'Blinding Light', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 115750}
+aoeStops[99] = {name = 'Incapacitating Roar', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 99}
+aoeStops[179057] = {name = 'Chaos Nova', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 179057}
+aoeStops[255654] = {name = 'Bull Rush', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 255654}
+aoeStops[20549] = {name = 'War Stomp', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 20549}
+aoeStops[368970] = {name = 'Tail Swipe', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 368970}
+aoeStops[357214] = {name = 'Wing Buffet', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 357214}
+aoeStops[202138] = {name = 'Sigil of Chains', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 202138}
+aoeStops[191427] = {name = 'Metamorphosis', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 191427}
+aoeStops[186387] = {name = 'Bursting Shot', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 186387}
+aoeStops[113724] = {name = 'Ring of Frost', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 113724}
+aoeStops[157981] = {name = 'Blast Wave', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 157981}
+aoeStops[157980] = {name = 'Supernova', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 157980}
+aoeStops[8122] = {name = 'Psychic Scream', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 8122}
+aoeStops[5246] = {name = 'Intimidating Shout', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 5246}
+aoeStops[46968] = {name = 'Shockwave', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 46968}
+aoeStops[382269] = {name = 'Abomination Limb', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 382269}
+aoeStops[1122] = {name = 'Summon Infernal', class = 'Warlock', subEvent = 'SPELL_CAST_SUCCESS', spellID = 1122}
+
+-- AoE Control
+
+SPELL_TABLE['aoeControl'] = {}
+local aoeControl = SPELL_TABLE['aoeControl']
+
+aoeControl[372048] = {name = 'Oppressing Roar', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 372048}
+aoeControl[207684] = {name = 'Sigil of Misery', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 207684}
+aoeControl[102359] = {name = 'Mass Entanglement', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 102359}
+aoeControl[102793] = {name = 'Ursol\'s Vortex', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 102793}
+aoeControl[358385] = {name = 'Landslide', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 358385}
+aoeControl[109248] = {name = 'Binding Shot', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 109248}
+aoeControl[122] = {name = 'Frost Nova', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 122}
+aoeControl[116844] = {name = 'Ring of Peace', class = 'Monk', subEvent = 'SPELL_CAST_SUCCESS', spellID = 116844}
+aoeControl[51485] = {name = 'Earthgrab Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 51485}
+aoeControl[392060] = {name = 'Wailing Arrow', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 392060}
+aoeControl[108920] = {name = 'Void Tendrils', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 108920}
+aoeControl[202137] = {name = 'Sigil of Silence', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 202137}
+
+-- Externals
+
+SPELL_TABLE['externals'] = {}
+local externals = SPELL_TABLE['externals']
+
+externals[47788] = {name = 'Guardian Spirit', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 47788}
+externals[1022] = {name = 'Blessing of Protection', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 1022}
+externals[204018] = {name = 'Blessing of Spellwarding', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 204018}
+externals[116849] = {name = 'Life Cocoon', class = 'Monk', subEvent = 'SPELL_CAST_SUCCESS', spellID = 116849}
+externals[357170] = {name = 'Time Dilation', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 357170}
+externals[6940] = {name = 'Blessing of Sacrifice', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 6940}
+externals[102342] = {name = 'Ironbark', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 102342}
+externals[633] = {name = 'Lay on Hands', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 633}
+externals[33206] = {name = 'Pain Suppression', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 33206}
+
+-- Major Defensives
+
+SPELL_TABLE['majorDefensives'] = {}
+local majorDefensives = SPELL_TABLE['majorDefensives']
+
+majorDefensives[642] = {name = 'Divine Shield', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 642}
+majorDefensives[48707] = {name = 'Anti-Magic Shell', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 48707}
+majorDefensives[31224] = {name = 'Cloak of Shadows', class = 'Rogue', subEvent = 'SPELL_CAST_SUCCESS', spellID = 31224}
+majorDefensives[196555] = {name = 'Netherwalk', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 196555}
+majorDefensives[45438] = {name = 'Ice Block', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 45438}
+majorDefensives[186265] = {name = 'Aspect of the Turtle', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 186265}
+majorDefensives[114556] = {name = 'Purgatory', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 114556}
+majorDefensives[209258] = {name = 'Last Resort', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 209258}
+majorDefensives[392966] = {name = 'Spell Block', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 392966}
+majorDefensives[118038] = {name = 'Die by the Sword', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 118038}
+majorDefensives[5277] = {name = 'Evasion', class = 'Rogue', subEvent = 'SPELL_CAST_SUCCESS', spellID = 5277}
+majorDefensives[31230] = {name = 'Cheat Death', class = 'Rogue', subEvent = 'SPELL_CAST_SUCCESS', spellID = 31230}
+
+
+-- Raid Defensives
+
+SPELL_TABLE['raidDefensives'] = {}
+local raidDefensives = SPELL_TABLE['raidDefensives']
+
+raidDefensives[51052] = {name = 'Anti-Magic Zone', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 51052}
+raidDefensives[97462] = {name = 'Rallying Cry', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 97462}
+raidDefensives[196718] = {name = 'Darkness', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 196718}
+raidDefensives[363534] = {name = 'Rewind', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 363534}
+raidDefensives[374227] = {name = 'Zephyr', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 374227}
+raidDefensives[115310] = {name = 'Revival', class = 'Monk', subEvent = 'SPELL_CAST_SUCCESS', spellID = 115310}
+raidDefensives[31821] = {name = 'Aura Mastery', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 31821}
+raidDefensives[265202] = {name = 'Holy Word: Salvation', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 265202}
+raidDefensives[62618] = {name = 'Power Word: Barrier', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 62618}
+raidDefensives[98008] = {name = 'Spirit Link Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 98008}
+raidDefensives[15286] = {name = 'Vampiric Embrace', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 15286}
+raidDefensives[47536] = {name = 'Rapture', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 47536}
+raidDefensives[124974] = {name = 'Nature\'s Vigil', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 124974}
+raidDefensives[108281] = {name = 'Ancestral Guidance', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 108281}
+
+-- Targeted Utility
+
+SPELL_TABLE['targetedUtility'] = {}
+local targetedUtility = SPELL_TABLE['targetedUtility']
+
+targetedUtility[328282] = {name = 'Blessing of Spring', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 328282}
+targetedUtility[328622] = {name = 'Blessing of Autumn', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 328622}
+targetedUtility[328281] = {name = 'Blessing of Winter', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 328281}
+targetedUtility[328620] = {name = 'Blessing of Summer', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 328620}
+targetedUtility[73325] = {name = 'Leap of Faith', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 73325}
+targetedUtility[10060] = {name = 'Power Infusion', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 10060}
+targetedUtility[29166] = {name = 'Innervate', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 29166}
+targetedUtility[2908] = {name = 'Soothe', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 2908}
+targetedUtility[374251] = {name = 'Cauterizing Flame', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 374251}
+targetedUtility[19801] = {name = 'Tranquilizing Shot', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 19801}
+targetedUtility[370665] = {name = 'Rescue', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 370665}
+targetedUtility[1044] = {name = 'Blessing of Freedom', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 1044}
+targetedUtility[116841] = {name = 'Tiger\'s Lust', class = 'Monk', subEvent = 'SPELL_CAST_SUCCESS', spellID = 116841}
+
+-- Targeted Control
+
+SPELL_TABLE['targetedControl'] = {}
+local targetedControl = SPELL_TABLE['targetedControl']
+
+targetedControl[115078] = {name = 'Paralysis', class = 'Monk', subEvent = 'SPELL_AURA_APPLIED', spellID = 115078}
+targetedControl[710] = {name = 'Banish', class = 'Warlock', subEvent = 'SPELL_AURA_APPLIED', spellID = 710}
+targetedControl[277784] = {name = 'Hex', class = 'Shaman', subEvent = 'SPELL_AURA_APPLIED', spellID = 277784}
+targetedControl[211004] = {name = 'Hex', class = 'Shaman', subEvent = 'SPELL_AURA_APPLIED', spellID = 211004}
+targetedControl[61780] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 61780}
+targetedControl[217832] = {name = 'Imprison', class = 'Demon Hunter', subEvent = 'SPELL_AURA_APPLIED', spellID = 217832}
+targetedControl[61721] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 61721}
+targetedControl[161353] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 161353}
+targetedControl[20066] = {name = 'Repentance', class = 'Paladin', subEvent = 'SPELL_AURA_APPLIED', spellID = 20066}
+targetedControl[277787] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 277787}
+targetedControl[115268] = {name = 'Mesmerize', class = 'Warlock', subEvent = 'SPELL_AURA_APPLIED', spellID = 115268}
+targetedControl[6358] = {name = 'Seduction', class = 'Warlock', subEvent = 'SPELL_AURA_APPLIED', spellID = 6358}
+targetedControl[28271] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 28271}
+targetedControl[161354] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 161354}
+targetedControl[161355] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 161355}
+targetedControl[28272] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 28272}
+targetedControl[277792] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 277792}
+targetedControl[161372] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 161372}
+targetedControl[277778] = {name = 'Hex', class = 'Shaman', subEvent = 'SPELL_AURA_APPLIED', spellID = 277778}
+targetedControl[51514] = {name = 'Hex', class = 'Shaman', subEvent = 'SPELL_AURA_APPLIED', spellID = 51514}
+targetedControl[287712] = {name = 'Haymaker', class = 'Racial', subEvent = 'SPELL_AURA_APPLIED', spellID = 287712}
+targetedControl[5782] = {name = 'Fear', class = 'Warlock', subEvent = 'SPELL_AURA_APPLIED', spellID = 5782}
+targetedControl[339] = {name = 'Entangling Roots', class = 'Druid', subEvent = 'SPELL_AURA_APPLIED', spellID = 339}
+targetedControl[107079] = {name = 'Quaking Palm', class = 'Racial', subEvent = 'SPELL_AURA_APPLIED', spellID = 107079}
+targetedControl[126819] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 126819}
+targetedControl[3355] = {name = 'Freezing Trap', class = 'Hunter', subEvent = 'SPELL_AURA_APPLIED', spellID = 3355}
+targetedControl[61305] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 61305}
+targetedControl[118] = {name = 'Polymorph', class = 'Mage', subEvent = 'SPELL_AURA_APPLIED', spellID = 118}
+targetedControl[2094] = {name = 'Blind', class = 'Rogue', subEvent = 'SPELL_AURA_APPLIED', spellID = 2094}
+targetedControl[269352] = {name = 'Hex', class = 'Shaman', subEvent = 'SPELL_AURA_APPLIED', spellID = 269352}
+targetedControl[6770] = {name = 'Sap', class = 'Rogue', subEvent = 'SPELL_AURA_APPLIED', spellID = 6770}
+targetedControl[211010] = {name = 'Hex', class = 'Shaman', subEvent = 'SPELL_AURA_APPLIED', spellID = 211010}
+targetedControl[211015] = {name = 'Hex', class = 'Shaman', subEvent = 'SPELL_AURA_APPLIED', spellID = 211015}
+targetedControl[221562] = {name = 'Asphyxiate', class = 'Death Knight', subEvent = 'SPELL_AURA_APPLIED', spellID = 221562}
+targetedControl[360806] = {name = 'Sleep Walk', class = 'Evoker', subEvent = 'SPELL_AURA_APPLIED', spellID = 360806}
+targetedControl[205364] = {name = 'Dominate Mind', class = 'Priest', subEvent = 'SPELL_AURA_APPLIED', spellID = 205364}
+targetedControl[107570] = {name = 'Storm Bolt', class = 'Warrior', subEvent = 'SPELL_AURA_APPLIED', spellID = 107570}
+targetedControl[385952] = {name = 'Shield Charge', class = 'Warrior', subEvent = 'SPELL_AURA_APPLIED', spellID = 385952}
+targetedControl[22570] = {name = 'Maim', class = 'Druid', subEvent = 'SPELL_AURA_APPLIED', spellID = 22570}
+targetedControl[211881] = {name = 'Fel Eruption', class = 'Demon Hunter', subEvent = 'SPELL_AURA_APPLIED', spellID = 211881}
+targetedControl[853] = {name = 'Hammer of Justice', class = 'Paladin', subEvent = 'SPELL_AURA_APPLIED', spellID = 853}
+targetedControl[1776] = {name = 'Gouge', class = 'Rogue', subEvent = 'SPELL_AURA_APPLIED', spellID = 1776}
+targetedControl[408] = {name = 'Kidney Shot', class = 'Rogue', subEvent = 'SPELL_AURA_APPLIED', spellID = 408}
+targetedControl[1833] = {name = 'Cheap Shot', class = 'Rogue', subEvent = 'SPELL_AURA_APPLIED', spellID = 1833}
+targetedControl[64044] = {name = 'Psychic Horror', class = 'Priest', subEvent = 'SPELL_AURA_APPLIED', spellID = 64044}
+
+-- Group Utility
+
+SPELL_TABLE['groupUtility'] = {}
+local groupUtility = SPELL_TABLE['groupUtility']
+
+groupUtility[205636] = {name = 'Force of Nature', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 205636}
+groupUtility[192077] = {name = 'Wind Rush Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 192077}
+groupUtility[106898] = {name = 'Stampeding Roar', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 106898}
+groupUtility[77761] = {name = 'Stampeding Roar', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 77761}
+groupUtility[77764] = {name = 'Stampeding Roar', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 77764}
+groupUtility[114018] = {name = 'Shroud of Concealment', class = 'Rogue', subEvent = 'SPELL_CAST_SUCCESS', spellID = 114018}
+groupUtility[64901] = {name = 'Symbol of Hope', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 64901}
+groupUtility[374968] = {name = 'Time Spiral', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 374968}
+groupUtility[198103] = {name = 'Earth Elemental', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 198103}
+
+-- Slows
+
+SPELL_TABLE['slows'] = {}
+local slows = SPELL_TABLE['slows']
+
+slows[260364] = {name = 'Arcane Pulse', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 260364}
+slows[45524] = {name = 'Chains of Ice', class = 'Death Knight', subEvent = 'SPELL_AURA_APPLIED', spellID = 45524}
+slows[12323] = {name = 'Piercing Howl', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 12323}
+slows[334275] = {name = 'Curse of Exhaustion', class = 'Warlock', subEvent = 'SPELL_AURA_APPLIED', spellID = 334275}
+slows[1715] = {name = 'Hamstring', class = 'Warrior', subEvent = 'SPELL_AURA_APPLIED', spellID = 1715}
+slows[2484] = {name = 'Earthbind Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 2484}
+slows[187698] = {name = 'Tar Trap', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 187698}
+
+-- Battle Res
+
+SPELL_TABLE['battleRes'] = {}
+local battleRes = SPELL_TABLE['battleRes']
+
+battleRes[20484] = {name = 'Rebirth', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 20484}
+battleRes[61999] = {name = 'Raise Ally', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 61999}
+battleRes[20707] = {name = 'Soulstone', class = 'Warlock', subEvent = 'SPELL_CAST_SUCCESS', spellID = 20707}
+battleRes[391054] = {name = 'Intercession', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 391054}
+battleRes[393795] = {name = 'Arclight Vital Correctors', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 393795}
+
+-- Bloodlust/Heroism
+
+SPELL_TABLE['lust'] = {}
+local lust = SPELL_TABLE['lust']
+
+lust[160452] = {name = 'Netherwinds', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 160452}
+lust[80353] = {name = 'Time Warp', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 80353}
+lust[381301] = {name = 'Feral Hide Drums', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 381301}
+lust[32182] = {name = 'Heroism', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 32182}
+lust[264667] = {name = 'Primal Rage', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 264667}
+lust[90355] = {name = 'Ancient Hysteria', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 90355}
+lust[2825] = {name = 'Bloodlust', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 2825}
+lust[390386] = {name = 'Fury of the Aspects', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 390386}
+
+-- Interrupts
+
+SPELL_TABLE['interrupts'] = {}
+local interrupts = SPELL_TABLE['interrupts']
+
+interrupts[187707] = {name = 'Muzzle', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 187707}
+interrupts[96231] = {name = 'Rebuke', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 96231}
+interrupts[171138] = {name = 'Shadow Lock', class = 'Warlock', subEvent = 'SPELL_CAST_SUCCESS', spellID = 171138}
+interrupts[6552] = {name = 'Pummel', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 6552}
+interrupts[57994] = {name = 'Wind Shear', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 57994}
+interrupts[1766] = {name = 'Kick', class = 'Rogue', subEvent = 'SPELL_CAST_SUCCESS', spellID = 1766}
+interrupts[116705] = {name = 'Spear Hand Strike', class = 'Monk', subEvent = 'SPELL_CAST_SUCCESS', spellID = 116705}
+interrupts[183752] = {name = 'Disrupt', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 183752}
+interrupts[147362] = {name = 'Counter Shot', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 147362}
+interrupts[47528] = {name = 'Mind Freeze', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 47528}
+interrupts[171140] = {name = 'Shadow Lock', class = 'Warlock', subEvent = 'SPELL_CAST_SUCCESS', spellID = 171140}
+interrupts[15487] = {name = 'Silence', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 15487}
+interrupts[347008] = {name = 'Axe Toss', class = 'Warlock', subEvent = 'SPELL_CAST_SUCCESS', spellID = 347008}
+interrupts[97547] = {name = 'Solar Beam', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 97547}
+interrupts[2139] = {name = 'Counterspell', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 2139}
+interrupts[106839] = {name = 'Skull Bash', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 106839}
+interrupts[351338] = {name = 'Quell', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 351338}
+interrupts[147362] = {name = 'Counter Shot', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 147362}
+
+-- Taunts
+
+SPELL_TABLE['taunts'] = {}
+local taunts = SPELL_TABLE['taunts']
+
+taunts[62124] = {name = 'Hand of Reckoning', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 62124}
+taunts[49576] = {name = 'Death Grip', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 49576}
+taunts[56222] = {name = 'Dark Command', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 56222}
+taunts[115546] = {name = 'Provoke', class = 'Monk', subEvent = 'SPELL_CAST_SUCCESS', spellID = 115546}
+taunts[6795] = {name = 'Growl', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 6795}
+taunts[2649] = {name = 'Growl', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 2649}
+taunts[185245] = {name = 'Torment', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 185245}
+taunts[355] = {name = 'Taunt', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 355}
+
+-- Nuisances/Toys
+
+SPELL_TABLE['toys'] = {}
+local toys = SPELL_TABLE['toys']
+
+toys[61551] = {name = 'Toy Train Set', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 61551}
+toys[62943] = {name = 'Wind-Up Train Wrecker', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 62943}
+toys[135253] = {name = 'Jaina\'s Locket', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 73324}
+toys[384911] = {name = 'Atomic Recalibrator', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 384911}
+toys[161399] = {name = 'Swapblaster', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 161399}
+toys[297571] = {name = 'Transmorpher Beacon', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 297571}
+toys[302750] = {name = 'Brewfest Chowdown Trophy', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 302750}
+toys[376664] = {name = 'Ohuna Perch', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 376664}
+toys[261602] = {name = 'Katy\'s Stampwhistle', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 261602}
+
+-- Other
+
+SPELL_TABLE['others'] = {}
+local others = SPELL_TABLE['others']
+
+others[57934] = {name = 'Tricks of the Trade', class = 'Rogue', subEvent = 'SPELL_CAST_SUCCESS', spellID = 57934}
+others[34477] = {name = 'Misdirection', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 34477}
+
+function ADDON:GetSpellsForCategory(category)
+  return SPELL_TABLE[category]
 end
 
-function ADDON:AddSpellToCategory(spellID, spellCategory)
-	if not spellID or type(spellID) ~= 'number' then
-		error('ADDON:AddSpellToCategory(spellID, spellCategory) spellID, number expected got ' .. type(spellID))
-	end
-	if not spellCategory or type(spellCategory) ~= 'string' then
-		error('ADDON:AddSpellToCategory(spellID, spellCategory) spellCategory, string expected got ' .. type(spellCategory))
-	end
-	if not self.SPELL_CATEGORIES[spellCategory] then
-		self.SPELL_CATEGORIES[spellCategory] = {}
-	end
-	if self.SPELL_CATEGORIES[spellCategory][spellID] ~= nil then
-		ADDON:Print('AstralAnalytics:AddSpellToCategory(spellID, spellCategory) spellId already exists ' .. type(spellID))
-	end
-	table.insert(self.SPELL_CATEGORIES[spellCategory], spellID)
-	if (AstralAnalytics.spellIds[spellCategory] == nil) then
-		AstralAnalytics.spellIds[spellCategory] = {}
-	end
-	AstralAnalytics.spellIds[spellCategory][spellID] = true
-end
-
-function ADDON:RemoveSpellFromCategory(spellID, spellCategory)
-	if not spellID or type(spellID) ~= 'number' then
-		error('ADDON:AddSpellToCategory(spellID, spellCategory) spellID, number expected got ' .. type(spellID))
-	end
-	if not spellCategory or type(spellCategory) ~= 'string' then
-		error('ADDON:AddSpellToCategory(spellID, spellCategory) spellCategory, string expected got ' .. type(spellCategory))
-	end
-	if self.SPELL_CATEGORIES[spellCategory][spellID] ~= nil then
-		ADDON:Print('AstralAnalytics:AddSpellToCategory(spellID, spellCategory) spellId already does not exist ' .. type(spellID))
-	end
-	AstralAnalytics.spellIds[spellCategory][spellID] = nil
-end
-
-function ADDON:RetrieveSpellCategorySpells(spellCategory)
-	if not spellCategory or type(spellCategory) ~= 'string' then
-		error('ADDON:RetrieveSpellCategorySpells(spellCategory) spellCategory, string expected got ' .. type(spellCategory))
-	end
-	
-	return self.SPELL_CATEGORIES[spellCategory]
-end
-
-function ADDON:IsSpellInCategory(spellID, spellCategory)
-	if not spellID or type(spellID) ~= 'number' then
-		error('ADDON:IsSpellInCategory(spellID, spellCategory) spellID, number expected got ' .. type(spellID))
-	end
-	if not spellCategory or type(spellCategory) ~= 'string' then
-		error('ADDON:IsSpellInCategory(spellID, spellCategory) spellCategory, string expected got ' .. type(spellCategory))
-	end
-
-	if self.SPELL_CATEGORIES[spellCategory] then
-		for i = 1, #self.SPELL_CATEGORIES[spellCategory] do
-			if self.SPELL_CATEGORIES[spellCategory][i] == spellID then
-				return true
-			end
-		end
-	end
-
-	return false
-end
-
-function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString)
-	if not self[subEvent] then
-		self[subEvent] = {}
-	end
-
-	if self[subEvent][spellID] then
-		ADDON:Print('AstralAnalytics:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString) spellID already registered')
-	end
-
-	local string = msgString
-
-	local ls = ''
-	local commandList = ''
-	for command in string:gmatch('<(%w+)>') do
-		if command:find('Name') then
-			local unitText = command:sub(1, command:find('Name')- 1)
-			if unitText == 'dest' then
-				commandList = strformat('%s, %s, %sFlags, %sRaidFlags', commandList, command, unitText, unitText)
-			else
-				commandList = strformat('%s, %s, %sRaidFlags', commandList, command, unitText)
-			end
-		else
-			commandList = strformat('%s, %s', commandList, command)
-		end
-		ls = strformat('%s, %s', ls, command)
-	end
-	commandList = commandList:sub(commandList:find(',') + 1)
-
-	local fstring = string:gsub('<(.-)>', '%%s')
-
-	ls = ls:gsub('(%w+)', function(w)
-		if w:find('Name') then
-			local flagText = w:sub(1, w:find('Name')- 1) .. 'RaidFlags'
-			if w:find('dest') then
-				return [[WrapNameInColorAndIcons(]] .. w .. [[, destFlags, ]] .. flagText .. [[)]]
-			else
-				return [[WrapNameInColorAndIcons(]] .. w .. [[, nil, ]] .. flagText .. [[)]]
-			end
-			--local colourText = w:find('dest') and ADDON.COLOURS.TARGET or 'nil'
-			--return [[WrapNameInColorAndIcons(]] .. w .. [[, destFlags, ]] .. flagText .. [[)]]
-		else
-			return w
-		end
-
-	end)
-
-	local codeString = [[
-	if not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['] then return end
-	local sourceName, sourceRaidFlags, spell, destName, destFlags, destRaidFlags = ...
-	AstralSendMessage(string.format(']] .. fstring .. [[' ]] .. ls .. [[), 'console')]]
-
-	local func, cerr = loadstring(codeString)
-	if cerr then
-		error(cerr)
-	end
-
-	self[subEvent][spellID] = {textString = msgString, method = func}
-	self:AddSpellToCategory(spellID, spellCategory)
-end
-
-function ADDON:IsSpellTracked(subEvent, spellID)
-	if not subEvent or type(subEvent) ~= 'string' then
-		error('ADDON:IsSpellTracked(subEvent, spellID) subEvent, string expected got ' .. type(subEvent))
-	end
-	if not spellID or type(spellID) ~= 'number' then
-		error('ADDON:IsSpellTracked(subEvent, spellID) spellID, number expected got ' .. type(spellID))
-	end
-	if self[subEvent] and self[subEvent][spellID] then
-		return true
-	else
-		return false
-	end
-end
-
-function ADDON:GetSubEventMethod(subEvent, spellID)
-	if not subEvent or type(subEvent) ~= 'string' then
-		error('ADDON:GetSubEventMethod(subEvent, spellID) subEvent, string expected got ' .. type(subEvent))
-	end
-	if not spellID or type(spellID) ~= 'number' then
-		error('ADDON:GetSubEventMethod(subEvent, spellID) spellID, string expected got ' .. type(spellID))
-	end
-
-	return self[subEvent][spellID].method
-end
-
-function LoadPresets()
-	-- Heroism
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 32182, 'Bloodlust', '<sourceName> cast <spell>') -- Heroism
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 90355, 'Bloodlust', '<sourceName> cast <spell>') -- Ancient Hysteria
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 160452, 'Bloodlust', '<sourceName> cast <spell>') -- Netherwinds
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 264667, 'Bloodlust', '<sourceName> cast <spell>') -- Primal Rage
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 80353, 'Bloodlust', '<sourceName> cast <spell>') -- Timewarp
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 2825, 'Bloodlust', '<sourceName> cast <spell>') -- Bloodlust
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 178207, 'Bloodlust', '<sourceName> cast <spell>') -- Drums of fury
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 230935, 'Bloodlust', '<sourceName> cast <spell>') -- Drums of the Mountain
-
-	-- Battle res
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 20484, 'battleRes', '<sourceName> resurrected <destName> with <spell>') -- Rebirth
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 20707, 'battleRes', '<sourceName> cast <spell> on <destName>') -- Soulstone
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 61999, 'battleRes', '<sourceName> resurrected <destName> with <spell>') -- Raise Ally
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 207399, 'battleRes', '<sourceName> cast <spell>') -- Ancestral Protection Totem
-
-	-- Taunts
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 115546, 'Taunt', '<sourceName> taunted <destName> with <spell>') -- Provoke, Monk
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 355, 'Taunt', '<sourceName> taunted <destName> with <spell>') -- Taunt, Warrior
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 185245, 'Taunt', '<sourceName> taunted <destName> with <spell>') -- Torment, Demon Hunter
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 62124, 'Taunt', '<sourceName> taunted <destName> with <spell>') -- Hand of Reckoning, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 6795, 'Taunt', '<sourceName> taunted <destName> with <spell>') -- Growl, Druid
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 49576, 'Taunt', '<sourceName> taunted <destName> with <spell>') -- Death Grip, Death Knight
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 56222, 'Taunt', '<sourceName> taunted <destName> with <spell>') -- Dark Command, Death Knight
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 2649, 'Taunt', '<sourceName> taunted <destName> with <spell>') -- Growl, Hunter Pet
-	-- need to check provoke
-
-	-- Targeted Utility Spells
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 29166, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Innervate, Druid
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 73325, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Leap of Faith, Priest
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 327661, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Fae Guardians, Priest
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 10060, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Power Infusion, Priest
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328282, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Spring, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328620, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Summer, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328622, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Autumn, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 328281, 'Targeted Utility', '<sourceName> cast <spell> on <destName>') -- Blessing of Winter, Paladin
-
-	-- Misdirects
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 57934, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Tricks of the Trade, Rogue
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 34477, 'Misdirects', '<sourceName> cast <spell> on <destName>') -- Misdirect, Hunter
-
-	-- Non-targeted Utility Spells
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 205636, 'Group Utility', '<sourceName> cast <spell>') -- Force of Nature, Druid
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 77761, 'Group Utility', '<sourceName> cast <spell>') -- Stampeding Roar, Druid
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 77764, 'Group Utility', '<sourceName> cast <spell>') -- Stampeding Roar, Druid
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 106898, 'Group Utility', '<sourceName> cast <spell>') -- Stampeding Roar, Druid
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 64901, 'Group Utility', '<sourceName> cast <spell>') -- Symbol of Hope, Priest
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 114018, 'Group Utility', '<sourceName> cast <spell>') -- Shroud of Concealment, Rogue
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 192077, 'Group Utility', '<sourceName> cast <spell>') -- Wind Rush Totem, Shaman
-
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 119381, 'AoE CC', '<sourceName> cast <spell>') -- Leg Sweep, Monk
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 115750, 'AoE CC', '<sourceName> cast <spell>') -- Blinding Light, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 179057, 'AoE CC', '<sourceName> cast <spell>') -- Chaos Nova, Demon Hunter
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 99, 'AoE CC', '<sourceName> cast <spell>') -- Incapacitating Roar, Warrior
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 30283, 'AoE CC', '<sourceName> cast <spell>') -- Shadowfury, Warlock
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 192058, 'AoE CC', '<sourceName> cast <spell>') -- Capacitator Totem, Shaman
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 207167, 'AoE CC', '<sourceName> cast <spell>') -- Blinding Sleet, Death Knight
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 205369, 'AoE CC', '<sourceName> cast <spell>') -- Mind Bomb, Priest
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 31661, 'AoE CC', '<sourceName> cast <spell>') -- Dragon's Breath, Mage
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 132469, 'AoE CC', '<sourceName> cast <spell>') -- Typhoon, Druid
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 51490, 'AoE CC', '<sourceName> cast <spell>') -- Thunderstorm, Shaman
-
-	-- Defensive Dispells
---[[ 	ADDON:AddSpellToCategory(527, 'Dispel') -- Purify, Priest
-	ADDON:AddSpellToCategory(218164, 'Dispel') -- Detox, Monk
-	ADDON:AddSpellToCategory(115450, 'Dispel') -- Detox, Monk
-	ADDON:AddSpellToCategory(88423, 'Dispel') -- Nature's Cure, Druid
-	ADDON:AddSpellToCategory(213644, 'Dispel') -- Cleanse Toxins, Paladin
-	ADDON:AddSpellToCategory(4987, 'Dispel') -- Cleanse, Paladin
-	ADDON:AddSpellToCategory(475, 'Dispel') -- Remove Curse, Mage
-	ADDON:AddSpellToCategory(77130, 'Dispel') -- Purify Spirit, Shaman
-	ADDON:AddSpellToCategory(51886, 'Dispel') -- Cleanse Spirit, Shaman
-
-
-	-- Offensive Dispells
-	ADDON:AddSpellToCategory(528, 'Dispel') -- Dispel Magic, Priest
-	ADDON:AddSpellToCategory(30449, 'Dispel') -- Spellsteal, Mage
-	ADDON:AddSpellToCategory(334350, 'Dispel') -- Chi-Ji's Tranquility, Hunter Pet
-	ADDON:AddSpellToCategory(278326, 'Dispel') -- Consume Magic, Demon Hunter
-	ADDON:AddSpellToCategory(370, 'Dispel') -- Purge, Shaman
-
-	-- Purges
-	ADDON:AddSpellToCategory(5938, 'Soothe') -- Shiv, Rogue
-	ADDON:AddSpellToCategory(2908, 'Soothe') -- Soothe, Druid
-	ADDON:AddSpellToCategory(19801, 'Soothe') -- Tranquilizing Shot, Druid ]]
-
-	-- Interrupts
-  ADDON:AddSpellToCategory(1766, 'Interrupts') -- Kick, Rogue
-	ADDON:AddSpellToCategory(106839, 'Interrupts') -- Skull Bash
-	ADDON:AddSpellToCategory(97547, 'Interrupts') -- Solar Beam 
-	ADDON:AddSpellToCategory(183752, 'Interrupts') -- Consume Magic
-	ADDON:AddSpellToCategory(147362, 'Interrupts') -- Counter Shot
-	ADDON:AddSpellToCategory(187707, 'Interrupts') -- Muzzle
-	ADDON:AddSpellToCategory(2139, 'Interrupts') -- Counter Spell
-	ADDON:AddSpellToCategory(116705, 'Interrupts') -- Spear Hand Strike
-	ADDON:AddSpellToCategory(96231, 'Interrupts') -- Rebuke
-	ADDON:AddSpellToCategory(15487, 'Interrupts') -- Silence
-	ADDON:AddSpellToCategory(57994, 'Interrupts') -- Windshear
-	ADDON:AddSpellToCategory(6552, 'Interrupts') -- Pummel
-	ADDON:AddSpellToCategory(171140, 'Interrupts') -- Shadow Lock
-	ADDON:AddSpellToCategory(171138, 'Interrupts') -- Shadow Lock
-	ADDON:AddSpellToCategory(183752, 'Interrupts') -- Disrupt
-	ADDON:AddSpellToCategory(347008, 'Interrupts') -- Axe Toss
-	ADDON:AddSpellToCategory(47528, 'Interrupts') -- Mind Freeze 
-
-		-- Add spells to be tracked as crowd controls
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6770, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Sap, Rogue
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 2094, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Blind, Rogue
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 118, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 28272, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 28271, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 61780, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 61305, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161372, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 61721, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161354, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 126819, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277792, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277787, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161353, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 161355, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Polymorph, Mage
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 20066, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Repentance, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 5782, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Fear, Warlock
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6358, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Seduction, Warlock
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 115268, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Mesmerize, Warlock
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 710, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Banish, Warlock
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 115078, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Paralysis, Monk
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 217832, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Imprison, Demon Hunter
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 339, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Entangling Roots, Druid
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 9484, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Shackle Undead, Priest
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 51514, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 210875, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 211004, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 211010, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 211015, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 269352, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277778, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 277784, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Hex, Shaman
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 3355, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Freezing Trap, Hunter
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 334275, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Curse of Exhaustion, Warlock
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 186387, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Bursting Shot, Hunter
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 45524, 'Crowd Control', '<sourceName> cast <spell> on <destName>') -- Chains of Ice, Death Knight
-
-	-- Externals
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 1022, 'Externals', '<sourceName> cast <spell> on <destName>') -- Blessing of Protection, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 204018, 'Externals', '<sourceName> cast <spell> on <destName>') -- Blessing of Spellwarding, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 6940, 'Externals', '<sourceName> cast <spell> on <destName>') -- Blessing of Sacrifice, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 633, 'Externals', '<sourceName> cast <spell> on <destName>') -- Lay on Hands, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 47788, 'Externals', '<sourceName> cast <spell> on <destName>') -- Guardian Spirit, Priest
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 2050, 'Externals', '<sourceName> cast <spell> on <destName>') -- Holy Word Serenity, Priest
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 116849, 'Externals', '<sourceName> cast <spell> on <destName>') -- Life Cocoon, Monk
-	ADDON:AddSpellToSubEvent('SPELL_AURA_APPLIED', 102342, 'Externals', '<sourceName> cast <spell> on <destName>') -- Ironbark, Druid
-
-	-- Slows
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 45524, 'Slows', '<sourceName> cast <spell> on <destName>') -- Chains of Ice, Death Knight
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 334275, 'Slows', '<sourceName> cast <spell> on <destName>') -- Curse of Exhaustion, Warlock
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 12323, 'Slows', '<sourceName> cast <spell>') -- Piercing Howl, Warrior
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 1715, 'Slows', '<sourceName> cast <spell> on <destName>') -- Hamstring, Warrior
-
-	-- Major defensives
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 642, 'Major Defensives', '<sourceName> cast <spell>') -- Divine Shield, Paladin
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 186265, 'Major Defensives', '<sourceName> cast <spell>') -- Aspect of the Turtle, Hunter
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 31224, 'Major Defensives', '<sourceName> cast <spell>') -- Cloak of Shadows, Rogue
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 48707, 'Major Defensives', '<sourceName> cast <spell>') -- Anti Magic Shield, Death Knight
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 45438, 'Major Defensives', '<sourceName> cast <spell>') -- Ice Block, Mage
-	ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 196555, 'Major Defensives', '<sourceName> cast <spell>') -- Netherwalk, Demon Hunter
-
-	ADDON:RemoveSpellFromCategory(34477, 'Targeted Utility') -- tricks of the trade
-	ADDON:RemoveSpellFromCategory(57934, 'Targeted Utility') -- misdirect
-	ADDON:RemoveSpellFromCategory(31935, 'Interrupts') -- avengers shield
-	ADDON:RemoveSpellFromCategory(1022, 'Targeted Utility') -- bop
-	ADDON:RemoveSpellFromCategory(204018, 'Targeted Utility') -- bos
-	ADDON:RemoveSpellFromCategory(132469, 'Crowd Control') -- duplicate typhoon
-	ADDON:RemoveSpellFromCategory(334275, 'Crowd Control') -- coe
-	ADDON:RemoveSpellFromCategory(45524, 'Crowd Control') -- coi
-	ADDON:RemoveSpellFromCategory(12323, 'AoE CC') -- piercing howl
-	AstralAnalytics.spellIds['Dispel'] = nil
-	AstralAnalytics.spellIds['Soothe'] = nil
-	AstralAnalytics.spellIds['AoC CC'] = nil
+function ADDON:GetSpellData(category, spellID)
+	return SPELL_TABLE[category][spellID]
 end

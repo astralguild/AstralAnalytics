@@ -24,6 +24,8 @@ ADDON.buffs.missingMark = {}
 ADDON.buffs.missingFort = {}
 ADDON.buffs.missingInt = {}
 ADDON.buffs.missingShout = {}
+ADDON.buffs.missingMark = {}
+ADDON.buffs.missingBronze = {}
 ADDON.buffs.missingFlask = {}
 ADDON.buffs.missingFood = {}
 ADDON.buffs.missingRune = {}
@@ -34,6 +36,8 @@ local LIST_NAMES = {}
 LIST_NAMES['missingFort'] = 'Missing Fortitude'
 LIST_NAMES['missingInt'] = 'Missing Arcane Intellect'
 LIST_NAMES['missingShout'] = 'Missing Battle Shout'
+LIST_NAMES['missingMark'] = 'Missing Mark of the Wild'
+LIST_NAMES['missingBronze'] = 'Missing Blessing of the Bronze'
 LIST_NAMES['missingFlask'] = 'Missing Flask'
 LIST_NAMES['missingFood'] = 'Missing Food'
 LIST_NAMES['missingRune'] = 'Missing Augment Rune'
@@ -77,6 +81,8 @@ function ADDON:WipeTables()
 	wipe(self.buffs.missingFort)
 	wipe(self.buffs.missingInt)
 	wipe(self.buffs.missingShout)
+	wipe(self.buffs.missingMark)
+	wipe(self.buffs.missingBronze)
 	wipe(self.buffs.missingFlask)
 	wipe(self.buffs.missingFood)
 	wipe(self.buffs.missingRune)
@@ -153,6 +159,8 @@ function ADDON:PopulateMissingTables()
 		table.insert(self.buffs.missingFort, unit)
 		table.insert(self.buffs.missingInt, unit)
 		table.insert(self.buffs.missingShout, unit)
+		table.insert(self.buffs.missingMark, unit)
+		table.insert(self.buffs.missingBronze, unit)
 		table.insert(self.buffs.missingFlask, unit)
 		table.insert(self.buffs.missingFood, unit)
 		table.insert(self.buffs.missingRune, unit)
@@ -255,6 +263,8 @@ function ADDON:CheckForBuffs(sendReport)
 		self:ReportList('missingInt', AstralAnalytics.options.general.announceChannel)
 		self:ReportList('missingFort', AstralAnalytics.options.general.announceChannel)
 		self:ReportList('missingShout', AstralAnalytics.options.general.announceChannel)
+		self:ReportList('missingMark', AstralAnalytics.options.general.announceChannel)
+		self:ReportList('missingBronze', AstralAnalytics.options.general.announceChannel)
 		self:ReportList('missingVantus', AstralAnalytics.options.general.announceChannel)
 		self:ReportList('lowFlaskTime', AstralAnalytics.options.general.announceChannel)
 	end

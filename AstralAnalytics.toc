@@ -19,6 +19,7 @@ libs\SpellTracking.lua
 
 Lists\RaidBuffs.lua
 Lists\Spells.lua
+Lists\SpellLists.lua
 
 Modules\CombatParsing.lua
 Modules\CrowdControl.lua
