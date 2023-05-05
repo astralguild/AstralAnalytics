@@ -7,7 +7,6 @@ function ADDON:LoadSpells()
   if (AstralAnalytics.spellIds == nil) then
     AstralAnalytics.spellIds = {}
   end
-  LoadPresets()
   for key, value in pairs(AstralAnalytics.spellIds) do
     if key ~= nil then
       if key == 'Taunt' then
@@ -40,7 +39,7 @@ function ADDON:LoadSpells()
         end
       elseif key == 'Toys' then
         for spellId, _ in pairs(value) do
-          ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Toys', '<sourceName> cast <spell>')
+          ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Toys', '<sourceName> used toy <spell>')
         end
       elseif key == 'Externals' then
         for spellId, _ in pairs(value) do
@@ -57,6 +56,7 @@ function ADDON:LoadSpells()
       end
     end
   end
+  LoadPresets()
 end
 
 function ADDON:AddSpellToCategory(spellID, spellCategory)
@@ -259,7 +259,11 @@ function LoadPresets()
   end
 
   for _, s in pairs(ADDON:GetSpellsForCategory('toys')) do
-    ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> used toy and cast <spell>')
+    if s.spellID == 161399 then
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> swapped <destName>')
+    else
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> used toy <spell>')
+    end
   end
 
   -- Misdirects
