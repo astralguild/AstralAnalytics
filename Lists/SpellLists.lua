@@ -222,6 +222,10 @@ function LoadPresets()
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Group Utility', '<sourceName> cast <spell>')
   end
 
+  for _, s in pairs(ADDON:GetSpellsForCategory('raidDefensives')) do
+    ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Raid Defensives', '<sourceName> cast <spell>')
+  end
+
   for _, s in pairs(ADDON:GetSpellsForCategory('aoeStops')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'AoE Stops', '<sourceName> cast <spell>')
   end
@@ -255,7 +259,7 @@ function LoadPresets()
   end
 
   for _, s in pairs(ADDON:GetSpellsForCategory('toys')) do
-    ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> used ' .. s.name .. ' and cast <spell>')
+    ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> used toy and cast <spell>')
   end
 
   -- Misdirects
@@ -264,5 +268,5 @@ function LoadPresets()
 
   AstralAnalytics.spellIds['Dispel'] = nil
   AstralAnalytics.spellIds['Soothe'] = nil
-  AstralAnalytics.spellIds['AoC CC'] = nil
+  AstralAnalytics.spellIds['AoE CC'] = nil
 end

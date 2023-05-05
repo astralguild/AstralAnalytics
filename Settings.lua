@@ -118,6 +118,18 @@ local function LoadDefaultSettings(addon)
 		isEnabled = true,
 		})
 
+	ADDON:AddDefaultSettings('reportLists', 'missingMark',
+		{
+		reportChannel = 'console',
+		isEnabled = true,
+		})
+
+	ADDON:AddDefaultSettings('reportLists', 'missingBronze',
+		{
+		reportChannel = 'console',
+		isEnabled = true,
+		})
+
 	ADDON:AddDefaultSettings('reportLists', 'missingRune',
 		{
 		reportChannel = 'console',
@@ -192,12 +204,22 @@ local function LoadDefaultSettings(addon)
 		reportChannel = 'console',
 		isEnabled = true,
 		})
+	ADDON:AddDefaultSettings('combatEvents', 'Raid Defensives', 
+		{
+		reportChannel = 'console',
+		isEnabled = true,
+		})
 	ADDON:AddDefaultSettings('combatEvents', 'Bloodlust', 
 		{
 		reportChannel = 'console',
 		isEnabled = true,
 		})
-	ADDON:AddDefaultSettings('combatEvents', 'AoE CC', 
+	ADDON:AddDefaultSettings('combatEvents', 'AoE Stops', 
+		{
+		reportChannel = 'console',
+		isEnabled = true,
+		})
+	ADDON:AddDefaultSettings('combatEvents', 'AoE Control', 
 		{
 		reportChannel = 'console',
 		isEnabled = true,
@@ -217,7 +239,11 @@ local function LoadDefaultSettings(addon)
 		reportChannel = 'console',
 		isEnabled = true,
 		})
-		
+	ADDON:AddDefaultSettings('combatEvents', 'Toys', 
+		{
+		reportChannel = 'console',
+		isEnabled = true,
+		})
 
 	ADDON:AddOptionCategory('Combat Events')
 	ADDON:AddOption('Combat Events', 'Announce taunts', 'Taunt', AstralAnalytics.options.combatEvents.Taunt.isEnabled)
@@ -231,11 +257,14 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddOption('Combat Events', 'Announce targeted utility', 'Targeted Utility', AstralAnalytics.options.combatEvents['Targeted Utility'].isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce misdirects', 'Misdirects', AstralAnalytics.options.combatEvents.Misdirects.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce non-targeted utility', 'Group Utility', AstralAnalytics.options.combatEvents['Group Utility'].isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce Raid Defensives', 'Raid Defensives', AstralAnalytics.options.combatEvents['Raid Defensives'].isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce Bloodlust casts', 'Bloodlust', AstralAnalytics.options.combatEvents.Bloodlust.isEnabled)
-	ADDON:AddOption('Combat Events', 'Announce AoE CC', 'AoE CC', AstralAnalytics.options.combatEvents['AoE CC'].isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce AoE Stops', 'AoE Stops', AstralAnalytics.options.combatEvents['AoE Stops'].isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce AoE Control', 'AoE Control', AstralAnalytics.options.combatEvents['AoE Control'].isEnabled)	
 	ADDON:AddOption('Combat Events', 'Announce External Defensives', 'Externals', AstralAnalytics.options.combatEvents.Externals.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce Slows', 'Slows', AstralAnalytics.options.combatEvents.Slows.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce Major Defensives', 'Major Defensives', AstralAnalytics.options.combatEvents['Major Defensives'].isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce toys', 'Toys', AstralAnalytics.options.combatEvents['Toys'].isEnabled)
 
 	ADDON:AddOptionCategory('General')
 	ADDON:AddOption('General', 'Wrap Names in Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons.isEnabled)
@@ -249,6 +278,8 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddOption('Buffs to report', 'Announce Arcane Intellect', 'missingInt', AstralAnalytics.options.reportLists.missingInt.isEnabled)
 	ADDON:AddOption('Buffs to report', 'Announce Fortitude', 'missingFort', AstralAnalytics.options.reportLists.missingFort.isEnabled)
 	ADDON:AddOption('Buffs to report', 'Announce Battle Shout', 'missingShout', AstralAnalytics.options.reportLists.missingShout.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Mark of the Wild', 'missingMark', AstralAnalytics.options.reportLists.missingMark.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Blessing of the Bronze', 'missingBronze', AstralAnalytics.options.reportLists.missingBronze.isEnabled)
 	ADDON:AddOption('Buffs to report', 'Announce Flask', 'missingFlask', AstralAnalytics.options.reportLists.missingFlask.isEnabled)
 	ADDON:AddOption('Buffs to report', 'Announce Augment Rune', 'missingRune', AstralAnalytics.options.reportLists.missingRune.isEnabled)
 	ADDON:AddOption('Buffs to report', 'Announce Vantus Rune', 'missingVantus', AstralAnalytics.options.reportLists.missingVantus.isEnabled)
