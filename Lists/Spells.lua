@@ -275,7 +275,7 @@ local toys = SPELL_TABLE['toys']
 
 toys[61551] = {name = 'Toy Train Set', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 61551}
 toys[62943] = {name = 'Wind-Up Train Wrecker', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 62943}
-toys[135253] = {name = 'Jaina\'s Locket', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 135253}
+toys[135253] = {name = 'Jaina\'s Locket', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 73324}
 toys[384911] = {name = 'Atomic Recalibrator', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 384911}
 toys[161399] = {name = 'Swapblaster', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 161399}
 toys[297571] = {name = 'Transmorpher Beacon', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 297571}
