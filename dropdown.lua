@@ -87,7 +87,7 @@ for i = 1, 6 do
 	btn.texture = btn:CreateTexture()
 	btn.texture:SetSize(14, 14)
 	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
-	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-done-small@2x')
+	btn.texture:SetTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\baseline-done-small@2x')
 	btn.texture:Hide()
 
 	btn:SetScript('OnClick', function(self)
@@ -136,7 +136,7 @@ for i = 1, 8 do
 	btn.texture = btn:CreateTexture()
 	btn.texture:SetSize(14, 14)
 	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
-	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-done-small@2x')
+	btn.texture:SetTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\baseline-done-small@2x')
 	btn.texture:Hide()
 
 	btn:SetScript('OnClick', function(self)
@@ -181,7 +181,7 @@ function DropDownMenuMixin:NewObject(entry, category)
 	btn.texture = btn:CreateTexture()
 	btn.texture:SetSize(14, 14)
 	btn.texture:SetPoint('RIGHT', btn, 'RIGHT')
-	btn.texture:SetTexture('Interface\\AddOns\\AstralKeys\\Media\\Texture\\baseline-done-small@2x')
+	btn.texture:SetTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\baseline-done-small@2x')
 	
 	if entry.option ~= 'announceChannel' and entry.option ~= 'group' then
 		if entry.value then
