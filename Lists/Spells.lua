@@ -4,8 +4,8 @@ local SPELL_TABLE = {}
 
 -- AoE Stops
 
-SPELL_TABLE['aoeStops'] = {}
-local aoeStops = SPELL_TABLE['aoeStops']
+SPELL_TABLE['AoE Stops'] = {}
+local aoeStops = SPELL_TABLE['AoE Stops']
 
 aoeStops[31661] = {name = 'Dragon\'s Breath', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 31661}
 aoeStops[192058] = {name = 'Capacitor Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 192058}
@@ -14,7 +14,7 @@ aoeStops[205369] = {name = 'Mind Bomb', class = 'Priest', subEvent = 'SPELL_CAST
 aoeStops[51490] = {name = 'Thunderstorm', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 51490}
 aoeStops[30282] = {name = 'Shadowfury', class = 'Warlock', subEvent = 'SPELL_CAST_SUCCESS', spellID = 30282}
 aoeStops[132469] = {name = 'Typhoon', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 132469}
-aoeStops[108119] = {name = 'Gorefiend\'s Grasp', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 108119}
+aoeStops[108199] = {name = 'Gorefiend\'s Grasp', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 108199}
 aoeStops[119381] = {name = 'Leg Sweep', class = 'Monk', subEvent = 'SPELL_CAST_SUCCESS', spellID = 119381}
 aoeStops[115750] = {name = 'Blinding Light', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 115750}
 aoeStops[99] = {name = 'Incapacitating Roar', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 99}
@@ -37,8 +37,8 @@ aoeStops[1122] = {name = 'Summon Infernal', class = 'Warlock', subEvent = 'SPELL
 
 -- AoE Control
 
-SPELL_TABLE['aoeControl'] = {}
-local aoeControl = SPELL_TABLE['aoeControl']
+SPELL_TABLE['AoE Control'] = {}
+local aoeControl = SPELL_TABLE['AoE Control']
 
 aoeControl[372048] = {name = 'Oppressing Roar', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 372048}
 aoeControl[207684] = {name = 'Sigil of Misery', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 207684}
@@ -52,11 +52,12 @@ aoeControl[51485] = {name = 'Earthgrab Totem', class = 'Shaman', subEvent = 'SPE
 aoeControl[392060] = {name = 'Wailing Arrow', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 392060}
 aoeControl[108920] = {name = 'Void Tendrils', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 108920}
 aoeControl[202137] = {name = 'Sigil of Silence', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 202137}
+aoeControl[383121] = {name = 'Mass Polymorph', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 383121}
 
 -- Externals
 
-SPELL_TABLE['externals'] = {}
-local externals = SPELL_TABLE['externals']
+SPELL_TABLE['Externals'] = {}
+local externals = SPELL_TABLE['Externals']
 
 externals[47788] = {name = 'Guardian Spirit', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 47788}
 externals[1022] = {name = 'Blessing of Protection', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 1022}
@@ -67,11 +68,12 @@ externals[6940] = {name = 'Blessing of Sacrifice', class = 'Paladin', subEvent =
 externals[102342] = {name = 'Ironbark', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 102342}
 externals[633] = {name = 'Lay on Hands', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 633}
 externals[33206] = {name = 'Pain Suppression', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 33206}
+externals[3411] = {name = 'Intervene', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 3411}
 
 -- Major Defensives
 
-SPELL_TABLE['majorDefensives'] = {}
-local majorDefensives = SPELL_TABLE['majorDefensives']
+SPELL_TABLE['Major Defensives'] = {}
+local majorDefensives = SPELL_TABLE['Major Defensives']
 
 majorDefensives[642] = {name = 'Divine Shield', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 642}
 majorDefensives[48707] = {name = 'Anti-Magic Shell', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 48707}
@@ -79,18 +81,15 @@ majorDefensives[31224] = {name = 'Cloak of Shadows', class = 'Rogue', subEvent =
 majorDefensives[196555] = {name = 'Netherwalk', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 196555}
 majorDefensives[45438] = {name = 'Ice Block', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 45438}
 majorDefensives[186265] = {name = 'Aspect of the Turtle', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 186265}
-majorDefensives[114556] = {name = 'Purgatory', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 114556}
-majorDefensives[209258] = {name = 'Last Resort', class = 'Demon Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 209258}
 majorDefensives[392966] = {name = 'Spell Block', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 392966}
 majorDefensives[118038] = {name = 'Die by the Sword', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 118038}
 majorDefensives[5277] = {name = 'Evasion', class = 'Rogue', subEvent = 'SPELL_CAST_SUCCESS', spellID = 5277}
-majorDefensives[31230] = {name = 'Cheat Death', class = 'Rogue', subEvent = 'SPELL_CAST_SUCCESS', spellID = 31230}
 
 
 -- Raid Defensives
 
-SPELL_TABLE['raidDefensives'] = {}
-local raidDefensives = SPELL_TABLE['raidDefensives']
+SPELL_TABLE['Raid Defensives'] = {}
+local raidDefensives = SPELL_TABLE['Raid Defensives']
 
 raidDefensives[51052] = {name = 'Anti-Magic Zone', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 51052}
 raidDefensives[97462] = {name = 'Rallying Cry', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS', spellID = 97462}
@@ -106,11 +105,12 @@ raidDefensives[15286] = {name = 'Vampiric Embrace', class = 'Priest', subEvent =
 raidDefensives[47536] = {name = 'Rapture', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 47536}
 raidDefensives[124974] = {name = 'Nature\'s Vigil', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 124974}
 raidDefensives[108281] = {name = 'Ancestral Guidance', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 108281}
+raidDefensives[64843] = {name = 'Divine Hymn', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 64843}
 
 -- Targeted Utility
 
-SPELL_TABLE['targetedUtility'] = {}
-local targetedUtility = SPELL_TABLE['targetedUtility']
+SPELL_TABLE['Targeted Utility'] = {}
+local targetedUtility = SPELL_TABLE['Targeted Utility']
 
 targetedUtility[328282] = {name = 'Blessing of Spring', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 328282}
 targetedUtility[328622] = {name = 'Blessing of Autumn', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 328622}
@@ -119,17 +119,16 @@ targetedUtility[328620] = {name = 'Blessing of Summer', class = 'Paladin', subEv
 targetedUtility[73325] = {name = 'Leap of Faith', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 73325}
 targetedUtility[10060] = {name = 'Power Infusion', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 10060}
 targetedUtility[29166] = {name = 'Innervate', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 29166}
-targetedUtility[2908] = {name = 'Soothe', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 2908}
 targetedUtility[374251] = {name = 'Cauterizing Flame', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 374251}
-targetedUtility[19801] = {name = 'Tranquilizing Shot', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 19801}
 targetedUtility[370665] = {name = 'Rescue', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 370665}
 targetedUtility[1044] = {name = 'Blessing of Freedom', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 1044}
 targetedUtility[116841] = {name = 'Tiger\'s Lust', class = 'Monk', subEvent = 'SPELL_CAST_SUCCESS', spellID = 116841}
+targetedUtility[108968] = {name = 'Void Shift', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 108968}
 
 -- Targeted Control
 
-SPELL_TABLE['targetedControl'] = {}
-local targetedControl = SPELL_TABLE['targetedControl']
+SPELL_TABLE['Crowd Control'] = {}
+local targetedControl = SPELL_TABLE['Crowd Control']
 
 targetedControl[115078] = {name = 'Paralysis', class = 'Monk', subEvent = 'SPELL_AURA_APPLIED', spellID = 115078}
 targetedControl[710] = {name = 'Banish', class = 'Warlock', subEvent = 'SPELL_AURA_APPLIED', spellID = 710}
@@ -179,8 +178,8 @@ targetedControl[64044] = {name = 'Psychic Horror', class = 'Priest', subEvent = 
 
 -- Group Utility
 
-SPELL_TABLE['groupUtility'] = {}
-local groupUtility = SPELL_TABLE['groupUtility']
+SPELL_TABLE['Group Utility'] = {}
+local groupUtility = SPELL_TABLE['Group Utility']
 
 groupUtility[205636] = {name = 'Force of Nature', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 205636}
 groupUtility[192077] = {name = 'Wind Rush Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 192077}
@@ -191,11 +190,13 @@ groupUtility[114018] = {name = 'Shroud of Concealment', class = 'Rogue', subEven
 groupUtility[64901] = {name = 'Symbol of Hope', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 64901}
 groupUtility[374968] = {name = 'Time Spiral', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 374968}
 groupUtility[198103] = {name = 'Earth Elemental', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 198103}
+groupUtility[8143] = {name = 'Tremor Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 8143}
+groupUtility[16191] = {name = 'Mana Tide Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 16191}
 
 -- Slows
 
-SPELL_TABLE['slows'] = {}
-local slows = SPELL_TABLE['slows']
+SPELL_TABLE['Slows'] = {}
+local slows = SPELL_TABLE['Slows']
 
 slows[260364] = {name = 'Arcane Pulse', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 260364}
 slows[45524] = {name = 'Chains of Ice', class = 'Death Knight', subEvent = 'SPELL_AURA_APPLIED', spellID = 45524}
@@ -218,8 +219,8 @@ battleRes[393795] = {name = 'Arclight Vital Correctors', class = 'Item', subEven
 
 -- Bloodlust/Heroism
 
-SPELL_TABLE['lust'] = {}
-local lust = SPELL_TABLE['lust']
+SPELL_TABLE['Bloodlust'] = {}
+local lust = SPELL_TABLE['Bloodlust']
 
 lust[160452] = {name = 'Netherwinds', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 160452}
 lust[80353] = {name = 'Time Warp', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 80353}
@@ -232,8 +233,8 @@ lust[390386] = {name = 'Fury of the Aspects', class = 'Evoker', subEvent = 'SPEL
 
 -- Interrupts
 
-SPELL_TABLE['interrupts'] = {}
-local interrupts = SPELL_TABLE['interrupts']
+SPELL_TABLE['Interrupts'] = {}
+local interrupts = SPELL_TABLE['Interrupts']
 
 interrupts[187707] = {name = 'Muzzle', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 187707}
 interrupts[96231] = {name = 'Rebuke', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 96231}
@@ -256,8 +257,8 @@ interrupts[147362] = {name = 'Counter Shot', class = 'Hunter', subEvent = 'SPELL
 
 -- Taunts
 
-SPELL_TABLE['taunts'] = {}
-local taunts = SPELL_TABLE['taunts']
+SPELL_TABLE['Taunt'] = {}
+local taunts = SPELL_TABLE['Taunt']
 
 taunts[62124] = {name = 'Hand of Reckoning', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 62124}
 taunts[49576] = {name = 'Death Grip', class = 'Death Knight', subEvent = 'SPELL_CAST_SUCCESS', spellID = 49576}
@@ -270,8 +271,8 @@ taunts[355] = {name = 'Taunt', class = 'Warrior', subEvent = 'SPELL_CAST_SUCCESS
 
 -- Nuisances/Toys
 
-SPELL_TABLE['toys'] = {}
-local toys = SPELL_TABLE['toys']
+SPELL_TABLE['Toys'] = {}
+local toys = SPELL_TABLE['Toys']
 
 toys[61551] = {name = 'Toy Train Set', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 61551}
 toys[62943] = {name = 'Wind-Up Train Wrecker', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 62943}
@@ -285,8 +286,8 @@ toys[261602] = {name = 'Katy\'s Stampwhistle', class = 'Toy', subEvent = 'SPELL_
 
 -- Other
 
-SPELL_TABLE['others'] = {}
-local others = SPELL_TABLE['others']
+SPELL_TABLE['Others'] = {}
+local others = SPELL_TABLE['Others']
 
 others[57934] = {name = 'Tricks of the Trade', class = 'Rogue', subEvent = 'SPELL_CAST_SUCCESS', spellID = 57934}
 others[34477] = {name = 'Misdirection', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 34477}
@@ -295,6 +296,11 @@ function ADDON:GetSpellsForCategory(category)
   return SPELL_TABLE[category]
 end
 
-function ADDON:GetSpellData(category, spellID)
-	return SPELL_TABLE[category][spellID]
+function ADDON:GetSpellData(spellID)
+  for k, _ in pairs(SPELL_TABLE) do
+    if SPELL_TABLE[k][spellID] then
+	    return k, SPELL_TABLE[k][spellID]
+    end
+  end
+  return '', nil
 end
