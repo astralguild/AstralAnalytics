@@ -79,7 +79,7 @@ COMBAT_FUNCS['SPELL_INTERRUPT'] = function(timeStamp, subEvent, hideCaster, sour
 	local spellLink = GetSpellLink(param15)
 	spellLink = spellLink or param16
 
-	if AstralAnalytics.options.combatEvents.Interrupts.isEnabled then
+	if AstralAnalytics.options.combatEvents.Interrupts.isEnabled and (not AstralAnalytics.options.combatEvents[param15] or AstralAnalytics.options.combatEvents[param15] and AstralAnalytics.options.combatEvents[param15].isEnabled) then
 		AstralSendMessage(strformat(CONSOLE_INTERRUPT_TEXT, WrapNameInColorAndIcons(sourceName, nil, sourceRaidFlags), WrapNameInColorAndIcons(destName, destFlags, destRaidFlags), spellLink), 'console')
 	end
 	if AstralAnalytics.options.combatEvents.selfInterrupt.isEnabled and sourceFlags == 1297 and IsInGroup() then -- Flag for self

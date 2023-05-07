@@ -7,6 +7,8 @@
 ## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
 ## X-Wago-ID: RBKpPOKE
 ## X-Curse-Project-ID: 573967
+## IconTexture: Interface\AddOns\AstralAnalytics\Media\Texture\Asset_54x2
+## AddonCompartmentFunc: OpenMainWindow
 
 embeds.xml
 libs\Events.lua
@@ -30,4 +32,3 @@ main.lua
 
 frame.lua
 dropdown.lua
-

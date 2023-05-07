@@ -89,19 +89,41 @@ function ADDON.SpellRow:CreateRow(parent, index, spell)
 	frame.name:SetPoint('LEFT', frame, 'LEFT', 4, -1)
 	frame.name:SetTextColor(1, 1, 1)
 
+	frame.checkbox = frame:CreateTexture()
+	frame.checkbox:SetSize(14, 14)
+	frame.checkbox:SetPoint('RIGHT', frame, 'RIGHT')
+	frame.checkbox:SetTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\baseline-done-small@2x')
+
 	return frame
 end
 
 function ADDON.SpellRow:SetSpell(self, spell)
 	local name, rank, icon = GetSpellInfo(spell)
 	if name == nil then
-		if spell == nil then 
+		if spell == nil then
 			self.name:SetText("Can't resolve spell id to a number")
 		else
 			self.name:SetText("Invalid spell id: "..spell)
 		end
+		self:SetScript('OnClick', function() end)
 	else
 		self.name:SetText("|T"..icon..":20|t" .. name .. " (" .. spell .. ")")
+		ADDON:AddDefaultSettings('combatEvents', spell, {reportChannel = 'console', isEnabled = true})
+		self.checkbox:SetShown(AstralAnalytics.options.combatEvents[spell].isEnabled)
+		if not AstralAnalytics.options.combatEvents[spell].isEnabled then
+			self.background:SetAlpha(0)
+		else
+			self.background:SetAlpha(0.6)
+		end
+		self:SetScript('OnClick', function(self)
+			AstralAnalytics.options.combatEvents[spell].isEnabled = not AstralAnalytics.options.combatEvents[spell].isEnabled
+			self.checkbox:SetShown(AstralAnalytics.options.combatEvents[spell].isEnabled)
+			if not AstralAnalytics.options.combatEvents[spell].isEnabled then
+				self.background:SetAlpha(0)
+			else
+				self.background:SetAlpha(0.6)
+			end
+		end)
 	end
 	self:Show()
 end

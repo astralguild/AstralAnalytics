@@ -1,29 +1,8 @@
-local _, ADDON = ...
+local ADDON_NAME, ADDON = ...
 
 local ADDON = LibStub("AceAddon-3.0"):NewAddon(ADDON, "AstralAnalytics", "AceConsole-3.0")
 
-local AstralAnalyticsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("AstralAnalytics", {
-	type = "data source",
-	text = "AstralAnalytics",
-	icon = "Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\Asset_54x2",
-	OnClick = function() ADDON:ToggleMainWindow() end,
-	OnTooltipShow = function(tooltip)
-		tooltip:AddLine("Astral Analytics")
-	end,
-})
-
-ADDON.icon = LibStub("LibDBIcon-1.0")
-
 function ADDON:OnInitialize()
-	self.db = LibStub("AceDB-3.0"):New("AstralAnalyticsMinimap", {
-		profile = {
-			minimap = {
-				hide = AstralAnalytics.minimapIcon,
-			},
-		},
-	})
-	ADDON.icon:Register("AstralAnalytics", AstralAnalyticsLDB, self.db.profile.minimap)
-
 	ADDON:RegisterChatCommand('astral', HandleChatCommand)
 	ADDON:RegisterChatCommand('aa', OpenMainWindow)
 	ADDON:LoadBuffs()
@@ -59,15 +38,6 @@ function HandleChatCommand(input)
 
 	elseif(args[1] == 'adduntargetedutility') then
 		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'Group Utility', '<sourceName> cast <spell>')
-
-	elseif(args[1] == 'minimap') then
-		AstralAnalytics.minimapIcon = not AstralAnalytics.minimapIcon
-		if AstralAnalytics.minimapIcon then
-			ADDON.icon:Show("AstralAnalytics")
-		else
-			ADDON.icon:Hide("AstralAnalytics")
-		end
-
 
 	else
 		ADDON:Print("Example usage:")

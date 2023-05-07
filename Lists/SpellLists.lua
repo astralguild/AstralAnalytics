@@ -162,7 +162,8 @@ function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString)
   end)
 
   local codeString = [[
-  if not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['] then return end
+  if not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['] or not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['].isEnabled then return end
+  if AstralAnalytics.options.combatEvents[]] .. spellID .. [[] and not AstralAnalytics.options.combatEvents[]] .. spellID .. [[].isEnabled then return end
   local sourceName, sourceRaidFlags, spell, destName, destFlags, destRaidFlags = ...
   AstralSendMessage(string.format(']] .. fstring .. [[' ]] .. ls .. [[), 'console')]]
 

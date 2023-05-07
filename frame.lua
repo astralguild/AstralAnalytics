@@ -453,11 +453,11 @@ local function listScrollFrameUpdate()
 	local numRows = #currentSpells
 	FauxScrollFrame_Update(listScrollFrame, numRows, visibleRows, BUTTON_HEIGHT)
 	local offset = FauxScrollFrame_GetOffset(listScrollFrame)
-	for line = 1, visibleRows do 
+	for line = 1, visibleRows do
 		local lineplusoffset = line + offset
 		local button = row[line]
 		if button ~= nil then
-			if lineplusoffset > numRows then 
+			if lineplusoffset > numRows then
 				button:Hide()
 			else
 				ADDON.SpellRow:SetSpell(button, currentSpells[lineplusoffset])
@@ -469,7 +469,7 @@ local function listScrollFrameUpdate()
 			row[line]:Hide()
 		end
 	end
-	for line = visibleRows+1, #row do 
+	for line = visibleRows+1, #row do
 		row[line]:Hide()
 	end
 end

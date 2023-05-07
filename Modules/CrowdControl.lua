@@ -53,9 +53,9 @@ local function SetControlledUnitLastHit(guid, data)
 end
 
 local function CrowdControl_OnAuraApplied(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17)
-	if AstralAnalytics.options.combatEvents.crowd.isEnabled and ADDON:IsSpellInCategory(spellID, 'Crowd Control') then
+	if AstralAnalytics.options.combatEvents.crowd.isEnabled and ADDON:IsSpellInCategory(spellID, 'Crowd Control') and (not AstralAnalytics.options.combatEvents[spellID] or AstralAnalytics.options.combatEvents[spellID] and AstralAnalytics.options.combatEvents[spellID].isEnabled) then
 		local spellLink = GetSpellLink(spellID)
-		ADDON:GetSubEventMethod(subEvent, spellID)(sourceName, sourceRaidFlags, spellLink, destName, destFlags, destRaidFlags)		
+		ADDON:GetSubEventMethod(subEvent, spellID)(sourceName, sourceRaidFlags, spellLink, destName, destFlags, destRaidFlags)
 		AddUnitToControlledList(destGUID)
 	end
 end
