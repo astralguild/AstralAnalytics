@@ -1,4 +1,4 @@
-local ADDON_NAME, ADDON = ...
+local _, ADDON = ...
 local strformat = string.format
 
 ADDON.SPELL_CATEGORIES = {}
@@ -47,7 +47,7 @@ function ADDON:LoadSpells()
         end
       elseif key == 'crowd' then
         for spellId, _ in pairs(value) do
-          ADDON:AddSpellToCategory(spellId, 'Targeted Crowd Control')
+          ADDON:AddSpellToCategory(spellId, 'Crowd Control')
         end
       else
         for spellId, _ in pairs(value) do
@@ -162,7 +162,8 @@ function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString)
   end)
 
   local codeString = [[
-  if not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['] then return end
+  if not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['] or not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['].isEnabled then return end
+  if AstralAnalytics.options.combatEvents[]] .. spellID .. [[] and not AstralAnalytics.options.combatEvents[]] .. spellID .. [[].isEnabled then return end
   local sourceName, sourceRaidFlags, spell, destName, destFlags, destRaidFlags = ...
   AstralSendMessage(string.format(']] .. fstring .. [[' ]] .. ls .. [[), 'console')]]
 
@@ -201,7 +202,7 @@ function ADDON:GetSubEventMethod(subEvent, spellID)
 end
 
 function LoadPresets()
-  for _, s in pairs(ADDON:GetSpellsForCategory('lust')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Bloodlust')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Bloodlust', '<sourceName> cast <spell>')
   end
 
@@ -210,43 +211,43 @@ function LoadPresets()
   end
   ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', 207399, 'battleRes', '<sourceName> cast <spell>') -- Ancestral Protection Totem
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('taunts')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Taunt')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Taunt', '<sourceName> taunted <destName> with <spell>')
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('targetedUtility')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Targeted Utility')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> cast <spell> on <destName>')
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('groupUtility')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Group Utility')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Group Utility', '<sourceName> cast <spell>')
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('raidDefensives')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Raid Defensives')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Raid Defensives', '<sourceName> cast <spell>')
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('aoeStops')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('AoE Stops')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'AoE Stops', '<sourceName> cast <spell>')
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('aoeControl')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('AoE Control')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'AoE Control', '<sourceName> cast <spell>')
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('interrupts')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Interrupts')) do
     ADDON:AddSpellToCategory(s.spellID, 'Interrupts')
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('targetedControl')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Crowd Control')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Crowd Control', '<sourceName> cast <spell> on <destName>')
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('externals')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Externals')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Externals', '<sourceName> cast <spell> on <destName>')
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('slows')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Slows')) do
     if s.subEvent == 'SPELL_CAST_SUCCESS' then
       ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Slows', '<sourceName> cast <spell>')
     else
@@ -254,11 +255,11 @@ function LoadPresets()
     end
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('majorDefensives')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Major Defensives')) do
     ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Major Defensives', '<sourceName> cast <spell>')
   end
 
-  for _, s in pairs(ADDON:GetSpellsForCategory('toys')) do
+  for _, s in pairs(ADDON:GetSpellsForCategory('Toys')) do
     if s.spellID == 161399 then
       ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> cast <spell> on <destName>')
     else

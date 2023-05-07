@@ -15,9 +15,6 @@ end
 if not AstralAnalytics.scale then
 	AstralAnalytics.scale = 1.0
 end
-if not AstralAnalytics.minimapIcon then
-	AstralAnalytics.minimapIcon = true
-end
 
 function ADDON:AddDefaultSettings(category, name, data)
 	if not category or type(category) ~= 'string' then
@@ -68,185 +65,68 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddDefaultSettings('frame', 'locked', true)
 
 	-- Default General Options
-	ADDON:AddDefaultSettings('general', 'raidIcons', 
-		{
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('general', 'autoAnnounce', 
-		{
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('general', 'announceOwnGuild',
-	{
-		isEnabled = true,
-	})
+	ADDON:AddDefaultSettings('general', 'raidIcons', {isEnabled = true})
+	ADDON:AddDefaultSettings('general', 'autoAnnounce', {isEnabled = false})
+	ADDON:AddDefaultSettings('general', 'announceOwnGuild', {isEnabled = true})
 	ADDON:AddDefaultSettings('general', 'announceChannel', 'console')
 
 	-- Default Groups selected to track
 	for i = 1, 8 do
-		ADDON:AddDefaultSettings('group', i, 
-		{
-		isEnabled = true,
-		})
+		ADDON:AddDefaultSettings('group', i, {isEnabled = true})
 	end
 
 	-- Default settings for report options
-	ADDON:AddDefaultSettings('reportLists', 'lowFlaskTime',
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-
-	ADDON:AddDefaultSettings('reportLists', 'missingFood',
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-
-	ADDON:AddDefaultSettings('reportLists', 'missingFort',
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-
-	ADDON:AddDefaultSettings('reportLists', 'missingFlask',
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-
-	ADDON:AddDefaultSettings('reportLists', 'missingShout',
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-
-	ADDON:AddDefaultSettings('reportLists', 'missingMark',
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-
-	ADDON:AddDefaultSettings('reportLists', 'missingBronze',
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-
-	ADDON:AddDefaultSettings('reportLists', 'missingRune',
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-
-	ADDON:AddDefaultSettings('reportLists', 'missingVantus',
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-
-	ADDON:AddDefaultSettings('reportLists', 'missingInt',
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
+	ADDON:AddDefaultSettings('reportLists', 'lowFlaskTime', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('reportLists', 'missingFood', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('reportLists', 'missingFort', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('reportLists', 'missingFlask', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('reportLists', 'missingShout', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('reportLists', 'missingMark', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('reportLists', 'missingBronze', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('reportLists', 'missingRune', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('reportLists', 'missingVantus', {reportChannel = 'console',isEnabled = false})
+	ADDON:AddDefaultSettings('reportLists', 'missingInt', {reportChannel = 'console', isEnabled = false})
 
 	-- Default combat event settings
-	ADDON:AddDefaultSettings('combatEvents', 'Interrupts', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'missedInterrupts', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'selfInterrupt', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'crowd', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'cc_break', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Taunt', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'battleRes', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-		ADDON:AddDefaultSettings('combatEvents', 'dispell', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Targeted Utility', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Misdirects', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Group Utility', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Raid Defensives', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Bloodlust', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'AoE Stops', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'AoE Control', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Externals', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Slows', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Major Defensives', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
-	ADDON:AddDefaultSettings('combatEvents', 'Toys', 
-		{
-		reportChannel = 'console',
-		isEnabled = true,
-		})
+	ADDON:AddDefaultSettings('combatEvents', 'Interrupts', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'missedInterrupts', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'selfInterrupt', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('combatEvents', 'crowd', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'cc_break', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'Taunt', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'battleRes', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'dispell', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('combatEvents', 'Targeted Utility', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('combatEvents', 'Misdirects', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'Group Utility', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'Raid Defensives', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'Bloodlust', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'AoE Stops', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('combatEvents', 'AoE Control', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('combatEvents', 'Externals', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'Slows', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('combatEvents', 'Major Defensives', {reportChannel = 'console', isEnabled = false})
+	ADDON:AddDefaultSettings('combatEvents', 'Toys', {reportChannel = 'console', isEnabled = true})
+
+  -- Populate settings
+	ADDON:AddOptionCategory('General')
+	ADDON:AddOption('General', 'Wrap Names in Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons.isEnabled)
+	ADDON:AddOption('General', 'Announce to Channel', 'announceChannel', AstralAnalytics.options.general.reportChannel)
+	ADDON:AddOption('General', 'Announce on ready check', 'autoAnnounce', AstralAnalytics.options.general.autoAnnounce.isEnabled)
+	ADDON:AddOption('General', 'Announce if in Guild Group', 'announceOwnGuild', AstralAnalytics.options.general.announceOwnGuild.isEnabled)
+	ADDON:AddOption('General', 'Sub groups', 'group', AstralAnalytics.options.general.group)
+
+	ADDON:AddOptionCategory('Buffs to report')
+	ADDON:AddOption('Buffs to report', 'Announce Well Fed', 'missingFood', AstralAnalytics.options.reportLists.missingFood.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Arcane Intellect', 'missingInt', AstralAnalytics.options.reportLists.missingInt.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Fortitude', 'missingFort', AstralAnalytics.options.reportLists.missingFort.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Battle Shout', 'missingShout', AstralAnalytics.options.reportLists.missingShout.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Mark of the Wild', 'missingMark', AstralAnalytics.options.reportLists.missingMark.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Blessing of the Bronze', 'missingBronze', AstralAnalytics.options.reportLists.missingBronze.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Flask', 'missingFlask', AstralAnalytics.options.reportLists.missingFlask.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Augment Rune', 'missingRune', AstralAnalytics.options.reportLists.missingRune.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Vantus Rune', 'missingVantus', AstralAnalytics.options.reportLists.missingVantus.isEnabled)
+	ADDON:AddOption('Buffs to report', 'Announce Low Flask Time', 'lowFlaskTime', AstralAnalytics.options.reportLists.lowFlaskTime.isEnabled)
 
 	ADDON:AddOptionCategory('Combat Events')
 	ADDON:AddOption('Combat Events', 'Announce taunts', 'Taunt', AstralAnalytics.options.combatEvents.Taunt.isEnabled)
@@ -268,25 +148,6 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddOption('Combat Events', 'Announce Slows', 'Slows', AstralAnalytics.options.combatEvents.Slows.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce Major Defensives', 'Major Defensives', AstralAnalytics.options.combatEvents['Major Defensives'].isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce toys', 'Toys', AstralAnalytics.options.combatEvents['Toys'].isEnabled)
-
-	ADDON:AddOptionCategory('General')
-	ADDON:AddOption('General', 'Wrap Names in Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons.isEnabled)
-	ADDON:AddOption('General', 'Announce to Channel', 'announceChannel', AstralAnalytics.options.general.reportChannel)
-	ADDON:AddOption('General', 'Announce on ready check', 'autoAnnounce', AstralAnalytics.options.general.autoAnnounce.isEnabled)
-	ADDON:AddOption('General', 'Announce if in Guild Group', 'announceOwnGuild', AstralAnalytics.options.general.announceOwnGuild.isEnabled)
-	ADDON:AddOption('General', 'Sub groups', 'group', AstralAnalytics.options.general.group)
-
-	ADDON:AddOptionCategory('Buffs to report')
-	ADDON:AddOption('Buffs to report', 'Announce Well Fed', 'missingFood', AstralAnalytics.options.reportLists.missingFood.isEnabled)
-	ADDON:AddOption('Buffs to report', 'Announce Arcane Intellect', 'missingInt', AstralAnalytics.options.reportLists.missingInt.isEnabled)
-	ADDON:AddOption('Buffs to report', 'Announce Fortitude', 'missingFort', AstralAnalytics.options.reportLists.missingFort.isEnabled)
-	ADDON:AddOption('Buffs to report', 'Announce Battle Shout', 'missingShout', AstralAnalytics.options.reportLists.missingShout.isEnabled)
-	ADDON:AddOption('Buffs to report', 'Announce Mark of the Wild', 'missingMark', AstralAnalytics.options.reportLists.missingMark.isEnabled)
-	ADDON:AddOption('Buffs to report', 'Announce Blessing of the Bronze', 'missingBronze', AstralAnalytics.options.reportLists.missingBronze.isEnabled)
-	ADDON:AddOption('Buffs to report', 'Announce Flask', 'missingFlask', AstralAnalytics.options.reportLists.missingFlask.isEnabled)
-	ADDON:AddOption('Buffs to report', 'Announce Augment Rune', 'missingRune', AstralAnalytics.options.reportLists.missingRune.isEnabled)
-	ADDON:AddOption('Buffs to report', 'Announce Vantus Rune', 'missingVantus', AstralAnalytics.options.reportLists.missingVantus.isEnabled)
-	ADDON:AddOption('Buffs to report', 'Announce Low Flask Time', 'lowFlaskTime', AstralAnalytics.options.reportLists.lowFlaskTime.isEnabled)
 
 	for category, entries in pairs(ADDON.OPTIONS) do
 		local cat
@@ -326,6 +187,5 @@ local function LoadDefaultSettings(addon)
 
 	AstralAnalytics.options.combatEvents.misdirects = nil
 end
-
 
 AAEvents:Register('ADDON_LOADED', LoadDefaultSettings, 'LoadDefaultSettings')

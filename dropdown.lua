@@ -1,7 +1,7 @@
-local ADDON_NAME, ADDON = ...
+local _, ADDON = ...
 local a = ADDON.a
 
-local function MixIn(D, T)	
+local function MixIn(D, T)
 	for k,v in pairs(T) do
 		if (type(v) == "function") and ((D[k] == nil)) then
 			D[k] = v;
