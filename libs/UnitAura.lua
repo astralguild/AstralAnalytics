@@ -436,7 +436,9 @@ function ADDON:OnReadyCheck()
 	self:CheckForBuffs(AstralAnalytics.options.general.autoAnnounce.isEnabled)
 	self:SortUnits()
 	self:UpdateFrameRows()
-	AAFrame:Show()
+	if AstralAnalytics.options.general.showOnReadyCheck.isEnabled then
+		AAFrame:Show()
+	end
 end
 
 AAEvents:Register('READY_CHECK', ADDON.OnReadyCheck, 'ADDON_OnReadyCheck')

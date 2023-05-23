@@ -66,6 +66,7 @@ local function LoadDefaultSettings(addon)
 
 	-- Default General Options
 	ADDON:AddDefaultSettings('general', 'raidIcons', {isEnabled = true})
+	ADDON:AddDefaultSettings('general', 'showOnReadyCheck', {isEnabled = true})
 	ADDON:AddDefaultSettings('general', 'autoAnnounce', {isEnabled = false})
 	ADDON:AddDefaultSettings('general', 'announceOwnGuild', {isEnabled = true})
 	ADDON:AddDefaultSettings('general', 'announceChannel', 'console')
@@ -111,6 +112,7 @@ local function LoadDefaultSettings(addon)
   -- Populate settings
 	ADDON:AddOptionCategory('General')
 	ADDON:AddOption('General', 'Wrap Names in Raid Icons', 'raidIcons', AstralAnalytics.options.general.raidIcons.isEnabled)
+	ADDON:AddOption('General', 'Show window on ready check', 'showOnReadyCheck', AstralAnalytics.options.general.showOnReadyCheck.isEnabled)
 	ADDON:AddOption('General', 'Announce to Channel', 'announceChannel', AstralAnalytics.options.general.reportChannel)
 	ADDON:AddOption('General', 'Announce on ready check', 'autoAnnounce', AstralAnalytics.options.general.autoAnnounce.isEnabled)
 	ADDON:AddOption('General', 'Announce if in Guild Group', 'announceOwnGuild', AstralAnalytics.options.general.announceOwnGuild.isEnabled)
