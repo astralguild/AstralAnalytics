@@ -60,6 +60,13 @@ function HandleChatCommand(input)
 	elseif(args[1] == 'adduntargetedutility') then
 		ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', tonumber(args[2]), 'Group Utility', '<sourceName> cast <spell>')
 
+	elseif(args[1] == 'lusted') then
+		if ADDON.LastLusted and ADDON.LastLusted.func ~= nil then
+			local l = ADDON.LastLusted
+			local s, sr, sl, dn, df, drf = l.sourceName, l.sourceRaidFlags, l.spellLink, l.destName, l.destFlags, l.destRaidFlags
+			l.func(s, sr, sl, dn, df, drf)
+		end
+
 	elseif(args[1] == 'minimap') then
 		AstralAnalytics.minimapIcon = not AstralAnalytics.minimapIcon
 		if AstralAnalytics.minimapIcon then
@@ -68,7 +75,7 @@ function HandleChatCommand(input)
 			ADDON.icon:Hide("AstralAnalytics")
 		end
 
-
+	-- TODO add some more print messages for new commands
 	else
 		ADDON:Print("Example usage:")
 		ADDON:Print("/astral addbuff 354393 VANTUS")

@@ -124,6 +124,8 @@ targetedUtility[370665] = {name = 'Rescue', class = 'Evoker', subEvent = 'SPELL_
 targetedUtility[1044] = {name = 'Blessing of Freedom', class = 'Paladin', subEvent = 'SPELL_CAST_SUCCESS', spellID = 1044}
 targetedUtility[116841] = {name = 'Tiger\'s Lust', class = 'Monk', subEvent = 'SPELL_CAST_SUCCESS', spellID = 116841}
 targetedUtility[108968] = {name = 'Void Shift', class = 'Priest', subEvent = 'SPELL_CAST_SUCCESS', spellID = 108968}
+targetedUtility[108968] = {name = 'Soothe', class = 'Druid', subEvent = 'SPELL_CAST_SUCCESS', spellID = 2908}
+targetedUtility[108968] = {name = 'Tranquilizing Shot', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 19801}
 
 -- Targeted Control
 
@@ -224,12 +226,12 @@ local lust = SPELL_TABLE['Bloodlust']
 
 lust[160452] = {name = 'Netherwinds', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 160452}
 lust[80353] = {name = 'Time Warp', class = 'Mage', subEvent = 'SPELL_CAST_SUCCESS', spellID = 80353}
-lust[381301] = {name = 'Feral Hide Drums', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 381301}
 lust[32182] = {name = 'Heroism', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 32182}
 lust[264667] = {name = 'Primal Rage', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 264667}
 lust[90355] = {name = 'Ancient Hysteria', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 90355}
 lust[2825] = {name = 'Bloodlust', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 2825}
 lust[390386] = {name = 'Fury of the Aspects', class = 'Evoker', subEvent = 'SPELL_CAST_SUCCESS', spellID = 390386}
+lust[381301] = {name = 'Feral Hide Drums', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 381301}
 
 -- Interrupts
 
@@ -279,7 +281,7 @@ toys[62943] = {name = 'Wind-Up Train Wrecker', class = 'Toy', subEvent = 'SPELL_
 toys[135253] = {name = 'Jaina\'s Locket', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 73324}
 toys[384911] = {name = 'Atomic Recalibrator', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 384911}
 toys[161399] = {name = 'Swapblaster', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 161399}
-toys[297571] = {name = 'Transmorpher Beacon', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 297571}
+toys[290215] = {name = 'Transmorpher Beacon', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 290215}
 toys[302750] = {name = 'Brewfest Chowdown Trophy', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 302750}
 toys[376664] = {name = 'Ohuna Perch', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 376664}
 toys[261602] = {name = 'Katy\'s Stampwhistle', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 261602}
@@ -291,6 +293,15 @@ local others = SPELL_TABLE['Others']
 
 others[57934] = {name = 'Tricks of the Trade', class = 'Rogue', subEvent = 'SPELL_CAST_SUCCESS', spellID = 57934}
 others[34477] = {name = 'Misdirection', class = 'Hunter', subEvent = 'SPELL_CAST_SUCCESS', spellID = 34477}
+others[28730] = {name = 'Arcane Torrent', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 28730}
+others[155145] = {name = 'Arcane Torrent', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 155145}
+others[202719] = {name = 'Arcane Torrent', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 202719}
+others[129597] = {name = 'Arcane Torrent', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 129597}
+others[25046] = {name = 'Arcane Torrent', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 25046}
+others[69179] = {name = 'Arcane Torrent', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 69179}
+others[232633] = {name = 'Arcane Torrent', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 232633}
+others[80483] = {name = 'Arcane Torrent', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 80483}
+others[50613] = {name = 'Arcane Torrent', class = 'Racial', subEvent = 'SPELL_CAST_SUCCESS', spellID = 50613}
 
 function ADDON:GetSpellsForCategory(category)
   return SPELL_TABLE[category]

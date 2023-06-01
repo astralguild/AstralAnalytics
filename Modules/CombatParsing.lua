@@ -1,4 +1,4 @@
-local ADDON_NAME, ADDON = ...
+local _, ADDON = ...
 local strformat = string.format
 local bband = bit.band
 
@@ -32,6 +32,8 @@ local CHAT_INTERRUPT_TEXT = 'Interrupted %s%s%s casting %s' -- INTERRUPTED UNIT'
 
 CombatEvents = Event:New()
 CombatEvents.SubEventFunctions = {}
+
+ADDON.LastLusted = {func = nil}
 
 function CombatEvents:RegisterSubEventMethod(subEvent, name, func)
 	if self:IsSubEventRegistered(subEvent, name) then
@@ -113,12 +115,16 @@ end
 COMBAT_FUNCS['SPELL_CAST_SUCCESS'] = function(timeStamp, subEvent, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID, param13, param14, param15, param16, param17)
 	if bband(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MASK) < 5 then
 		local spellLink = GetSpellLink(spellID)
-		if bband(sourceFlags, COMBATLOG_OBJECT_TYPE_MASK) == 4096 then -- Unit is a friendly group member's pet
+		if bband(sourceFlags, COMBATLOG_OBJECT_TYPE_MASK) == COMBATLOG_OBJECT_TYPE_PET then -- Unit is a friendly group member's pet
 			if not sourceName then return end
 			sourceName = sourceName .. ' <' .. ADDON:GetPetOwner(sourceName) .. '>'
 		end
 		if ADDON:IsSpellTracked(subEvent, spellID) then
 			ADDON:GetSubEventMethod(subEvent, spellID)(sourceName, sourceRaidFlags, spellLink, destName, destFlags, destRaidFlags)
+		end
+		local spellCat, _ = ADDON:GetSpellData(spellID)
+		if spellCat == 'Bloodlust' then
+			ADDON.LastLusted = {func = ADDON:GetSubEventMethod(subEvent, spellID), sourceName = sourceName, sourceRaidFlags = sourceRaidFlags, spellLink = spellLink, destName = destName, destFlags = destFlags, destRaidFlags = destRaidFlags}
 		end
 		-- Missed interrupts
 		if AstralAnalytics.options.combatEvents.missedInterrupts.isEnabled then
