@@ -194,6 +194,8 @@ groupUtility[374968] = {name = 'Time Spiral', class = 'Evoker', subEvent = 'SPEL
 groupUtility[198103] = {name = 'Earth Elemental', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 198103}
 groupUtility[8143] = {name = 'Tremor Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 8143}
 groupUtility[16191] = {name = 'Mana Tide Totem', class = 'Shaman', subEvent = 'SPELL_CAST_SUCCESS', spellID = 16191}
+groupUtility[29893] = {name = 'Create Soulwell', class = 'Warlock', subEvent = 'SPELL_CAST_SUCCESS', spellID = 29893}
+groupUtility[698] = {name = 'Ritual of Summoning', class = 'Warlock', subEvent = 'SPELL_CAST_SUCCESS', spellID = 698}
 
 -- Slows
 
@@ -285,6 +287,16 @@ toys[290215] = {name = 'Transmorpher Beacon', class = 'Toy', subEvent = 'SPELL_C
 toys[302750] = {name = 'Brewfest Chowdown Trophy', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 302750}
 toys[376664] = {name = 'Ohuna Perch', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 376664}
 toys[261602] = {name = 'Katy\'s Stampwhistle', class = 'Toy', subEvent = 'SPELL_CAST_SUCCESS', spellID = 261602}
+
+-- Raid Abilities/Consumables
+
+SPELL_TABLE['Raid'] = {}
+local raid = SPELL_TABLE['Raid']
+
+raid[83958] = {name = 'Guild Bank', class = 'Guild', subEvent = 'SPELL_CAST_SUCCESS', spellID = 83958}
+raid[67826] = {name = 'Jeeves', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 67826}
+raid[199109] = {name = 'Auto-Hammer', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 199109}
+raid[200061] = {name = 'Reaves', class = 'Item', subEvent = 'SPELL_CAST_SUCCESS', spellID = 200061}
 
 -- Other
 

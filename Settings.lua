@@ -108,6 +108,7 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddDefaultSettings('combatEvents', 'Slows', {reportChannel = 'console', isEnabled = false})
 	ADDON:AddDefaultSettings('combatEvents', 'Major Defensives', {reportChannel = 'console', isEnabled = false})
 	ADDON:AddDefaultSettings('combatEvents', 'Toys', {reportChannel = 'console', isEnabled = true})
+	ADDON:AddDefaultSettings('combatEvents', 'Raid', {reportChannel = 'console', isEnabled = true})
 
   -- Populate settings
 	ADDON:AddOptionCategory('General')
@@ -150,6 +151,7 @@ local function LoadDefaultSettings(addon)
 	ADDON:AddOption('Combat Events', 'Announce Slows', 'Slows', AstralAnalytics.options.combatEvents.Slows.isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce Major Defensives', 'Major Defensives', AstralAnalytics.options.combatEvents['Major Defensives'].isEnabled)
 	ADDON:AddOption('Combat Events', 'Announce toys', 'Toys', AstralAnalytics.options.combatEvents['Toys'].isEnabled)
+	ADDON:AddOption('Combat Events', 'Announce raid aids', 'Raid', AstralAnalytics.options.combatEvents['Raid'].isEnabled)
 
 	for category, entries in pairs(ADDON.OPTIONS) do
 		local cat
