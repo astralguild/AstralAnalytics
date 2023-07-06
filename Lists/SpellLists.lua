@@ -41,6 +41,10 @@ function ADDON:LoadSpells()
         for spellId, _ in pairs(value) do
           ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Toys', '<sourceName> used toy <spell>')
         end
+      elseif key == 'Raid' then
+        for spellId, _ in pairs(value) do
+          ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Raid', '<sourceName> cast <spell>')
+        end
       elseif key == 'Externals' then
         for spellId, _ in pairs(value) do
           ADDON:AddSpellToSubEvent('SPELL_CAST_SUCCESS', spellId, 'Externals', '<sourceName> cast <spell> on <destName>')
@@ -265,6 +269,10 @@ function LoadPresets()
     else
       ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> cast <spell>')
     end
+  end
+
+  for _, s in pairs(ADDON:GetSpellsForCategory('Raid')) do
+    ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Raid', '<sourceName> cast <spell>')
   end
 
   -- Misdirects
