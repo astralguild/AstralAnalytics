@@ -1,8 +1,8 @@
-## Interface: 100100
+## Interface: 100150
 ## Title: Astral |cffa335eeAnalytics|r
 ## Notes: Raid analytic tool
 ## Author: Phrike, Khazak
-## Version: 0.54
+## Version: 0.55
 ## RequiredDeps: AstralKeys
 ## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
 ## X-Wago-ID: RBKpPOKE
