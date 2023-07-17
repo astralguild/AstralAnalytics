@@ -27,11 +27,11 @@ function AstralSendMessage(msg, channel)
 	local channel = channel or AstralAnalytics.options.general.announceChannel
 	if channel == 'SMART' then
 		channel= IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and 'INSTANCE_CHAT' or IsInRaid() and 'RAID' or 'PARTY'
-	elseif channel == 'SWAP' then
-		if AstralAnalytics.options.combatEvents.swaps.sayChat then
+	elseif channel == '*' then
+		if AstralAnalytics.options.combatEvents.special.sayChat then
 			AstralSendMessage(msg, 'SAY')
 		end
-		if AstralAnalytics.options.combatEvents.swaps.officerChat then
+		if AstralAnalytics.options.combatEvents.special.officerChat then
 			AstralSendMessage(msg, 'OFFICER')
 		end
 		channel = AstralAnalytics.options.general.announceChannel
@@ -81,7 +81,7 @@ function WrapNameInColorAndIcons(unitName, unitFlags, raidFlags, channel)
 			return unitName
 		end
 	else
-		if AstralAnalytics.options.general.raidIcons and channel ~= 'SWAP' and icon ~= '' then
+		if AstralAnalytics.options.general.raidIcons and channel ~= '*' and icon ~= '' then
 			return strformat('%s%s%s', icon, WrapTextInColorCode(unitName, nameColor), icon)
 		else
 			return WrapTextInColorCode(unitName, nameColor)
