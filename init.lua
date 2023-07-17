@@ -24,14 +24,17 @@ function AstralSendMessage(msg, channel)
 		error('AstralSendMessage(msg, channel) msg expected, got ' .. type(msg))
 	end
 
-	local channel = channel or AstralAnalytics.options.general.reportChannel
+	local channel = channel or AstralAnalytics.options.general.announceChannel
 	if channel == 'SMART' then
 		channel= IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and 'INSTANCE_CHAT' or IsInRaid() and 'RAID' or 'PARTY'
 	elseif channel == 'SWAP' then
-		if AstralAnalytics.options.combatEvents.swaps.isEnabled then
-			print(strformat('%s %s', ADDON.ADDON_NAME_COLOURED, msg))
+		if AstralAnalytics.options.combatEvents.swaps.sayChat then
+			AstralSendMessage(msg, 'SAY')
 		end
-		channel = 'SAY'
+		if AstralAnalytics.options.combatEvents.swaps.officerChat then
+			AstralSendMessage(msg, 'OFFICER')
+		end
+		channel = AstralAnalytics.options.general.announceChannel
 	end
 	if channel == 'console' then
 		print(strformat('%s %s', ADDON.ADDON_NAME_COLOURED, msg))
