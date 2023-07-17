@@ -27,14 +27,6 @@ function AstralSendMessage(msg, channel)
 	local channel = channel or AstralAnalytics.options.general.announceChannel
 	if channel == 'SMART' then
 		channel= IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and 'INSTANCE_CHAT' or IsInRaid() and 'RAID' or 'PARTY'
-	elseif channel == '*' then
-		if AstralAnalytics.options.combatEvents.special.sayChat then
-			AstralSendMessage(msg, 'SAY')
-		end
-		if AstralAnalytics.options.combatEvents.special.officerChat then
-			AstralSendMessage(msg, 'OFFICER')
-		end
-		channel = AstralAnalytics.options.general.announceChannel
 	end
 	if channel == 'console' then
 		print(strformat('%s %s', ADDON.ADDON_NAME_COLOURED, msg))
@@ -44,7 +36,7 @@ function AstralSendMessage(msg, channel)
 	end
 end
 
-function WrapNameInColorAndIcons(unitName, unitFlags, raidFlags, channel)
+function WrapNameInColorAndIcons(unitName, unitFlags, raidFlags)
 	if not unitName or type(unitName) ~= 'string' then
 		error('unitName expected, got ' .. type(unitName) ', ' .. tostring(unitName))
 	end
@@ -81,7 +73,7 @@ function WrapNameInColorAndIcons(unitName, unitFlags, raidFlags, channel)
 			return unitName
 		end
 	else
-		if AstralAnalytics.options.general.raidIcons and channel ~= '*' and icon ~= '' then
+		if AstralAnalytics.options.general.raidIcons and icon ~= '' then
 			return strformat('%s%s%s', icon, WrapTextInColorCode(unitName, nameColor), icon)
 		else
 			return WrapTextInColorCode(unitName, nameColor)

@@ -123,18 +123,14 @@ function ADDON:IsSpellInCategory(spellID, spellCategory)
   return false
 end
 
-function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString, channel)
+function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString, isSpecial)
   if not self[subEvent] then
     self[subEvent] = {}
   end
 
-  if not channel then
-    channel = 'console'
-  end
-
   local string = msgString
 
-  local ls = ''
+  local ls, _ls = '', ''
   local commandList = ''
   for command in string:gmatch('<(%w+)>') do
     if command:find('Name') then
@@ -147,33 +143,41 @@ function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString, c
     else
       commandList = strformat('%s, %s', commandList, command)
     end
-    ls = strformat('%s, %s', ls, command)
+    _ls = strformat('%s, %s', _ls, command)
   end
   commandList = commandList:sub(commandList:find(',') + 1)
 
   local fstring = string:gsub('<(.-)>', '%%s')
 
-  ls = ls:gsub('(%w+)', function(w)
+  ls = _ls:gsub('(%w+)', function(w)
     if w:find('Name') then
       local flagText = w:sub(1, w:find('Name')- 1) .. 'RaidFlags'
       if w:find('dest') then
-        return [[WrapNameInColorAndIcons(]] .. w .. [[, destFlags, ]] .. flagText .. [[, ']] .. channel .. [[')]]
+        return [[WrapNameInColorAndIcons(]] .. w .. [[, destFlags, ]] .. flagText .. [[)]]
       else
-        return [[WrapNameInColorAndIcons(]] .. w .. [[, nil, ]] .. flagText .. [[, ']] .. channel .. [[')]]
+        return [[WrapNameInColorAndIcons(]] .. w .. [[, nil, ]] .. flagText .. [[)]]
       end
       --local colourText = w:find('dest') and ADDON.COLOURS.TARGET or 'nil'
       --return [[WrapNameInColorAndIcons(]] .. w .. [[, destFlags, ]] .. flagText .. [[)]]
     else
       return w
     end
-
   end)
 
   local codeString = [[
   if not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['] or not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['].isEnabled then return end
   if AstralAnalytics.options.combatEvents[]] .. spellID .. [[] and not AstralAnalytics.options.combatEvents[]] .. spellID .. [[].isEnabled then return end
   local sourceName, sourceRaidFlags, spell, destName, destFlags, destRaidFlags = ...
-  AstralSendMessage(string.format(']] .. fstring .. [[' ]] .. ls .. [[), ']] .. channel .. [[')]]
+  AstralSendMessage(string.format(']] .. fstring .. [[' ]] .. ls .. [[), 'console')]]
+
+  if isSpecial then
+    if AstralAnalytics.options.combatEvents.special.sayChat then
+      codeString = codeString .. [[ AstralSendMessage(string.format(']] .. fstring .. [[' ]] .. _ls .. [[), 'SAY')]]
+    end
+    if AstralAnalytics.options.combatEvents.special.officerChat then
+      codeString = codeString .. [[ AstralSendMessage(string.format(']] .. fstring .. [[' ]] .. _ls .. [[), 'OFFICER')]]
+    end
+  end
 
   local func, cerr = loadstring(codeString)
   if cerr then
@@ -225,9 +229,9 @@ function LoadPresets()
 
   for _, s in pairs(ADDON:GetSpellsForCategory('Targeted Utility')) do
     if s.spellID == 370665 then
-      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> rescued <destName>', '*')
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> rescued <destName>', true)
     elseif s.spellID == 73325 then
-      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> gripped <destName>', '*')
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> gripped <destName>', true)
     else
       ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> cast <spell> on <destName>')
     end 
@@ -275,7 +279,7 @@ function LoadPresets()
 
   for _, s in pairs(ADDON:GetSpellsForCategory('Toys')) do
     if s.spellID == 161399 then
-      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> swapped <destName>', '*')
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> swapped <destName>', true)
     else
       ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> cast <spell>')
     end
