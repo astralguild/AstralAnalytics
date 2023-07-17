@@ -157,9 +157,9 @@ function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString, c
     if w:find('Name') then
       local flagText = w:sub(1, w:find('Name')- 1) .. 'RaidFlags'
       if w:find('dest') then
-        return [[WrapNameInColorAndIcons(]] .. w .. [[, destFlags, ]] .. flagText .. [[)]]
+        return [[WrapNameInColorAndIcons(]] .. w .. [[, destFlags, ]] .. flagText .. [[, ']] .. channel .. [[')]]
       else
-        return [[WrapNameInColorAndIcons(]] .. w .. [[, nil, ]] .. flagText .. [[)]]
+        return [[WrapNameInColorAndIcons(]] .. w .. [[, nil, ]] .. flagText .. [[, ']] .. channel .. [[')]]
       end
       --local colourText = w:find('dest') and ADDON.COLOURS.TARGET or 'nil'
       --return [[WrapNameInColorAndIcons(]] .. w .. [[, destFlags, ]] .. flagText .. [[)]]

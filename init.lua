@@ -44,7 +44,7 @@ function AstralSendMessage(msg, channel)
 	end
 end
 
-function WrapNameInColorAndIcons(unitName, unitFlags, raidFlags)
+function WrapNameInColorAndIcons(unitName, unitFlags, raidFlags, channel)
 	if not unitName or type(unitName) ~= 'string' then
 		error('unitName expected, got ' .. type(unitName) ', ' .. tostring(unitName))
 	end
@@ -53,7 +53,7 @@ function WrapNameInColorAndIcons(unitName, unitFlags, raidFlags)
 
 	local icon = ''
 	if raidFlags then
-		bitRaid = bit.band(raidFlags, COMBATLOG_OBJECT_RAIDTARGET_MASK)	
+		bitRaid = bit.band(raidFlags, COMBATLOG_OBJECT_RAIDTARGET_MASK)
 		raidIndex = bitRaid and RAID_TARGET_BIT[bitRaid] or nil
 	end
 
@@ -81,7 +81,7 @@ function WrapNameInColorAndIcons(unitName, unitFlags, raidFlags)
 			return unitName
 		end
 	else
-		if AstralAnalytics.options.general.raidIcons and icon ~= '' then
+		if AstralAnalytics.options.general.raidIcons and channel ~= 'SWAP' and icon ~= '' then
 			return strformat('%s%s%s', icon, WrapTextInColorCode(unitName, nameColor), icon)
 		else
 			return WrapTextInColorCode(unitName, nameColor)
