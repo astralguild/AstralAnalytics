@@ -27,10 +27,16 @@ function AstralSendMessage(msg, channel)
 	local channel = channel or AstralAnalytics.options.general.reportChannel
 	if channel == 'SMART' then
 		channel= IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and 'INSTANCE_CHAT' or IsInRaid() and 'RAID' or 'PARTY'
+	elseif channel == 'SWAP' then
+		if AstralAnalytics.options.combatEvents.swaps.isEnabled then
+			print(strformat('%s %s', ADDON.ADDON_NAME_COLOURED, msg))
+		end
+		channel = 'SAY'
 	end
 	if channel == 'console' then
 		print(strformat('%s %s', ADDON.ADDON_NAME_COLOURED, msg))
 	else
+		if channel == 'SAY' and not IsInInstance() then return end
 		SendChatMessage(msg, channel)
 	end
 end
