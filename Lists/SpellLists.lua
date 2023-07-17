@@ -225,9 +225,9 @@ function LoadPresets()
 
   for _, s in pairs(ADDON:GetSpellsForCategory('Targeted Utility')) do
     if s.spellID == 370665 then
-      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> rescued <destName>', 'SWAP')
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> rescued <destName>', '*')
     elseif s.spellID == 73325 then
-      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> gripped <destName>', 'SWAP')
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> gripped <destName>', '*')
     else
       ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> cast <spell> on <destName>')
     end 
@@ -275,7 +275,7 @@ function LoadPresets()
 
   for _, s in pairs(ADDON:GetSpellsForCategory('Toys')) do
     if s.spellID == 161399 then
-      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> swapped <destName>', 'SWAP')
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> swapped <destName>', '*')
     else
       ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> cast <spell>')
     end
