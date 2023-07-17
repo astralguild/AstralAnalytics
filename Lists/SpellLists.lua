@@ -123,9 +123,13 @@ function ADDON:IsSpellInCategory(spellID, spellCategory)
   return false
 end
 
-function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString)
+function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString, channel)
   if not self[subEvent] then
     self[subEvent] = {}
+  end
+
+  if not channel then
+    channel = 'console'
   end
 
   local string = msgString
@@ -169,7 +173,7 @@ function ADDON:AddSpellToSubEvent(subEvent, spellID, spellCategory, msgString)
   if not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['] or not AstralAnalytics.options.combatEvents[']] .. spellCategory .. [['].isEnabled then return end
   if AstralAnalytics.options.combatEvents[]] .. spellID .. [[] and not AstralAnalytics.options.combatEvents[]] .. spellID .. [[].isEnabled then return end
   local sourceName, sourceRaidFlags, spell, destName, destFlags, destRaidFlags = ...
-  AstralSendMessage(string.format(']] .. fstring .. [[' ]] .. ls .. [[), 'console')]]
+  AstralSendMessage(string.format(']] .. fstring .. [[' ]] .. ls .. [[), ']] .. channel .. [[')]]
 
   local func, cerr = loadstring(codeString)
   if cerr then
@@ -220,7 +224,13 @@ function LoadPresets()
   end
 
   for _, s in pairs(ADDON:GetSpellsForCategory('Targeted Utility')) do
-    ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> cast <spell> on <destName>')
+    if s.spellID == 370665 then
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> rescued <destName>', 'SWAP')
+    elseif s.spellID == 73325 then
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> gripped <destName>', 'SWAP')
+    else
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Targeted Utility', '<sourceName> cast <spell> on <destName>')
+    end 
   end
 
   for _, s in pairs(ADDON:GetSpellsForCategory('Group Utility')) do
@@ -265,7 +275,7 @@ function LoadPresets()
 
   for _, s in pairs(ADDON:GetSpellsForCategory('Toys')) do
     if s.spellID == 161399 then
-      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> cast <spell> on <destName>')
+      ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> swapped <destName>', 'SWAP')
     else
       ADDON:AddSpellToSubEvent(s.subEvent, s.spellID, 'Toys', '<sourceName> cast <spell>')
     end
