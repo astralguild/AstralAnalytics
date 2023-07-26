@@ -1,10 +1,10 @@
-local _, ADDON = ...
+local ADDON_NAME, ADDON = ...
 
-local ADDON = LibStub("AceAddon-3.0"):NewAddon(ADDON, "AstralAnalytics", "AceConsole-3.0")
+local a = LibStub("AceAddon-3.0"):NewAddon(ADDON, ADDON_NAME, "AceConsole-3.0")
 
-local AstralAnalyticsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("AstralAnalytics", {
+local AstralAnalyticsLDB = LibStub("LibDataBroker-1.1"):NewDataObject(ADDON_NAME, {
 	type = "data source",
-	text = "AstralAnalytics",
+	text = ADDON_NAME,
 	icon = "Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\Asset_54x2",
 	OnClick = function() ADDON:ToggleMainWindow() end,
 	OnTooltipShow = function(tooltip)
@@ -14,7 +14,7 @@ local AstralAnalyticsLDB = LibStub("LibDataBroker-1.1"):NewDataObject("AstralAna
 
 ADDON.icon = LibStub("LibDBIcon-1.0")
 
-function ADDON:OnInitialize()
+function a:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("AstralAnalyticsMinimap", {
 		profile = {
 			minimap = {
@@ -22,19 +22,18 @@ function ADDON:OnInitialize()
 			},
 		},
 	})
-	ADDON.icon:Register("AstralAnalytics", AstralAnalyticsLDB, self.db.profile.minimap)
-
-	ADDON:RegisterChatCommand('astral', HandleChatCommand)
-	ADDON:RegisterChatCommand('aa', OpenMainWindow)
+	ADDON.icon:Register(ADDON_NAME, AstralAnalyticsLDB, self.db.profile.minimap)
+	a:RegisterChatCommand('astral', AstralAnalyticsHandleChatCommand)
+	a:RegisterChatCommand('aa', AstralOpenMainWindow)
 	ADDON:LoadBuffs()
 	ADDON:LoadSpells()
 end
 
-function OpenMainWindow(input)
+function AstralOpenMainWindow(input)
 	ADDON:ToggleMainWindow()
 end
 
-function HandleChatCommand(input)
+function AstralAnalyticsHandleChatCommand(input)
 	local args = {strsplit(' ', input)}
 
 	--TODO: less fragile arg handling
@@ -70,9 +69,9 @@ function HandleChatCommand(input)
 	elseif(args[1] == 'minimap') then
 		AstralAnalytics.minimapIcon = not AstralAnalytics.minimapIcon
 		if AstralAnalytics.minimapIcon then
-			ADDON.icon:Show("AstralAnalytics")
+			ADDON.icon:Show(ADDON_NAME)
 		else
-			ADDON.icon:Hide("AstralAnalytics")
+			ADDON.icon:Hide(ADDON_NAME)
 		end
 
 	-- TODO add some more print messages for new commands
@@ -85,5 +84,37 @@ function HandleChatCommand(input)
 		ADDON:Print("/astral addres 20707")
 		ADDON:Print("/astral addtargetedutility 1022")
 		ADDON:Print("/astral adduntargetedutility 77761")
+	end
+end
+
+function ADDON:AddEscHandler(frame)
+	if not frame and type(frame) ~= 'table' then
+		error('frame expcted, got '.. type(frame))
+	end
+	if frame:GetScript('OnKeyDown') then
+		frame:HookScript('OnKeyDown', function(self, key)
+			if key == 'ESCAPE' then
+				self:SetPropagateKeyboardInput(false)
+				self:Hide()
+			end
+		end)
+	else
+		frame:EnableKeyboard(true)
+		frame:SetPropagateKeyboardInput(true)
+		frame:SetScript('OnKeyDown', function(self, key)
+			if key == 'ESCAPE' then
+				self:SetPropagateKeyboardInput(false)
+				self:Hide()
+			end
+		end)
+	end
+	if frame:GetScript('OnShow') then
+		frame:HookScript('OnShow', function(self)
+			self:SetPropagateKeyboardInput(true)
+		end)
+	else
+		frame:SetScript('OnShow', function(self)
+			self:SetPropagateKeyboardInput(true)
+		end)
 	end
 end

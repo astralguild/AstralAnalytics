@@ -1,6 +1,5 @@
-local ADDON_NAME, ADDON = ...
+local _, ADDON = ...
 local strformat = string.format
-ADDON.a = _G['AstralEngine']
 
 AAEvents = Event:New('AAEvents')
 
@@ -94,9 +93,9 @@ function ADDON:ColouredName(unit, class, hexColor)
 	end
 end
 
-local scanTool = CreateFrame( "GameTooltip", "AstralScanTool", nil, "GameTooltipTemplate" )
-scanTool:SetOwner(WorldFrame, "ANCHOR_NONE" )
-local scanText = _G["AstralScanToolTextLeft2"] -- This is the line with <[Player]'s Pet>
+local scanTool = CreateFrame('GameTooltip', 'AstralScanTool', nil, 'GameTooltipTemplate')
+scanTool:SetOwner(WorldFrame, 'ANCHOR_NONE')
+local scanText = _G['AstralScanToolTextLeft2'] -- This is the line with <[Player]'s Pet>
 
 function ADDON:GetPetOwner(petName)
 	if petName == 'Unknown' then return 'Unknown' end
@@ -104,6 +103,6 @@ function ADDON:GetPetOwner(petName)
 	AstralScanTool:SetUnit(petName)
 	local ownerText = scanText:GetText()
 	if not ownerText then return 'Unknown' end
-	local owner, _ = string.split("'",ownerText)
+	local owner, _ = strsplit("'", ownerText)
 	return owner -- This is the pet's owner
 end
