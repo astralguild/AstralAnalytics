@@ -1,5 +1,4 @@
 local _, ADDON = ...
-local a = ADDON.a
 
 local function MixIn(D, T)
 	for k,v in pairs(T) do
@@ -246,8 +245,9 @@ end)
 optionsMenu:SetScript('OnHide', function(self)
 	aa_dropdown_sub:Hide()
 	aa_dropdown_subGroups:Hide()
-	end)
-a.AddEscHandler(optionsMenu)
+end)
+
+ADDON:AddEscHandler(optionsMenu)
 
 AAFrame:SetScript('OnHide', function(self)
 	optionsMenu:Hide()

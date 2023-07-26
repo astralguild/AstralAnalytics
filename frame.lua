@@ -1,5 +1,4 @@
-local ADDON_NAME, ADDON = ...
-local a = ADDON.a
+local _, ADDON = ...
 local floor, min = math.floor, math.min
 
 -- CONSTANTS
@@ -347,14 +346,14 @@ corner:SetScript('OnDragStop', function(self)
 	ADDON:UpdateFrameRows()
 end)
 
-a.AddEscHandler(AAFrame)
+ADDON:AddEscHandler(AAFrame)
 
 local AAFrameLogo = AAFrameMenuBar:CreateTexture(nil, 'ARTWORK')
 AAFrameLogo:SetSize(20, 20)
 AAFrameLogo:SetTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\Asset_54x2')
 AAFrameLogo:SetPoint('TOPLEFT', AAFrameMenuBar, 'TOPLEFT', 6, -10)
 
-local AAFrameTitle = AAFrame:CreateFontString('$parentTitle', 'ARTWORK', 'InterUIBlack_Large')
+local AAFrameTitle = AAFrame:CreateFontString('$parentTitle', 'ARTWORK', 'InterUIBlack_Large_AA')
 AAFrameTitle:SetPoint('LEFT', AAFrameLogo, 'RIGHT', 12, -1)
 AAFrameTitle:SetText('Astral Analytics')
 
@@ -409,7 +408,7 @@ logo_Astral:SetAlpha(0.8)
 logo_Astral:SetNormalTexture('Interface\\AddOns\\AstralAnalytics\\Media\\Texture\\Logo@2x')
 
 local guildVersionString = CreateFrame('BUTTON', nil, AAFrame)
-guildVersionString:SetNormalFontObject(InterUIRegular_Small)
+guildVersionString:SetNormalFontObject('InterUIRegular_Small_AA')
 guildVersionString:SetSize(110, 20)
 guildVersionString:SetPoint('BOTTOM', AAFrame, 'BOTTOM', 0, 10)
 guildVersionString:SetAlpha(0.2)
@@ -676,7 +675,7 @@ function ADDON:CreateGuildInfoFrame()
 	astralGuildInfo:EnableKeyboard(true)
 	astralGuildInfo:SetBackdropBorderColor(.2, .2, .2, 1)
 	astralGuildInfo:SetPoint('BOTTOM', UIParent, 'TOP', 0, -300)
-	astralGuildInfo.text = astralGuildInfo:CreateFontString(nil, 'OVERLAY', 'InterUIRegular_Normal')
+	astralGuildInfo.text = astralGuildInfo:CreateFontString(nil, 'OVERLAY', 'InterUIRegular_Normal_AA')
 	astralGuildInfo.text:SetPoint('TOP', astralGuildInfo,'TOP', 0, -10)
 	astralGuildInfo.text:SetText('Visit Astral at')
 	astralGuildInfo.editBox = CreateFrame('EditBox', nil, astralGuildInfo, "BackdropTemplate")
@@ -688,7 +687,7 @@ function ADDON:CreateGuildInfoFrame()
 	astralGuildInfo.tex:SetColorTexture(0, 0, 0)
 	astralGuildInfo.editBox:SetBackdrop(BACKDROPBUTTON)
 	astralGuildInfo.editBox:SetBackdropBorderColor(.2, .2, .2, 1)
-	astralGuildInfo.editBox:SetFontObject(InterUIRegular_Normal)
+	astralGuildInfo.editBox:SetFontObject(InterUIRegular_Normal_AA)
 	astralGuildInfo.editBox:SetText('www.astralguild.com')
 	astralGuildInfo.editBox:HighlightText()
 	astralGuildInfo.editBox:SetScript('OnChar', function(self)
@@ -705,7 +704,7 @@ function ADDON:CreateGuildInfoFrame()
 
 	local astralGuildInfoCloseButton = CreateFrame('BUTTON', nil, astralGuildInfo, "BackdropTemplate")
 	astralGuildInfoCloseButton:SetSize(40, 20)
-	astralGuildInfoCloseButton:SetNormalFontObject(InterUIRegular_Normal)
+	astralGuildInfoCloseButton:SetNormalFontObject('InterUIRegular_Normal_AA')
 	astralGuildInfoCloseButton:SetText('Close')
 	astralGuildInfoCloseButton:SetBackdrop(BACKDROPBUTTON)
 	astralGuildInfoCloseButton:SetBackdropBorderColor(.2, .2, .2, 1)

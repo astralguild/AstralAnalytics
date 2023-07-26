@@ -1,14 +1,13 @@
 ## Interface: 100105
 ## Title: Astral |cffa335eeAnalytics|r
 ## Notes: Raid analytic tool
-## Author: Phrike, Khazak
-## Version: 0.57
-## RequiredDeps: AstralKeys
+## Author: Phrike, Khazak, Luna
+## Version: 0.58
 ## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
 ## X-Wago-ID: RBKpPOKE
 ## X-Curse-Project-ID: 573967
 ## IconTexture: Interface\AddOns\AstralAnalytics\Media\Texture\Asset_54x2
-## AddonCompartmentFunc: OpenMainWindow
+## AddonCompartmentFunc: AstralOpenMainWindow
 
 embeds.xml
 libs\Events.lua
