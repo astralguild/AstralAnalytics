@@ -1,5 +1,5 @@
 <Ui xmlns='http://www.blizzard.com/wow/ui/'>
-	<Font name="AstralFontNormal" inherits="GameFontNormal" justifyH="LEFT" virtual="true">
+	<Font name="AstralFontNormal_AA" inherits="GameFontNormal" justifyH="LEFT" virtual="true">
 		<Color r="1" g="1" b="1" a="1"/>
 	</Font>
 		<Font name="AstralFontBigger" inherits="GameFontNormal" justifyH="LEFT" virtual="true" height="16">
