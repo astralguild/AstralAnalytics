@@ -20,10 +20,10 @@ ADDON.CLIENT_VERSION = GetAddOnMetadata('AstralAnalytics', 'Version')
 local offset, shownOffset = 0, 0
 local sortedTable = {}
 
-local TOTAL_BUFFS = 8 -- Hard coded for now. Will Change later to match the tracked buffs
+local TOTAL_BUFFS = 9 -- Hard coded for now. Will Change later to match the tracked buffs
 
 local BUFF_TEXTURES = {}
-BUFF_TEXTURES[1] = 4238797 -- Vantus
+BUFF_TEXTURES[1] = 4555025 -- Vantus
 BUFF_TEXTURES[2] = 134078 --134425 -- Augment
 BUFF_TEXTURES[3] = 133943 -- Food
 BUFF_TEXTURES[4] = 3566840 -- Flask
@@ -31,6 +31,7 @@ BUFF_TEXTURES[5] = 132333 -- Shout
 BUFF_TEXTURES[6] = 135932 -- Int
 BUFF_TEXTURES[7] = 135987 -- Fort
 BUFF_TEXTURES[8] = 136078 -- MotW
+BUFF_TEXTURES[9] = 4622448 -- Blessing of the Bronze
 
 --[[
 BUFF LIST FROM RIGHT TO LEFT
@@ -41,6 +42,8 @@ BUFF LIST FROM RIGHT TO LEFT
 5 SHOUT
 6 INTELLECT
 7 FORT
+8 Mark of the Wild
+9 Blessing of the Bronze
 ]]
 
 local function MixIn(D, T)	
@@ -664,6 +667,8 @@ BUFF LIST FROM RIGHT TO LEFT
 5 SHOUT
 6 INTELLECT
 7 FORT
+8 Mark of the Wild
+9 Blessing of the Bronze
 ]]
 
 function ADDON:CreateGuildInfoFrame()

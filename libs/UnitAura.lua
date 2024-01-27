@@ -1,7 +1,7 @@
 local ADDON_NAME, ADDON = ...
 local bband, strformat, mfloor = bit.band, string.format, math.floor
 
-local TOTAL_BUFFS = 7 -- Total number of buffs being tracked
+local TOTAL_BUFFS = 9 -- Total number of buffs being tracked
 local MIN_FOOD_VALUE = 14
 local LOW_FLASK_TIME = 900 -- Time, in seconds, for minimum flask duration before reporting their time is low.
 
@@ -247,6 +247,22 @@ function ADDON:CheckForBuffs(sendReport)
 					unit.buff[7] = {spellId, icon}
 				elseif spellId == 6673 or spellId == 264761 then -- Battle Shout
 					unit.buff[5] = {spellId, icon}
+				elseif spellId == 1126 then -- Mark of the Wild
+					unit.buff[8] = {spellId, icon}
+				elseif spellId == 381732 -- Blessing of the Bronze
+						or spellId == 381741
+						or spellId == 381746
+						or spellId == 381748
+						or spellId == 381749
+						or spellId == 381750
+						or spellId == 381751
+						or spellId == 381752
+						or spellId == 381753
+						or spellId == 381754
+						or spellId == 381756
+						or spellId == 381757
+						or spellId == 381758 then
+					unit.buff[9] = {spellId, icon}
 				end
 				unit.numMissing = unit.numMissing - 1
 			end
@@ -341,6 +357,20 @@ function ADDON:UpdateUnitBuff(guid)
 				unit.buff[5] = {spellId, icon}
 			elseif spellId == 1126 then -- Mark of the Wild
 				unit.buff[8] = {spellId, icon}
+			elseif spellId == 381732 -- Blessing of the Bronze
+					or spellId == 381741
+					or spellId == 381746
+					or spellId == 381748
+					or spellId == 381749
+					or spellId == 381750
+					or spellId == 381751
+					or spellId == 381752
+					or spellId == 381753
+					or spellId == 381754
+					or spellId == 381756
+					or spellId == 381757
+					or spellId == 381758 then
+				unit.buff[9] = {spellId, icon}
 			end
 			unit.numMissing = unit.numMissing - 1
 		end
