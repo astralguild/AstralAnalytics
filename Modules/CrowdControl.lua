@@ -12,9 +12,8 @@ local AUTO_ATTACK_SPELLID = 6603
 local function UnitIsControlled(guid)
 	if ControlledUnits[guid] then
 		return true
-	else
-		return false
 	end
+	return false
 end
 
 local function AddUnitToControlledList(guid)
@@ -33,9 +32,12 @@ local function RemoveUnitFromControlledList(guid)
 	else
 		local name, flags, timeStamp = unpack(ControlledUnits[guid])
 		ControlledUnits[guid] = nil
-
 		return name, flags, timeStamp
 	end
+end
+
+local function RemoveAllUnitsFromControlledList()
+	for k, _ in pairs(ControlledUnits) do ControlledUnits[k] = nil end
 end
 
 local function SetControlledUnitLastHit(guid, data)
@@ -97,7 +99,7 @@ local function CrowdControl_OnAuraRefresh(timeStamp, subEvent, hideCaster, sourc
 	ADDON:GetSubEventMethod('SPELL_AURA_APPLIED', spellID)(sourceName, sourceRaidFlags, spellLink, destName, destFlags, destRaidFlags)
 end
 
-
+CombatEvents:Register('PLAYER_ENTERING_WORLD', RemoveAllUnitsFromControlledList, 'Crowd_ClearCache')
 CombatEvents:RegisterSubEventMethod('SWING_DAMAGE', 'Crowd_OnSwingDamage', CrowdControl_OnDamageEvent)
 CombatEvents:RegisterSubEventMethod('SPELL_PERIODIC_DAMAGE', 'Crowd_OnPeriodicDamage', CrowdControl_OnDamageEvent)
 CombatEvents:RegisterSubEventMethod('SPELL_DAMAGE', 'Crowd_OnSpellDamage', CrowdControl_OnDamageEvent)

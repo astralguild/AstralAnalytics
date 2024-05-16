@@ -4,7 +4,10 @@ if not AstralAnalytics then
 	AstralAnalytics = {}
 end
 if not AstralAnalytics.options then
-	AstralAnalytics.options = {}
+	AstralAnalytics.options = {
+		reportLists = {},
+		combatEvents = {},
+	}
 end
 if not AstralAnalytics.spellIds then
 	AstralAnalytics.spellIds = {}
