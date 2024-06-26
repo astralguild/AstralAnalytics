@@ -189,8 +189,16 @@ function DropDownMenuMixin:NewObject(entry, category)
 			btn.texture:Hide()
 		end
 		btn:SetScript('OnClick', function(self)
-			AstralAnalytics.options[self.category][self.option].isEnabled = not AstralAnalytics.options[self.category][self.option].isEnabled
-			self.texture:SetShown(AstralAnalytics.options[self.category][self.option].isEnabled)
+        if self.option == 'specialSay' then
+          AstralAnalytics.options['combatEvents']['special']['sayChat'] = not AstralAnalytics.options['combatEvents']['special']['sayChat']
+          self.texture:SetShown(AstralAnalytics.options['combatEvents']['special']['sayChat'])
+        elseif self.option == 'specialOfficer' then
+          AstralAnalytics.options['combatEvents']['special']['officerChat'] = not AstralAnalytics.options['combatEvents']['special']['officerChat']
+          self.texture:SetShown(AstralAnalytics.options['combatEvents']['special']['officerChat'])
+        else
+          AstralAnalytics.options[self.category][self.option].isEnabled = not AstralAnalytics.options[self.category][self.option].isEnabled
+          self.texture:SetShown(AstralAnalytics.options[self.category][self.option].isEnabled)
+        end
 			end)
 	elseif entry.option == 'announceChannel' then
 		btn.texture:Hide()
