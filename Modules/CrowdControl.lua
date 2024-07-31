@@ -2,6 +2,7 @@ local _, ADDON = ...
 
 local strformat = string.format
 local bband = bit.band
+local GetSpellLink = C_Spell.GetSpellLink
 
 ControlledUnits = {} -- Table for units currently under the affects of a crowd control
 local CONSOLE_MSG_CROWD_BREAK = '%s on %s removed by %s with %s' -- [SPELL LINK] on RAIDICON DEST RAIDICON removed by RAIDICON UNIT RAIDICON with [SPELL LINK]

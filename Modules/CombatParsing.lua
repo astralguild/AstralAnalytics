@@ -1,6 +1,7 @@
 local _, ADDON = ...
 local strformat = string.format
 local bband = bit.band
+local GetSpellLink = C_Spell.GetSpellLink
 
 -- Static, local stuff
 local RAID_TARGET_BIT = {}
