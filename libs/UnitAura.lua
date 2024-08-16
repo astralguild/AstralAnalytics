@@ -66,11 +66,11 @@ function ADDON:AuraInfo(unit, returnField, filter)
 	local index = 1
 	return function()
 		if returnField then
-			local ret =  select(UNIT_BUFF_FIELDS[returnField], UnitAura(unit, index, filter))
+			local ret =  select(UNIT_BUFF_FIELDS[returnField], C_UnitAuras.GetAuraDataByIndex(unit, index, filter))
 			index = index + 1
 			return ret, (index - 1)
 		else
-			name, icon, count, debuffType, duration, expirationTime, unitCaster, spellId, isBossAura = UnitAura(unit, index, filter)
+			name, icon, count, debuffType, duration, expirationTime, unitCaster, spellId, isBossAura = C_UnitAuras.GetAuraDataByIndex(unit, index, filter)
 			index = index + 1
 			return name, icon, count, debuffType, duration, expirationTime, unitCaster, spellId, isBossAura, (index - 1)
 		end
@@ -207,7 +207,7 @@ function ADDON:CheckForBuffs(sendReport)
 		unit.numMissing = TOTAL_BUFFS -- Total buffs being tracked
 		unit.buff = {}
 		for i = 1, 40 do
-			name, icon, _, _, duration, expirationTime, _, _, _, spellId, _, _, _, _, _, amount = UnitBuff(unit.unitID, i)
+			name, icon, _, _, duration, expirationTime, _, _, _, spellId, _, _, _, _, _, amount = C_UnitAuras.GetAuraDataByIndex(unit.unitID, i, "HELPFUL")
 			if not name then break end
 
 			if self.BUFFS.FLASKS[spellId] then
@@ -315,7 +315,7 @@ function ADDON:UpdateUnitBuff(guid)
 	unit.numMissing = TOTAL_BUFFS
 	local name, icon, duration, expirationTime, spellId, amount
 	for i = 1, 40 do
-		name, icon, _, _, duration, expirationTime, _, _, _, spellId, _, _, _, _, _, amount = UnitBuff(unit.unitID, i)
+		name, icon, _, _, duration, expirationTime, _, _, _, spellId, _, _, _, _, _, amount = C_UnitAuras.GetAuraDataByIndex(unit.unitID, i, "HELPFUL")
 		if not name then break end
 
 		if self.BUFFS.FLASKS[spellId] then -- Flask buff

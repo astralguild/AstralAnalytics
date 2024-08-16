@@ -14,7 +14,7 @@ ADDON.BACKDROP2 = {
 	insets = {left = 0, right = 0, top = 0, bottom = 0}
 }
 
-ADDON.CLIENT_VERSION = GetAddOnMetadata('AstralAnalytics', 'Version')
+ADDON.CLIENT_VERSION = C_AddOns.GetAddOnMetadata('AstralAnalytics', 'Version')
 
 -- Local variables
 local offset, shownOffset = 0, 0
