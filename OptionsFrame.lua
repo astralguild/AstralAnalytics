@@ -98,7 +98,9 @@ function ADDON.SpellRow:CreateRow(parent, index, spell)
 end
 
 function ADDON.SpellRow:SetSpell(self, spell)
-	local name, rank, icon = GetSpellInfo(spell)
+	local spellInfo = C_Spell.GetSpellInfo(spell)
+	local name = spellInfo.name
+	local icon = spellInfo.iconID
 	if name == nil then
 		if spell == nil then
 			self.name:SetText("Can't resolve spell id to a number")

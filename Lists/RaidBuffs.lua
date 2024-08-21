@@ -43,7 +43,7 @@ function ADDON:RemoveBuffFromCategory(spellID, category)
 		error('ADDON:RemoveBuffFromCategory(category, category) category, string expected, recieved ' .. type(category))
 	end
 	ADDON.BUFFS[category][spellID] = nil
-	local spellName = GetSpellInfo(spellID)
+	local spellName = C_Spell.GetSpellInfo(spellID).name
 	AstralSendMessage(string.format(CONSOLE_REMOVED_TEXT, spellName), 'console')
 end
 
