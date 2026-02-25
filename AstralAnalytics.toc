@@ -2,7 +2,7 @@
 ## Title: Astral |cffa335eeAnalytics|r
 ## Notes: Raid analytic tool
 ## Author: Phrike, Khazak, Luna
-## Version: 0.75
+## Version: 0.76
 ## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
 ## Category-enUS: |cff2596beAstral|r Addons
 ## X-Wago-ID: RBKpPOKE
