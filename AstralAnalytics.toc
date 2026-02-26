@@ -2,9 +2,9 @@
 ## Title: Astral |cffa335eeAnalytics|r
 ## Notes: Raid analytic tool
 ## Author: Phrike, Khazak, Luna
-## Version: 0.76
+## Version: 0.77
 ## SavedVariables: AstralAnalytics, AstralAnalyticsMinimap
-## Category-enUS: |cff2596beAstral|r Addons
+## Category-enUS: |cffFF0000Astral|r Addons
 ## X-Wago-ID: RBKpPOKE
 ## X-Curse-Project-ID: 573967
 ## IconTexture: Interface\AddOns\AstralAnalytics\Media\Texture\Asset_54x2
